@@ -19,22 +19,24 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={({ route }) => ({
-      tabBarIcon: ({ color, size }) => {
-        let iconName = '';
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName = '';
 
-        if (route.name === 'Map') {
-          iconName = 'location-arrow';
-        } else if (route.name === 'Places') {
-          iconName = 'map-pin';
-        }
+          if (route.name === 'Map') {
+            iconName = 'location-arrow';
+          } else if (route.name === 'Places') {
+            iconName = 'map-pin';
+          }
 
-        return <FontAwesome name={iconName} size={size} color={color} />;
-      },
-      tabBarActiveTintColor: '#ec6e5b',
-      tabBarInactiveTintColor: '#335561',
-      headerShown: false,
-    })}>
+          return <FontAwesome name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: '#ec6e5b',
+        tabBarInactiveTintColor: '#335561',
+        headerShown: false,
+      })}
+    >
       <Tab.Screen name="Map" component={MapScreen} />
       <Tab.Screen name="Places" component={PlacesScreen} />
     </Tab.Navigator>
