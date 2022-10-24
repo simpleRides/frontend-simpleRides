@@ -12,7 +12,7 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "**/*.{js, json}": "prettier --write --ignore-unknown"
+    "**/*.{js, jsx, ts, tsx, json}": "prettier --write --ignore-unknown"
   },
   "husky": {
     "hooks": {
