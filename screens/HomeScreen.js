@@ -18,7 +18,7 @@ export default function HomeScreen({ navigation }) {
   const handleSubmit = () => {
     dispatch(updateNickname(nickname));
     dispatch(resetPlaces());
-    navigation.navigate("TabNavigator");
+    navigation.navigate("Register");
   };
 
   return (
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     width: "100%",
-    fontSize: 18,
+    fontSize: 16,
     fontStyle: "italic",
     textAlign: "center",
     alignItems: "center",
