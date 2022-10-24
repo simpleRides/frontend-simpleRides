@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   backgroundImage: {
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontWeight: '500',
     color: '#ffffff',
-    marginBottom: 16,
+    marginBottom: 24,
   },
   buttonOrange: {
     alignItems: 'center',
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: '#545454',
     borderRadius: 10,
-    marginBottom: 20,
+    marginBottom: 24,
   },
   textButton: {
     color: '#ffffff',
