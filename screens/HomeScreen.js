@@ -1,76 +1,114 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Image,
-  KeyboardAvoidingView,
-  Platform,
+  View,
+  ImageBackground,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
-} from 'react-native';
-import { useDispatch } from 'react-redux';
-import { resetPlaces, updateNickname } from '../reducers/user';
+} from "react-native";
+import { useDispatch } from "react-redux";
+import { resetPlaces, updateNickname } from "../reducers/user";
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
 
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState("");
 
   const handleSubmit = () => {
     dispatch(updateNickname(nickname));
-    dispatch(resetPlaces())
-    navigation.navigate('TabNavigator');
+    dispatch(resetPlaces());
+    navigation.navigate("TabNavigator");
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Image style={styles.image} source={require('../assets/home-image.jpg')} />
-      <Text style={styles.title}>Welcome to Locapic</Text>
-
-      <TextInput placeholder="Nickname" onChangeText={(value) => setNickname(value)} value={nickname} style={styles.input} />
-      <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>Go to map</Text>
-      </TouchableOpacity>
-    </KeyboardAvoidingView>
-  )
+    <ImageBackground
+      style={styles.backgroundImage}
+      source={require("../assets/home.jpeg")}
+    >
+      <View style={styles.container}>
+        <Image style={styles.image} source={require('../assets/logoblc.png')} />
+        <View style={styles.subtitle}>
+          <Text style={styles.subtitle}>
+            Naviguez entre vos applications VTC facilement grâce à SimpleRides
+          </Text>
+          <View style={styles.subContainer}>
+            <TouchableOpacity
+              onPress={() => handleSubmit()}
+              style={styles.buttongrey}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.textButton}>Se connecter</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handleSubmit()}
+              style={styles.buttonOrange}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.textButton}>S'inscrire</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </ImageBackground>
+  );
 }
 
 const styles = StyleSheet.create({
+  subContainer: {
+    width: '100%',
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "flex-end",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+  },
+  backgroundImage: {
+    width: "100%",
+    height: "100%",
   },
   image: {
-    width: '100%',
-    height: '50%',
+    width: "90%",
+    height: "50%",
+    justifyContent: "flex-start",
+    borderWidth: 4,
   },
-  title: {
-    width: '80%',
-    fontSize: 38,
-    fontWeight: '600',
-  },
-  input: {
-    width: '80%',
-    marginTop: 25,
-    borderBottomColor: '#ec6e5b',
-    borderBottomWidth: 1,
+  subtitle: {
+    width: "100%",
     fontSize: 18,
+    fontStyle: "italic",
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    fontWeight: "500",
+    color: "#ffffff",
   },
-  button: {
-    alignItems: 'center',
+  buttonOrange: {
+    alignItems: "center",
     paddingTop: 8,
-    width: '80%',
-    marginTop: 30,
-    backgroundColor: '#ec6e5b',
+    width: "80%",
+    height: "20%",
+    marginTop: 20,
+    backgroundColor: "#FFA62B",
     borderRadius: 10,
-    marginBottom: 80,
+    marginBottom: 20,
+  },
+  buttongrey: {
+    alignItems: "center",
+    paddingTop: 8,
+    width: "80%",
+    marginTop: 20,
+    backgroundColor: "#545454",
+    borderRadius: 10,
+    marginBottom: 20,
   },
   textButton: {
-    color: '#ffffff',
+    color: "#ffffff",
     height: 30,
-    fontWeight: '600',
+    fontWeight: "600",
     fontSize: 16,
   },
 });

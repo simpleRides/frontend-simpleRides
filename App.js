@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from './screens/HomeScreen';
-import MapScreen from './screens/MapScreen';
 import PlacesScreen from './screens/PlacesScreen';
 
 import { Provider } from 'react-redux';
@@ -35,7 +34,7 @@ const TabNavigator = () => {
       tabBarInactiveTintColor: '#335561',
       headerShown: false,
     })}>
-      <Tab.Screen name="Map" component={MapScreen} />
+      <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Places" component={PlacesScreen} />
     </Tab.Navigator>
   );
