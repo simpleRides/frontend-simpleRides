@@ -38,3 +38,10 @@ Un exemple de test se trouve dans le fichier `__TESTS__/index.test.js`
 
 La commande pour lancer les tests est `yarn test`
 Si vous voulez lancer des tests pour que jest regarde pendant que vous codez `yarn jest --watch`
+
+### Quelques commandes GIT utiles
+```
+// Si on veut rapatrier la branche main sur notre branche de travail
+1. Se place sur la branche de travail et taper
+git rebase main
+```
