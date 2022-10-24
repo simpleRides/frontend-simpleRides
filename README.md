@@ -40,8 +40,5 @@ La commande pour lancer les tests est `yarn test`
 Si vous voulez lancer des tests pour que jest regarde pendant que vous codez `yarn jest --watch`
 
 ### Quelques commandes GIT utiles
-```
-// Si on veut rapatrier la branche main sur notre branche de travail
-1. Se place sur la branche de travail et taper
-git rebase main
-```
+Si on veut rapatrier la branche main sur notre branche de travail
+Se place sur la branche de travail et taper `git rebase main`
