@@ -52,6 +52,10 @@ const SIMPLE_RIDE_THEME = {
   colors: {
     ...DefaultTheme.colors,
     background: '#28272A',
+    black: '#262626',
+    primary: '#FFA62B',
+    light: '#FFFFFF',
+    lightGrey: '#545454',
   },
 };
 
