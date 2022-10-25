@@ -15,6 +15,8 @@ const SignInScreen = ({ navigation }) => {
   const styles = makeStyles(colors);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [focusEmail, setFocusEmail] = useState(false);
+  const [focusPassword, setFocusPassword] = useState(false);
 
   const handleSubmit = () => {
     // here we call the API to login and navigate
@@ -39,10 +41,15 @@ const SignInScreen = ({ navigation }) => {
             <Text style={styles.label}>Adresse email</Text>
             <TextInput
               placeholder="Adresse e-mail"
-              onChangeText={(value) => setEmail(value)}
-              value={email}
-              style={styles.input}
               placeholderTextColor={colors.lightGrey}
+              style={[
+                styles.input,
+                focusEmail ? styles.inputOnFocus : styles.inputOnBlur,
+              ]}
+              value={email}
+              onChangeText={(value) => setEmail(value)}
+              onFocus={() => setFocusEmail(true)}
+              onBlur={() => setFocusEmail(false)}
             />
           </View>
 
@@ -53,8 +60,13 @@ const SignInScreen = ({ navigation }) => {
               placeholder="Mot de passe"
               onChangeText={(value) => setPassword(value)}
               value={password}
-              style={styles.input}
+              style={[
+                styles.input,
+                focusPassword ? styles.inputOnFocus : styles.inputOnBlur,
+              ]}
               placeholderTextColor={colors.lightGrey}
+              onFocus={() => setFocusPassword(true)}
+              onBlur={() => setFocusPassword(false)}
             />
           </View>
         </View>
@@ -131,6 +143,8 @@ const makeStyles = (colors) =>
       paddingLeft: 8,
       placeholder: colors.light,
     },
+    inputOnFocus: { borderColor: colors.primary },
+    inputOnBlur: { borderColor: colors.lightGrey },
     primaryButton: {
       alignItems: 'center',
       width: '100%',
