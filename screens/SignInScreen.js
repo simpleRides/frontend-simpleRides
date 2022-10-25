@@ -36,7 +36,7 @@ const SignInScreen = ({ navigation }) => {
         </Text>
         <View style={styles.formContainer}>
           <View style={styles.formControl}>
-            <Text style={styles.label}>Addresse email</Text>
+            <Text style={styles.label}>Adresse email</Text>
             <TextInput
               placeholder="Adresse e-mail"
               onChangeText={(value) => setEmail(value)}
