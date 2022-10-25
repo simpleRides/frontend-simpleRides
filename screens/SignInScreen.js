@@ -10,11 +10,16 @@ import {
   Image,
 } from 'react-native';
 
-const SignInScreen = () => {
+const SignInScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleSubmit = () => {
+    console.log('here we call the API to login');
+    navigation.navigate('TabNavigator');
+  };
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -91,7 +96,6 @@ const makeStyles = (colors) =>
     title: {
       fontSize: 16,
       color: colors.light,
-      marginBottom: 16,
     },
     formContainer: {
       width: '100%',
@@ -107,6 +111,7 @@ const makeStyles = (colors) =>
     },
     formControl: {
       width: '100%',
+      marginBottom: 16,
     },
     label: {
       color: colors.light,
