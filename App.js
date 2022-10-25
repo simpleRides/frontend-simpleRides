@@ -35,8 +35,8 @@ const TabNavigator = () => {
 
           return <FontAwesome name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#ec6e5b',
-        tabBarInactiveTintColor: '#335561',
+        tabBarActiveTintColor: SIMPLE_RIDE_THEME.colors.primary,
+        tabBarInactiveTintColor: SIMPLE_RIDE_THEME.colors.lightGrey,
         headerShown: false,
       })}
     >
