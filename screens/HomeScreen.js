@@ -35,7 +35,7 @@ export default function HomeScreen({ navigation }) {
           </Text>
           <View style={styles.subContainer}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('TabNavigator')}
+              onPress={() => navigation.navigate('SignIn')}
               style={styles.buttongrey}
               activeOpacity={0.8}
             >
