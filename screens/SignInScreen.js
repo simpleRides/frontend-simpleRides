@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 const SignInScreen = ({ navigation }) => {
@@ -25,59 +26,64 @@ const SignInScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={require('../assets/logoblc.png')}
-          />
-        </View>
-        <Text style={styles.title}>
-          Connectez vous avec votre compte simpleRide afin d'utiliser
-          l'application
-        </Text>
-        <View style={styles.formContainer}>
-          <View style={styles.formControl}>
-            <Text style={styles.label}>Adresse email</Text>
-            <TextInput
-              placeholder="Adresse e-mail"
-              placeholderTextColor={colors.lightGrey}
-              style={[
-                styles.input,
-                focusEmail ? styles.inputOnFocus : styles.inputOnBlur,
-              ]}
-              value={email}
-              onChangeText={(value) => setEmail(value)}
-              onFocus={() => setFocusEmail(true)}
-              onBlur={() => setFocusEmail(false)}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.screen}
+      >
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.image}
+              source={require('../assets/logoblc.png')}
             />
           </View>
+          <Text style={styles.title}>
+            Connectez vous avec votre compte simpleRide afin d'utiliser
+            l'application
+          </Text>
+          <View style={styles.formContainer}>
+            <View style={styles.formControl}>
+              <Text style={styles.label}>Adresse email</Text>
+              <TextInput
+                placeholder="Adresse e-mail"
+                placeholderTextColor={colors.lightGrey}
+                style={[
+                  styles.input,
+                  focusEmail ? styles.inputOnFocus : styles.inputOnBlur,
+                ]}
+                value={email}
+                onChangeText={(value) => setEmail(value)}
+                onFocus={() => setFocusEmail(true)}
+                onBlur={() => setFocusEmail(false)}
+              />
+            </View>
 
-          <View style={styles.formControl}>
-            <Text style={styles.label}>Mot de passe</Text>
+            <View style={styles.formControl}>
+              <Text style={styles.label}>Mot de passe</Text>
 
-            <TextInput
-              placeholder="Mot de passe"
-              onChangeText={(value) => setPassword(value)}
-              value={password}
-              style={[
-                styles.input,
-                focusPassword ? styles.inputOnFocus : styles.inputOnBlur,
-              ]}
-              placeholderTextColor={colors.lightGrey}
-              onFocus={() => setFocusPassword(true)}
-              onBlur={() => setFocusPassword(false)}
-            />
+              <TextInput
+                placeholder="Mot de passe"
+                onChangeText={(value) => setPassword(value)}
+                value={password}
+                style={[
+                  styles.input,
+                  focusPassword ? styles.inputOnFocus : styles.inputOnBlur,
+                ]}
+                placeholderTextColor={colors.lightGrey}
+                onFocus={() => setFocusPassword(true)}
+                onBlur={() => setFocusPassword(false)}
+              />
+            </View>
           </View>
+          <TouchableOpacity
+            onPress={() => handleSubmit()}
+            style={styles.primaryButton}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.textButton}>Se connecter</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={() => handleSubmit()}
-          style={styles.primaryButton}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.textButton}>Se connecter</Text>
-        </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -96,8 +102,8 @@ const makeStyles = (colors) =>
       paddingHorizontal: 16,
     },
     imageContainer: {
-      width: 250,
-      height: 250,
+      width: '50%',
+      height: '40%',
       justifyContent: 'center',
     },
     image: {
@@ -108,6 +114,7 @@ const makeStyles = (colors) =>
     title: {
       fontSize: 16,
       color: colors.light,
+      marginBottom: 16,
     },
     formContainer: {
       width: '100%',
