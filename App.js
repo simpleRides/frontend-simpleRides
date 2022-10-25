@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -11,6 +11,7 @@ import HomeScreen from './screens/HomeScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RidesScreen from './screens/RidesScreen';
+import SignInScreen from './screens/SignInScreen';
 
 const store = configureStore({
   reducer: { user },
@@ -45,13 +46,22 @@ const TabNavigator = () => {
   );
 };
 
+const SIMPLE_RIDE_THEME = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: '#28272A',
+  },
+};
+
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <NavigationContainer theme={SIMPLE_RIDE_THEME}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
