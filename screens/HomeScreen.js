@@ -23,7 +23,12 @@ export default function HomeScreen({ navigation }) {
       source={require('../assets/home.jpeg')}
     >
       <View style={styles.container}>
-        <Image style={styles.image} source={require('../assets/logoblc.png')} />
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            source={require('../assets/logoblc.png')}
+          />
+        </View>
         <View style={styles.subtitle}>
           <Text style={styles.subtitle}>
             Naviguez entre vos applications VTC facilement grâce à SimpleRides
@@ -62,10 +67,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    paddingTop: 60,
   },
   backgroundImage: {
     width: '100%',
     height: '100%',
+  },
+  imageContainer: {
+    width: 250,
+    height: 250,
+    justifyContent: 'center',
   },
   image: {
     width: '100%',
