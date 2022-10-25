@@ -46,6 +46,7 @@ const TabNavigator = () => {
   );
 };
 
+// Theming the app
 const SIMPLE_RIDE_THEME = {
   ...DefaultTheme,
   colors: {
