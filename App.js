@@ -26,10 +26,10 @@ const TabNavigator = () => {
         tabBarIcon: ({ color, size }) => {
           let iconName = '';
 
-          if (route.name === 'Map') {
-            iconName = 'location-arrow';
-          } else if (route.name === 'Places') {
-            iconName = 'map-pin';
+          if (route.name === 'Rides') {
+            iconName = 'dot-circle-o';
+          } else if (route.name === 'Profile') {
+            iconName = 'user-circle-o';
           }
 
           return <FontAwesome name={iconName} size={size} color={color} />;
