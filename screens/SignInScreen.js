@@ -17,7 +17,7 @@ const SignInScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const handleSubmit = () => {
-    console.log('here we call the API to login');
+    // here we call the API to login and navigate
     navigation.navigate('TabNavigator');
   };
 
