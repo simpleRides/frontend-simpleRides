@@ -12,6 +12,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RidesScreen from './screens/RidesScreen';
 import SignInScreen from './screens/SignInScreen';
+import LandingScreen from './screens/LandingScreen';
 
 const store = configureStore({
   reducer: { user },
@@ -64,6 +65,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer theme={SIMPLE_RIDE_THEME}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Landing" component={LandingScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
