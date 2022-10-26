@@ -7,7 +7,8 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
+import SrButton from '../components/core/SrButton';
 // import { resetPlaces, updateNickname } from "../reducers/user";
 
 export default function HomeScreen({ navigation }) {
@@ -34,20 +35,12 @@ export default function HomeScreen({ navigation }) {
             Naviguez entre vos applications VTC facilement grâce à SimpleRides
           </Text>
           <View style={styles.subContainer}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('SignIn')}
-              style={styles.buttongrey}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.textButton}>Se connecter</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handleSubmit()}
-              style={styles.buttonOrange}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.textButton}>S'inscrire</Text>
-            </TouchableOpacity>
+            <SrButton
+              label="Se connecter"
+              type="secondary"
+              handlePressed={() => navigation.navigate('SignIn')}
+            />
+            <SrButton label="s'inscrire" handlePressed={() => handleSubmit()} />
           </View>
         </View>
       </View>
