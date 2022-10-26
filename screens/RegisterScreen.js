@@ -20,21 +20,26 @@ import {
 export default function RegisterScreen({ navigation }) {
   const dispatch = useDispatch();
 
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [telephone, setTelephone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  //routes a faire avec Backend
+
   const handleSubmit = () => {
-    console.log( "call backend")
-   };
+    console.log('call backend');
+  };
 
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <Image style={styles.image} source={require('../assets/logoblc.png')} />
+      <View style={styles.imageContainer}>
+        <Image style={styles.image} source={require('../assets/logoblc.png')} />
+      </View>
       <View>
         <Text style={styles.title}>Créez votre compte</Text>
         <Text style={styles.text}>
@@ -75,6 +80,7 @@ export default function RegisterScreen({ navigation }) {
         <Text style={styles.text}>
           Accepter les conditons générales d’utilisation
         </Text>
+        {/* <pdf source={source} /> a embarquer dans le texte et ajouter tickbox. tickbox renvoie dans bdd user accepté terms OK  */}
       </View>
       <View style={styles.subContainer}>
         <TouchableOpacity
@@ -95,7 +101,6 @@ export default function RegisterScreen({ navigation }) {
     </KeyboardAvoidingView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -108,15 +113,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
-  image: {
-    width: '100%',
-    height: '20%',
-    justifyContent: 'left',
-  },
   title: {
     width: '80%',
     fontSize: 32,
     fontWeight: '600',
+    alignItems: 'left', // fonctionne pas le left ni justify flex start
   },
   text: {
     width: '90%',
@@ -124,6 +125,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#585858',
     marginBottom: 10,
+    alignItems: 'left', // fonctionne pas le left ni justify flex start
   },
   formContainer: {
     width: '80%',
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
     borderColor: '#585858',
     borderStyle: 'solid',
     borderWidth: 1,
-    color: '#585858',
+    color: '#FFFF',
     fontSize: 16,
     borderRadius: 10,
     marginBottom: 10,
@@ -172,5 +174,15 @@ const styles = StyleSheet.create({
     height: 30,
     fontWeight: '600',
     fontSize: 16,
+  },
+  imageContainer: {
+    width: 250,
+    height: 250,
+    justifyContent: 'center',
+  },
+  image: {
+    width: '100%',
+    height: '50%',
+    justifyContent: 'flex-start',
   },
 });
