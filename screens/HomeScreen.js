@@ -40,7 +40,7 @@ export default function HomeScreen({ navigation }) {
               type="secondary"
               handlePressed={() => navigation.navigate('SignIn')}
             />
-            <SrButton label="s'inscrire" handlePressed={() => handleSubmit()} />
+            <SrButton label="S'inscrire" handlePressed={() => handleSubmit()} />
           </View>
         </View>
       </View>
