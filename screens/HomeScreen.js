@@ -87,28 +87,4 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     marginBottom: 24,
   },
-  buttonOrange: {
-    alignItems: 'center',
-    paddingTop: 8,
-    width: '80%',
-    height: 40,
-    backgroundColor: '#FFA62B',
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  buttongrey: {
-    alignItems: 'center',
-    paddingTop: 8,
-    width: '80%',
-    height: 40,
-    backgroundColor: '#545454',
-    borderRadius: 10,
-    marginBottom: 24,
-  },
-  textButton: {
-    color: '#ffffff',
-    height: 30,
-    fontWeight: '600',
-    fontSize: 16,
-  },
 });

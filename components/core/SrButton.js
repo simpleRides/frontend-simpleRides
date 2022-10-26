@@ -3,7 +3,8 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
 /**
- * How to use: <SrButton label="Text of the button" handlePressed={() => handleSubmit()} />
+ * How to use:
+ * Default color: <SrButton label="Text of the button" handlePressed={() => handleSubmit()} />
  * or <SrButton label='Text of the button' type='secondary' handlePressed={() => navigation.navigate('SignIn')} />
  *
  * @param {string} label - The button title
