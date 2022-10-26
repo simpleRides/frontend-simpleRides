@@ -28,7 +28,7 @@ const TabNavigator = () => {
           let iconName = '';
 
           if (route.name === 'Rides') {
-            iconName = 'dot-circle-o';
+            iconName = 'cab';
           } else if (route.name === 'Profile') {
             iconName = 'user-circle-o';
           }

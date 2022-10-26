@@ -7,7 +7,8 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
+import SrButton from '../components/core/SrButton';
 // import { resetPlaces, updateNickname } from "../reducers/user";
 
 export default function HomeScreen({ navigation }) {
@@ -34,20 +35,12 @@ export default function HomeScreen({ navigation }) {
             Naviguez entre vos applications VTC facilement grâce à SimpleRides
           </Text>
           <View style={styles.subContainer}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('SignIn')}
-              style={styles.buttongrey}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.textButton}>Se connecter</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handleSubmit()}
-              style={styles.buttonOrange}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.textButton}>S'inscrire</Text>
-            </TouchableOpacity>
+            <SrButton
+              label="Se connecter"
+              type="secondary"
+              handlePressed={() => navigation.navigate('SignIn')}
+            />
+            <SrButton label="S'inscrire" handlePressed={() => handleSubmit()} />
           </View>
         </View>
       </View>
@@ -93,29 +86,5 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#ffffff',
     marginBottom: 24,
-  },
-  buttonOrange: {
-    alignItems: 'center',
-    paddingTop: 8,
-    width: '80%',
-    height: 40,
-    backgroundColor: '#FFA62B',
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  buttongrey: {
-    alignItems: 'center',
-    paddingTop: 8,
-    width: '80%',
-    height: 40,
-    backgroundColor: '#545454',
-    borderRadius: 10,
-    marginBottom: 24,
-  },
-  textButton: {
-    color: '#ffffff',
-    height: 30,
-    fontWeight: '600',
-    fontSize: 16,
   },
 });
