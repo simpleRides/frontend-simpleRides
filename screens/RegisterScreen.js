@@ -79,19 +79,20 @@ export default function RegisterScreen({ navigation }) {
         />
         <Text style={styles.text}>
           Accepter les conditons générales d’utilisation
+          {/* onClick={() => navigation.navigate('CGV')} */}
         </Text>
         {/* <pdf source={source} /> a embarquer dans le texte et ajouter tickbox. tickbox renvoie dans bdd user accepté terms OK  */}
       </View>
       <View style={styles.subContainer}>
         <TouchableOpacity
-          onPress={() => handleSubmit()}
+          onPress={() => navigation.navigate('Signin')}
           style={styles.buttongrey}
           activeOpacity={0.8}
         >
           <Text style={styles.textButton}>Se connecter</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => handleSubmit()}
+          onPress={() => navigation.navigate('SyncApp')}
           style={styles.buttonOrange}
           activeOpacity={0.8}
         >

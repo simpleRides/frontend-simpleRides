@@ -8,14 +8,20 @@ import {
   pdf,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import pdf from 'react-native-pdf';
+// import pdf from 'react-native-pdf';
 
-export default function pdf() {
-  const source = require('../assets/2022_11_SimpleRides_CGV_DRAFT.pdf'); // ios only visiblement, comment avoir pour android ?
+export default function cgv() {
+  const handleSubmit = () => {
+    navigation.navigate('Register');
+  };
+  // const source = require('../assets/2022_11_SimpleRides_CGV_DRAFT.pdf'); // ios only visiblement, comment avoir pour android ?
 
   return (
     <View style={styles.container}>
-      <pdf source={source} />
+      <Text style={styles.subtitle}>
+        Naviguez entre vos applications VTC facilement grâce à SimpleRides
+      </Text>
+      {/* <pdf source={source} /> */}
       <ScrollView contentContainerStyle={styles.scrollView}></ScrollView>
     </View>
   );
@@ -61,7 +67,7 @@ const styles = StyleSheet.create({
   },
   pdf: {
     flex: 1,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    width: '100%',
+    height: '100%',
   },
 });
