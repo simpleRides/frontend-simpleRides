@@ -1,7 +1,8 @@
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+// import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -29,12 +30,15 @@ const TabNavigator = () => {
           let iconName = '';
 
           if (route.name === 'Rides') {
-            iconName = 'cab';
+            // iconName = 'cab';
+            iconName = 'car-sport';
           } else if (route.name === 'Profile') {
-            iconName = 'user-circle-o';
+            // iconName = 'user-circle-o';
+            iconName = 'person-circle-outline';
           }
 
-          return <FontAwesome name={iconName} size={size} color={color} />;
+          // return <FontAwesome name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: SIMPLE_RIDE_THEME.colors.primary,
         tabBarInactiveTintColor: SIMPLE_RIDE_THEME.colors.lightGrey,
@@ -66,7 +70,11 @@ export default function App() {
       <NavigationContainer theme={SIMPLE_RIDE_THEME}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Landing" component={LandingScreen} />
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ animation: 'none' }}
+          />
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
