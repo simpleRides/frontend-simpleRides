@@ -8,9 +8,8 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-
     updateUserToken: (state, action) => {
-      state.value.nickname = action.payload;
+      state.value.token = action.payload;
     },
   },
 });

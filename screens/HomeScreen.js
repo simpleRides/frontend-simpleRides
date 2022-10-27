@@ -9,17 +9,10 @@ import {
 } from 'react-native';
 
 import { useDispatch } from 'react-redux';
-import { resetPlaces, updateNickname } from '../reducers/user';
 import SrButton from '../components/core/SrButton';
 
 export default function HomeScreen({ navigation }) {
-  const dispatch = useDispatch();
-
-  const [nickname, setNickname] = useState('');
-
   const handleSubmit = () => {
-    dispatch(updateNickname(nickname));
-    dispatch(resetPlaces());
     navigation.navigate('Register');
   };
 
