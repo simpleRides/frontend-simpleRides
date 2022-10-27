@@ -7,8 +7,10 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+
 import { useDispatch } from 'react-redux';
 import { resetPlaces, updateNickname } from '../reducers/user';
+import SrButton from '../components/core/SrButton';
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -33,20 +35,12 @@ export default function HomeScreen({ navigation }) {
             Naviguez entre vos applications VTC facilement grâce à SimpleRides
           </Text>
           <View style={styles.subContainer}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('SignIn')}
-              style={styles.buttongrey}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.textButton}>Se connecter</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Register')}
-              style={styles.buttonOrange}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.textButton}>S'inscrire</Text>
-            </TouchableOpacity>
+            <SrButton
+              label="Se connecter"
+              type="secondary"
+              handlePressed={() => navigation.navigate('SignIn')}
+            />
+            <SrButton label="S'inscrire" handlePressed={() => handleSubmit()} />
           </View>
         </View>
       </View>
@@ -84,30 +78,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontWeight: '500',
     color: '#ffffff',
-  },
-  buttonOrange: {
-    alignItems: 'center',
-    paddingTop: 8,
-    width: '80%',
-    height: '20%',
-    marginTop: 20,
-    backgroundColor: '#FFA62B',
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  buttongrey: {
-    alignItems: 'center',
-    paddingTop: 8,
-    width: '80%',
-    marginTop: 20,
-    backgroundColor: '#545454',
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  textButton: {
-    color: '#ffffff',
-    height: 30,
-    fontWeight: '600',
-    fontSize: 16,
   },
 });
