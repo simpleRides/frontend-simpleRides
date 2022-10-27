@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTheme } from '@react-navigation/native';
 import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 
 const images = [
   'landing001.jpeg',
@@ -25,14 +26,21 @@ const getRandomBackground = (items) => {
   }
 };
 
-export default function LandingScreen() {
+export default function LandingScreen({ navigation }) {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
+  const user = useSelector((state) => state.user.value);
 
   const image = getRandomBackground(images);
 
   useEffect(() => {
-    console.log('here the logic...');
+    setTimeout(() => {
+      if (user.token) {
+        navigation.navigate('TabNavigator');
+      } else {
+        navigation.navigate('Home');
+      }
+    }, 1200);
   }, []);
 
   // case 1: There is no user token -> go to Login
