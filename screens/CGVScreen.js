@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   StyleSheet,
   Text,
+  Image,
   TextInput,
   TouchableOpacity,
   View,
@@ -10,18 +11,20 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 // import pdf from 'react-native-pdf';
 
-export default function cgv() {
+export default function Cgv() {
   const handleSubmit = () => {
     navigation.navigate('Register');
   };
+
   // const source = require('../assets/2022_11_SimpleRides_CGV_DRAFT.pdf'); // ios only visiblement, comment avoir pour android ?
 
   return (
     <View style={styles.container}>
-      <Text style={styles.subtitle}>
-        Naviguez entre vos applications VTC facilement grâce à SimpleRides
-      </Text>
-      {/* <pdf source={source} /> */}
+      <Text style={styles.subtitle}>Conditions générales d'utilisation</Text>
+      <Image
+        style={styles.image}
+        source={require('../assets/2022_11_SimpleRides_CGV_DRAFT.png')}
+      />
       <ScrollView contentContainerStyle={styles.scrollView}></ScrollView>
     </View>
   );

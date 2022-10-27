@@ -41,7 +41,7 @@ export default function HomeScreen({ navigation }) {
               <Text style={styles.textButton}>Se connecter</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('SignIn')}
+              onPress={() => navigation.navigate('Register')}
               style={styles.buttonOrange}
               activeOpacity={0.8}
             >

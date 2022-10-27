@@ -25,12 +25,34 @@ export default function RegisterScreen({ navigation }) {
   const [telephone, setTelephone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  // const [signUpUsername, setSignUpUsername] = useState('');
+  // const [signUpTelephone, setSignUpTelephone] = useState('');
+  // const [setSignUpEmail, setSignUpEmaile] = useState('');
+  // const [signUpPassword, setSignUpPassword] = useState('');
+  // const [signUpConfirmPassword, setSignUpConfirmPassword] = useState('');
 
   //routes a faire avec Backend
 
   const handleSubmit = () => {
     console.log('call backend');
-  };
+  }; // a degager et utiliser handleRegister ci-dessous
+  // const handleRegister = () => {
+  // 	fetch('http://localhost:3000/users/signup', {
+  // 		method: 'POST',
+  // 		headers: { 'Content-Type': 'application/json' },
+  // 		body: JSON.stringify({ username: signUpUsername, password: signUpPassword }),
+  // 	}).then(response => response.json())
+  // 		.then(data => {
+  // 			if (data.result) {
+  // 				dispatch(login({username:signUpUsername, token: data.token}));
+  // 				   setSignUpUsername('');
+  //             setSignUpEmail('');
+  //             setSignseTelephone('');
+  //             setSignUpPassword('');
+  // 				     setSignUpConfirmPassword('');
+  // 			}
+  // 		});
+  // };
 
   return (
     <KeyboardAvoidingView
@@ -77,26 +99,29 @@ export default function RegisterScreen({ navigation }) {
           value={confirmPassword}
           style={styles.input}
         />
-        <Text style={styles.text}>
-          Accepter les conditons générales d’utilisation
-          {/* onClick={() => navigation.navigate('CGV')} */}
+        <Text
+          style={styles.textHighlight}
+          onPress={() => navigation.navigate('CGV')}
+        >
+          En cliquant sur continuer, vous acceptez les conditons générales
+          d’utilisation
         </Text>
         {/* <pdf source={source} /> a embarquer dans le texte et ajouter tickbox. tickbox renvoie dans bdd user accepté terms OK  */}
       </View>
       <View style={styles.subContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Signin')}
+          onPress={() => navigation.navigate('SignIn')} // mettre a terme sur la  Lading page de Kader
           style={styles.buttongrey}
           activeOpacity={0.8}
         >
-          <Text style={styles.textButton}>Se connecter</Text>
+          <Text style={styles.textButton}>Skip</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate('SyncApp')}
           style={styles.buttonOrange}
           activeOpacity={0.8}
         >
-          <Text style={styles.textButton}>S'inscrire</Text>
+          <Text style={styles.textButton}>Continuer</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -118,13 +143,24 @@ const styles = StyleSheet.create({
     width: '80%',
     fontSize: 32,
     fontWeight: '600',
+    color: '#FFFF',
     alignItems: 'left', // fonctionne pas le left ni justify flex start
   },
   text: {
     width: '90%',
     fontSize: 8,
-    fontWeight: '600',
+    fontWeight: 'bold',
     color: '#585858',
+    marginBottom: 10,
+    alignItems: 'left', // fonctionne pas le left ni justify flex start
+  },
+  textHighlight: {
+    width: '90%',
+    fontSize: 12,
+    textDecorationLine: 'underline',
+    fontWeight: '600',
+    color: '#545454',
+    textAlign: 'center',
     marginBottom: 10,
     alignItems: 'left', // fonctionne pas le left ni justify flex start
   },
@@ -137,16 +173,18 @@ const styles = StyleSheet.create({
     borderColor: '#585858',
     borderStyle: 'solid',
     borderWidth: 1,
+    color: '#545454',
   },
   input: {
     width: '80%',
     height: 40,
     marginTop: 10,
+    paddingLeft: 5,
     backgroundColor: '#2B2D2E',
     borderColor: '#585858',
     borderStyle: 'solid',
     borderWidth: 1,
-    color: '#FFFF',
+    color: '#545454',
     fontSize: 16,
     borderRadius: 10,
     marginBottom: 10,
