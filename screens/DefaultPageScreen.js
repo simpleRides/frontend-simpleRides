@@ -46,8 +46,14 @@ export default function HomeScreen({ navigation }) {
               style={styles.buttonOrange}
               activeOpacity={0.8}
             >
-              <Text style={styles.textButton}>Continuer mon inscription </Text>
-              {/* créer un lien vers la page de SignIn  */}
+              <TouchableOpacity
+                onPress={() => navigation.navigate('SignIn')}
+                style={styles.buttongrey}
+                activeOpacity={0.8}
+              >
+                <Text style={styles.textButton}>Continuer mon inscription</Text>
+              </TouchableOpacity>
+              {/* lien vers la page de SignIn  */}
             </TouchableOpacity>
           </View>
         </View>

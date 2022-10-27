@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@react-navigation/native';
 import {
   View,
@@ -18,11 +19,31 @@ const SignInScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [focusEmail, setFocusEmail] = useState(false);
   const [focusPassword, setFocusPassword] = useState(false);
+  // const [signInUsername, setSignInUsername] = useState('');
+  // const [signInPassword, setSignInPassword] = useState('');
+  // const dispatch = useDispatch();
+  // const user = useSelector((state) => state.user.value);
 
   const handleSubmit = () => {
     // here we call the API to login and navigate
     navigation.navigate('TabNavigator');
-  };
+  }; // a degager et utiliser handleConnection ci-dessous
+  // const handleConnection = () => {
+  // 	fetch('http://localhost:3000/users/signin', {
+  // 		method: 'POST',
+  // 		headers: { 'Content-Type': 'application/json' },
+  // 		body: JSON.stringify({ username: signInUsername, password: signInPassword }),
+  // 	}).then(response => response.json())
+  // 		.then(data => {
+
+  // 			if (data.result) {
+  // 				console.log(data.token)
+  // 				dispatch(login(signInUsername, data.token));
+  // 				setSignInUsername('');
+  // 				setSignInPassword('');
+  // 			}
+  // 		});
+  // };
 
   return (
     <SafeAreaView style={styles.screen}>
