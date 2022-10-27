@@ -5,10 +5,10 @@ import Card from '../components/RidesScreen/Card';
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
 const pickupAddress = '55 Rue du Faubourg Saint-Honoré, 78008 Paris';
+const provider = 'uber';
 
-it('Should contains the pickupAddress'),
-  async () => {
-    render(<Card pickupAddress={pickupAddress} />);
+it('Should contains the pickupAddress', async () => {
+  render(<Card pickupAddress={pickupAddress} provider={provider} />);
 
-    expect(screen.queryByText(pickupAddress)).toBeTruthy();
-  };
+  expect(screen.queryByText(pickupAddress)).toBeTruthy();
+});
