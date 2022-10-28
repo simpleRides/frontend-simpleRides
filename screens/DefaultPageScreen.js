@@ -20,16 +20,9 @@ export default function DefaultPageScreen({ navigation }) {
       </View>
       <View style={styles.subtitle}>
         <SrText
-          title="Connexion"
-          subtitle="Connectez vous avec votre compte simpleRide afin d'utiliser l'application"
+          title="Pas encore inscrit!"
+          subtitle="Decouvrez SimpleRides et naviguez entre vos applications VTC facilement."
         />
-        <Text style={styles.subtitle}>
-          Pas encore inscrit!
-          {/* mettre en SrText title  */}
-          Decouvrez SimpleRides et naviguez entre vos applications VTC
-          facilement.
-          {/* mettre en SrText subtitle  */}
-        </Text>
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.text}>
@@ -62,11 +55,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    paddingTop: 60,
-    borderWidth: 4,
+    alignItems: 'center',
     paddingHorizontal: 16,
   },
   imageContainer: {
@@ -106,6 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
+    marginBottom: 100,
     backgroundColor: '#2B2D2E',
     borderColor: '#585858',
     borderStyle: 'solid',
