@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react-native';
 import Card from '../components/RidesScreen/Card';
+import { useNavigation } from '@react-navigation/native';
 
 // Silence the warning: Animated: `useNativeDriver` is not supported...
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');

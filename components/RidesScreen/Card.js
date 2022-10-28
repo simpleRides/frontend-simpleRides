@@ -2,8 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 
 const Card = (props) => {
+  const navigation = useNavigation();
+
   let provider = '';
   if (props.provider === 'uber') {
     provider = require('../../assets/uber.png');
@@ -15,7 +18,11 @@ const Card = (props) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
   return (
-    <TouchableOpacity activeOpacity={0.8} style={styles.card}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      style={styles.card}
+      onPress={() => navigation.navigate('Map')}
+    >
       <View style={styles.firstRow}>
         <Text style={styles.textFirstRow}>
           {props.timeToPickup} min - {props.distanceToPickup} m
