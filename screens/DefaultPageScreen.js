@@ -1,64 +1,48 @@
 import { useState } from 'react';
-import {
-  Image,
-  View,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { Image, View, StyleSheet, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
+import SrButton from '../components/core/SrButton';
+import SrText from '../components/core/SrText';
 
 export default function DefaultPageScreen({ navigation }) {
   const handleSubmit = () => {
     navigation.navigate('Register');
   };
 
+  const handleYT = () => {
+    console.log('Youtube is ok');
+  };
+
   return (
-    <ImageBackground
-      style={styles.backgroundImage}
-      source={require('../assets/home.jpeg')}
-    >
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={require('../assets/logoblc.png')}
-          />
-        </View>
-        <View style={styles.subtitle}>
-          <Text style={styles.subtitle}>
-            Naviguez entre vos applications VTC facilement grâce à SimpleRides
-          </Text>
-          <View style={styles.subContainer}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('TabNavigator')}
-              style={styles.buttongrey}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.textButton}>
-                Découvrir SimpleRides en vidéo
-              </Text>
-              {/* créer un lien vers une page de démo YT  */}
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handleSubmit()}
-              style={styles.buttonOrange}
-              activeOpacity={0.8}
-            >
-              <TouchableOpacity
-                onPress={() => navigation.navigate('SignIn')}
-                style={styles.buttongrey}
-                activeOpacity={0.8}
-              >
-                <Text style={styles.textButton}>Continuer mon inscription</Text>
-              </TouchableOpacity>
-              {/* lien vers la page de SignIn  */}
-            </TouchableOpacity>
-          </View>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.imageContainer}>
+        <Image style={styles.image} source={require('../assets/logoblc.png')} />
       </View>
-    </ImageBackground>
+      <View style={styles.subtitle}>
+        <SrText
+          title="Pas encore inscrit!"
+          subtitle="Decouvrez SimpleRides et naviguez entre vos applications VTC facilement."
+        />
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.text}>
+          Vous n'avez pas encore configuré vos applications. Continuez votre
+          inscription ou visualisez une vidéo de démonstration de l’application.
+          Faites votre choix ci-dessous!
+        </Text>
+      </View>
+      <View style={styles.subContainer}>
+        <SrButton
+          label="Découvrir SimpleRides en vidéo"
+          type="secondary"
+          handlePressed={handleYT}
+        />
+        <SrButton
+          label="Continuer mon inscription"
+          handlePressed={handleSubmit}
+        />
+      </View>
+    </View>
   );
 }
 
@@ -71,16 +55,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    paddingTop: 60,
-    borderWidth: 4,
-    borderColor: 'green',
-  },
-  backgroundImage: {
-    width: '100%',
-    height: '100%',
+    alignItems: 'center',
+    paddingHorizontal: 16,
   },
   imageContainer: {
     width: 250,
@@ -103,28 +80,27 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     marginBottom: 24,
   },
-  buttonOrange: {
-    alignItems: 'center',
-    paddingTop: 8,
-    width: '80%',
-    height: 40,
-    backgroundColor: '#FFA62B',
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  buttongrey: {
-    alignItems: 'center',
-    paddingTop: 8,
-    width: '80%',
-    height: 40,
-    backgroundColor: '#545454',
-    borderRadius: 10,
-    marginBottom: 24,
-  },
-  textButton: {
-    color: '#ffffff',
-    height: 30,
-    fontWeight: '600',
+  text: {
+    width: '100%',
     fontSize: 16,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontWeight: '500',
+    color: '#ffffff',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+  },
+  textContainer: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    marginBottom: 100,
+    backgroundColor: '#2B2D2E',
+    borderColor: '#585858',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    color: '#545454',
   },
 });
