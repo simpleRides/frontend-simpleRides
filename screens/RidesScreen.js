@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '@react-navigation/native';
 import {
   SafeAreaView,
@@ -17,10 +17,39 @@ import Card from '../components/RidesScreen/Card';
 export default function RidesScreen() {
   // const dispatch = useDispatch();
   const [isEnabled, setIsEnabled] = useState(false);
+  const [tempCoordinates, setTempCoordinates] = useState(null);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   // const user = useSelector((state) => state.user.value);
   const { colors } = useTheme();
   const styles = makeStyles(colors);
+
+  useEffect(() => {
+    fetch(`https://backend-providers-wine.vercel.app/uber`)
+      .then((res) => res.json())
+      .then((data) => {
+        data.result && setTempCoordinates(data.data);
+      });
+  }, []);
+
+  let cardsWithData;
+  if (tempCoordinates) {
+    cardsWithData = tempCoordinates.map((data, i) => {
+      return (
+        <Card
+          key={i}
+          timeToPickup="3"
+          distanceToPickup="200"
+          clientNote={data.clientNote}
+          markup={data.markup}
+          price={data.price}
+          duration={data.travelTime}
+          pickupAddress={data.coordinates.lat}
+          arrivalAddress={data.coordinates.lat}
+          provider="uber"
+        />
+      );
+    });
+  }
 
   // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress, provider
 
@@ -46,6 +75,7 @@ export default function RidesScreen() {
           </View>
         </View>
         <View style={styles.cardContainer}>
+          {tempCoordinates && cardsWithData}
           <Card
             timeToPickup="5"
             distanceToPickup="800"
