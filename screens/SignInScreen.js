@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import SrInput from '../components/core/SrInput';
 import SrButton from '../components/core/SrButton';
+import SrText from '../components/core/SrText';
 
 const SignInScreen = ({ navigation }) => {
   const { colors } = useTheme();
@@ -57,10 +58,10 @@ const SignInScreen = ({ navigation }) => {
               source={require('../assets/logoblc.png')}
             />
           </View>
-          <Text style={styles.title}>
-            Connectez vous avec votre compte simpleRide afin d'utiliser
-            l'application
-          </Text>
+          <SrText
+            title="Connexion"
+            subtitle="Connectez vous avec votre compte simpleRide afin d'utiliser l'application"
+          />
           <View style={styles.formContainer}>
             <SrInput
               placeholder="Entrer votre email"
