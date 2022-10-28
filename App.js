@@ -16,7 +16,6 @@ import CGVScreen from './screens/CGVScreen';
 import SyncAppScreen from './screens/SyncAppScreen';
 import LandingScreen from './screens/LandingScreen';
 
-
 const store = configureStore({
   reducer: { user },
 });
@@ -60,6 +59,7 @@ const SIMPLE_RIDE_THEME = {
     primary: '#FFA62B',
     light: '#FFFFFF',
     lightGrey: '#545454',
+    superLightGrey: '#C0C0C0',
   },
 };
 
