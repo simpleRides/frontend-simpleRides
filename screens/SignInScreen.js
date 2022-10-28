@@ -11,20 +11,19 @@ import {
   Image,
   KeyboardAvoidingView,
 } from 'react-native';
+import SrInput from '../components/core/SrInput';
+import SrButton from '../components/core/SrButton';
 
 const SignInScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [focusEmail, setFocusEmail] = useState(false);
-  const [focusPassword, setFocusPassword] = useState(false);
-  // const [signInUsername, setSignInUsername] = useState('');
-  // const [signInPassword, setSignInPassword] = useState('');
   // const dispatch = useDispatch();
   // const user = useSelector((state) => state.user.value);
 
   const handleSubmit = () => {
+    console.log(email, password);
     // here we call the API to login and navigate
     navigation.navigate('TabNavigator');
   }; // a degager et utiliser handleConnection ci-dessous
@@ -63,46 +62,19 @@ const SignInScreen = ({ navigation }) => {
             l'application
           </Text>
           <View style={styles.formContainer}>
-            <View style={styles.formControl}>
-              <Text style={styles.label}>Adresse email</Text>
-              <TextInput
-                placeholder="Adresse e-mail"
-                placeholderTextColor={colors.lightGrey}
-                style={[
-                  styles.input,
-                  focusEmail ? styles.inputOnFocus : styles.inputOnBlur,
-                ]}
-                value={email}
-                onChangeText={(value) => setEmail(value)}
-                onFocus={() => setFocusEmail(true)}
-                onBlur={() => setFocusEmail(false)}
-              />
-            </View>
-
-            <View style={styles.formControl}>
-              <Text style={styles.label}>Mot de passe</Text>
-
-              <TextInput
-                placeholder="Mot de passe"
-                onChangeText={(value) => setPassword(value)}
-                value={password}
-                style={[
-                  styles.input,
-                  focusPassword ? styles.inputOnFocus : styles.inputOnBlur,
-                ]}
-                placeholderTextColor={colors.lightGrey}
-                onFocus={() => setFocusPassword(true)}
-                onBlur={() => setFocusPassword(false)}
-              />
-            </View>
+            <SrInput
+              placeholder="Entrer votre email"
+              label="Email"
+              onChange={(e) => setEmail(e)}
+            />
+            <SrInput
+              isPassword={true}
+              label="Mot de passe"
+              placeholder="Entrer votre mot de passe"
+              onChange={(e) => setPassword(e)}
+            />
           </View>
-          <TouchableOpacity
-            onPress={() => handleSubmit()}
-            style={styles.primaryButton}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.textButton}>Se connecter</Text>
-          </TouchableOpacity>
+          <SrButton label="Se connecter" handlePressed={handleSubmit} />
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -149,30 +121,6 @@ const makeStyles = (colors) =>
       borderWidth: 1,
       paddingHorizontal: 16,
     },
-    formControl: {
-      width: '100%',
-      marginBottom: 16,
-    },
-    label: {
-      color: colors.light,
-    },
-    input: {
-      width: '100%',
-      height: 48,
-      marginTop: 10,
-      backgroundColor: colors.black,
-      borderColor: colors.lightGrey,
-      borderStyle: 'solid',
-      borderWidth: 1,
-      color: colors.light,
-      fontSize: 16,
-      borderRadius: 10,
-      marginBottom: 10,
-      paddingLeft: 8,
-      placeholder: colors.light,
-    },
-    inputOnFocus: { borderColor: colors.primary },
-    inputOnBlur: { borderColor: colors.lightGrey },
     primaryButton: {
       alignItems: 'center',
       width: '100%',
