@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Image, View, StyleSheet, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import SrButton from '../components/core/SrButton';
-// import SrText from '../components/core/Srtext';
+import SrText from '../components/core/SrText';
 
 export default function DefaultPageScreen({ navigation }) {
   const handleSubmit = () => {
@@ -19,6 +19,10 @@ export default function DefaultPageScreen({ navigation }) {
         <Image style={styles.image} source={require('../assets/logoblc.png')} />
       </View>
       <View style={styles.subtitle}>
+        <SrText
+          title="Connexion"
+          subtitle="Connectez vous avec votre compte simpleRide afin d'utiliser l'application"
+        />
         <Text style={styles.subtitle}>
           Pas encore inscrit!
           {/* mettre en SrText title  */}
