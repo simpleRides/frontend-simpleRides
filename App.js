@@ -15,7 +15,7 @@ import SignInScreen from './screens/SignInScreen';
 import CGVScreen from './screens/CGVScreen';
 import SyncAppScreen from './screens/SyncAppScreen';
 import LandingScreen from './screens/LandingScreen';
-
+import DefaultPageScreen from './screens/DefaultPageScreen';
 
 const store = configureStore({
   reducer: { user },
@@ -79,6 +79,7 @@ export default function App() {
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="CGV" component={CGVScreen} />
           <Stack.Screen name="SyncApp" component={SyncAppScreen} />
+          <Stack.Screen name="DefaultPage" component={DefaultPageScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

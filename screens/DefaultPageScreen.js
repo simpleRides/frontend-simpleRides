@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-export default function HomeScreen({ navigation }) {
+export default function DefaultPageScreen({ navigation }) {
   const handleSubmit = () => {
     navigation.navigate('Register');
   };
@@ -75,6 +75,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     paddingTop: 60,
+    borderWidth: 4,
+    borderColor: 'green',
   },
   backgroundImage: {
     width: '100%',
