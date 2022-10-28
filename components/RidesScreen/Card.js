@@ -93,6 +93,8 @@ const makeStyles = (colors) =>
     cardLogo: {
       width: 85,
       height: 71,
+      marginTop: 10,
+      borderRadius: 10,
     },
     textLeft: {
       color: colors.light,
@@ -121,6 +123,7 @@ const makeStyles = (colors) =>
       flexDirection: 'row',
       width: '100%',
       justifyContent: 'flex-start',
+      alignContent: 'center',
       flexWrap: 'wrap',
     },
     clientNote: {

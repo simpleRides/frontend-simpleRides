@@ -22,64 +22,78 @@ export default function RidesScreen() {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
-  // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress
+  // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress, provider
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>En courses!</Text>
-        <View style={styles.settingsContainer}>
-          <View style={styles.form}>
-            <Switch
-              trackColor={{ false: '#767577', true: '#FFA62B' }}
-              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
-            <Text style={styles.label}>Sélection automatique</Text>
+    <ScrollView>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>En courses!</Text>
+          <View style={styles.settingsContainer}>
+            <View style={styles.form}>
+              <Switch
+                trackColor={{ false: '#767577', true: '#FFA62B' }}
+                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+              <Text style={styles.label}>Sélection automatique</Text>
+            </View>
+            <TouchableOpacity activeOpacity={0.8}>
+              <FontAwesome name="cog" color="#FFA62B" size={24} />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity activeOpacity={0.8}>
-            <FontAwesome name="cog" color="#FFA62B" size={24} />
-          </TouchableOpacity>
         </View>
-      </View>
-      <View style={styles.cardContainer}>
-        <Card
-          timeToPickup="5"
-          distanceToPickup="800"
-          clientNote="4.1"
-          markup="1.12"
-          price="2000"
-          duration="23"
-          provider="uber"
-          pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
-          arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
-        />
-        <Card
-          timeToPickup="5"
-          distanceToPickup="800"
-          clientNote="4.1"
-          markup="1.12"
-          price="2000"
-          duration="23"
-          provider="heetch"
-          pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
-          arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
-        />
-        <Card
-          timeToPickup="5"
-          distanceToPickup="800"
-          clientNote="4.1"
-          markup="1.12"
-          price="2000"
-          duration="23"
-          provider="bolt"
-          pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
-          arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
-        />
-      </View>
-      <ScrollView contentContainerStyle={styles.scrollView}></ScrollView>
-    </SafeAreaView>
+        <View style={styles.cardContainer}>
+          <Card
+            timeToPickup="5"
+            distanceToPickup="800"
+            clientNote="4.1"
+            markup="1.12"
+            price="2000"
+            duration="23"
+            provider="uber"
+            pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
+            arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
+          />
+          <Card
+            timeToPickup="5"
+            distanceToPickup="800"
+            clientNote="4.1"
+            markup="1.12"
+            price="2000"
+            duration="23"
+            provider="heetch"
+            pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
+            arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
+          />
+          <Card
+            timeToPickup="5"
+            distanceToPickup="800"
+            clientNote="4.1"
+            markup="1.12"
+            price="2000"
+            duration="23"
+            provider="bolt"
+            pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
+            arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
+          />
+          <Card
+            timeToPickup="5"
+            distanceToPickup="800"
+            clientNote="4.1"
+            markup="1.12"
+            price="2000"
+            duration="23"
+            provider="bolt"
+            pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
+            arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
+          />
+        </View>
+        <ScrollView contentContainerStyle={styles.scrollView}></ScrollView>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 
