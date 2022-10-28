@@ -110,7 +110,7 @@ export default function RegisterScreen({ navigation }) {
       </View>
       <View style={styles.subContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('SignIn')} // mettre a terme sur la  Lading page de Kader
+          onPress={() => navigation.navigate('Home')} // mettre a terme sur la  Lading page de Kader
           style={styles.buttongrey}
           activeOpacity={0.8}
         >

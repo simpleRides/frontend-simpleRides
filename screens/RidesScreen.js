@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useTheme } from '@react-navigation/native';
 import {
   SafeAreaView,
   ScrollView,
@@ -8,85 +9,137 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useDispatch, useSelector } from 'react-redux';
+import Card from '../components/RidesScreen/Card';
 
 export default function RidesScreen() {
   // const dispatch = useDispatch();
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   // const user = useSelector((state) => state.user.value);
+  const { colors } = useTheme();
+  const styles = makeStyles(colors);
+
+  // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress, provider
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>En courses</Text>
-        <View style={styles.settingsContainer}>
-          <View style={styles.form}>
-            <Switch
-              trackColor={{ false: '#767577', true: '#FFA62B' }}
-              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
-            <Text style={styles.label}>Sélection automatique</Text>
+    <ScrollView>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>En courses!</Text>
+          <View style={styles.settingsContainer}>
+            <View style={styles.form}>
+              <Switch
+                trackColor={{ false: '#767577', true: '#FFA62B' }}
+                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+              <Text style={styles.label}>Sélection automatique</Text>
+            </View>
+            <TouchableOpacity activeOpacity={0.8}>
+              <FontAwesome name="cog" color="#FFA62B" size={24} />
+            </TouchableOpacity>
           </View>
-          <FontAwesome name="cog" color="#FFA62B" size={24} />
         </View>
-      </View>
-      <ScrollView contentContainerStyle={styles.scrollView}></ScrollView>
-    </SafeAreaView>
+        <View style={styles.cardContainer}>
+          <Card
+            timeToPickup="5"
+            distanceToPickup="800"
+            clientNote="4.1"
+            markup="1.12"
+            price="2000"
+            duration="23"
+            provider="uber"
+            pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
+            arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
+          />
+          <Card
+            timeToPickup="5"
+            distanceToPickup="800"
+            clientNote="4.1"
+            markup="1.12"
+            price="2000"
+            duration="23"
+            provider="heetch"
+            pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
+            arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
+          />
+          <Card
+            timeToPickup="5"
+            distanceToPickup="800"
+            clientNote="4.1"
+            markup="1.12"
+            price="2000"
+            duration="23"
+            provider="bolt"
+            pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
+            arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
+          />
+          <Card
+            timeToPickup="5"
+            distanceToPickup="800"
+            clientNote="4.1"
+            markup="1.12"
+            price="2000"
+            duration="23"
+            provider="bolt"
+            pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
+            arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
+          />
+        </View>
+        <ScrollView contentContainerStyle={styles.scrollView}></ScrollView>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#28272A',
-    alignItems: 'center',
-  },
-  header: {
-    width: '100%',
-    justifyContent: 'flex-start',
-    paddingHorizontal: 24,
-    marginTop: 24,
-  },
-  settingsContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 32,
-  },
-  form: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#FFF',
-    marginBottom: 24,
-  },
-  label: {
-    fontSize: 16,
-    color: '#FFF',
-    marginLeft: 24,
-  },
-  scrollView: {
-    alignItems: 'center',
-    paddingBottom: 20,
-  },
-  card: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '80%',
-    backgroundColor: '#ffffff',
-    padding: 20,
-    marginTop: 20,
-    borderRadius: 10,
-  },
-});
+const makeStyles = (colors) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#28272A',
+      alignItems: 'center',
+    },
+    header: {
+      width: '100%',
+      justifyContent: 'flex-start',
+      paddingHorizontal: 24,
+      marginTop: 24,
+    },
+    settingsContainer: {
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 32,
+    },
+    form: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: '600',
+      color: colors.light,
+      marginBottom: 16,
+    },
+    label: {
+      fontSize: 16,
+      color: colors.light,
+      marginLeft: 24,
+    },
+    scrollView: {
+      alignItems: 'center',
+      paddingBottom: 20,
+    },
+    cardContainer: {
+      width: '100%',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+  });
