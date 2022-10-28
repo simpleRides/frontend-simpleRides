@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
+import map from './reducers/map';
 
 import HomeScreen from './screens/HomeScreen';
 import RegisterScreen from './screens/RegisterScreen';
@@ -19,7 +20,7 @@ import MapScreen from './screens/MapScreen';
 import DefaultPageScreen from './screens/DefaultPageScreen';
 
 const store = configureStore({
-  reducer: { user },
+  reducer: { user, map },
 });
 
 const Stack = createNativeStackNavigator();
