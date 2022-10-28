@@ -50,8 +50,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    paddingBottom: 40,
+    paddingHorizontal: 16,
   },
   backgroundImage: {
     width: '100%',
