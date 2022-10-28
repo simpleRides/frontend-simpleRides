@@ -14,7 +14,7 @@ const SrInput = ({ placeholder, label, isPassword = false, onChange }) => {
 
       <TextInput
         autoCapitalize="none"
-        placeholder={placeholder}
+        placeholder={String(placeholder)}
         placeholderTextColor={colors.lightGrey}
         secureTextEntry={isPassword}
         style={[
