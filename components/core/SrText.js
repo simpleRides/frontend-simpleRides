@@ -4,13 +4,10 @@ import { useTheme } from '@react-navigation/native';
 import { View } from 'react-native';
 
 /**
- * How to use:
- * Default color: <SrButton label="Text of the button" handlePressed={() => handleSubmit()} />
- * or <SrButton label='Text of the button' type='secondary' handlePressed={() => navigation.navigate('SignIn')} />
+ * Text component include a title & a subtitle
  *
- * @param {string} label - The text in itself
- * @param {enum} type - primary or secondary to change the color of the button
- * @param handlePressed - The click event that is launched in the parent component
+ * @param {string} title - The first text
+ * @param {enum} subtitle - The second text
  * @returns JSX.Element
  */
 const SrText = ({ title, subtitle }) => {
@@ -18,10 +15,14 @@ const SrText = ({ title, subtitle }) => {
   const styles = makeStyles(colors);
 
   return (
-    <View style={styles.container}>
-      <Text style={[styles.defaultAllText, styles.title]}>{title}</Text>
-      <Text style={[styles.defaultAllText, styles.subtitle]}>{subtitle}</Text>
-    </View>
+    <>
+      <View style={styles.container}>
+        <Text style={[styles.defaultAllText, styles.title]}>{title}</Text>
+      </View>
+      <View style={styles.container}>
+        <Text style={[styles.defaultAllText, styles.subtitle]}>{subtitle}</Text>
+      </View>
+    </>
   );
 };
 
@@ -49,5 +50,6 @@ const makeStyles = (colors) =>
       color: colors.superLightGrey,
       flexWrap: 'wrap',
       flex: 1,
+      marginBottom: 16,
     },
   });
