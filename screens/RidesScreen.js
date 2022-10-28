@@ -54,8 +54,8 @@ export default function RidesScreen() {
             price="2000"
             duration="23"
             provider="uber"
-            pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
-            arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
+            pickupAddress="56 Boulevard Pereire, 75017"
+            arrivalAddress="5 avenue de Tourville, Paris"
           />
           <Card
             timeToPickup="5"
@@ -65,19 +65,8 @@ export default function RidesScreen() {
             price="2000"
             duration="23"
             provider="heetch"
-            pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
-            arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
-          />
-          <Card
-            timeToPickup="5"
-            distanceToPickup="800"
-            clientNote="4.1"
-            markup="1.12"
-            price="2000"
-            duration="23"
-            provider="bolt"
-            pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
-            arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
+            pickupAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
+            arrivalAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
           />
           <Card
             timeToPickup="5"

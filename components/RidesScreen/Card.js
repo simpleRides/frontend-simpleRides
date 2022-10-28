@@ -3,9 +3,16 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { addAddress } from '../../reducers/map';
 
 const Card = (props) => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const mapAddress = (address) => {
+    dispatch(addAddress(address));
+  };
 
   let provider = '';
   if (props.provider === 'uber') {
@@ -21,7 +28,18 @@ const Card = (props) => {
     <TouchableOpacity
       activeOpacity={0.8}
       style={styles.card}
-      onPress={() => navigation.navigate('Map')}
+      onPress={() => {
+        navigation.navigate('Map', {
+          pickupAddress: props.pickupAddress,
+          arrival: props.arrivalAddress,
+        });
+        mapAddress({
+          pickupAddress: props.pickupAddress,
+          arrivalAddress: props.arrivalAddress,
+          pickupCoordinates: { lat: props.pickupLat, lon: props.pickupLon },
+          arrivalCoordinates: { lat: props.arrivalLat, lon: props.arrivalLon },
+        });
+      }}
     >
       <View style={styles.firstRow}>
         <Text style={styles.textFirstRow}>
