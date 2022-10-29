@@ -93,17 +93,17 @@ const makeStyles = (colors) =>
       flex: 1,
       justifyContent: 'space-between',
       alignItems: 'center',
+      paddingVertical: 24,
       paddingHorizontal: 16,
     },
     imageContainer: {
       width: '50%',
-      height: '40%',
+      height: 200,
       justifyContent: 'center',
     },
     image: {
       width: '100%',
       height: '50%',
-      justifyContent: 'flex-start',
     },
     title: {
       fontSize: 16,
@@ -121,21 +121,5 @@ const makeStyles = (colors) =>
       borderStyle: 'solid',
       borderWidth: 1,
       paddingHorizontal: 16,
-    },
-    primaryButton: {
-      alignItems: 'center',
-      width: '100%',
-      height: 40,
-      paddingTop: 8,
-      marginTop: 20,
-      marginBottom: 20,
-      borderRadius: 10,
-      backgroundColor: colors.primary,
-    },
-    textButton: {
-      color: colors.light,
-      height: 30,
-      fontWeight: '600',
-      fontSize: 16,
     },
   });
