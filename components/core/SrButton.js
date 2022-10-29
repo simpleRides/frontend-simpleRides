@@ -38,7 +38,7 @@ const makeStyles = (colors) =>
       justifyContent: 'center',
       alignItems: 'center',
       width: '100%',
-      height: 40,
+      height: 48,
       marginBottom: 8,
       marginTop: 8,
       borderRadius: 10,
