@@ -16,6 +16,9 @@ import {
   updateTelephone,
   updateConfirmPassword,
 } from '../reducers/user';
+import SrText from '../components/core/SrText';
+import SrButton from '../components/core/SrButton';
+import SrInput from '../components/core/SrInput';
 
 export default function RegisterScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -32,7 +35,9 @@ export default function RegisterScreen({ navigation }) {
   // const [signUpConfirmPassword, setSignUpConfirmPassword] = useState('');
 
   //routes a faire avec Backend
-
+  const handleSkip = () => {
+    navigation.navigate('SignIn');
+  };
   const handleSubmit = () => {
     console.log('call backend');
   }; // a degager et utiliser handleRegister ci-dessous
@@ -63,13 +68,45 @@ export default function RegisterScreen({ navigation }) {
         <Image style={styles.image} source={require('../assets/logoblc.png')} />
       </View>
       <View>
-        <Text style={styles.title}>Créez votre compte</Text>
+        <SrText
+          title="Créez votre compte"
+          subtitle="Créer un nouveau compte afin d’utiliser l’application"
+        />
+        {/* <Text style={styles.title}>Créez votre compte</Text>
         <Text style={styles.text}>
           Créer un nouveau compte afin d’utiliser l’application
-        </Text>
+        </Text> */}
       </View>
       <View style={styles.formContainer}>
-        <TextInput
+        <SrInput
+          label="Nom d'utilisateur"
+          placeholder="Entrez votre votre nom d'utilisateur"
+          onChange={(e) => setUsername(e)}
+        />
+        <SrInput
+          placeholder="Entrez votre email"
+          label="Email"
+          onChange={(e) => setEmail(e)}
+        />
+        <SrInput
+          placeholder="Entrez numéro de téléphone"
+          label="Téléphone"
+          onChange={(e) => setTelephone(e)}
+        />
+        <SrInput
+          isPassword={true}
+          label="Mot de passe"
+          placeholder="Entrez votre mot de passe"
+          onChange={(e) => setConfirmPassword(e)}
+        />
+
+        <SrInput
+          isPassword={true}
+          label="Mot de passe"
+          placeholder="Confirmez votre mot de passe"
+          onChange={(e) => setPassword(e)}
+        />
+        {/* <TextInput
           placeholder="Nom d'utilisateur "
           onChangeText={(value) => setUsername(value)}
           value={username}
@@ -80,8 +117,8 @@ export default function RegisterScreen({ navigation }) {
           onChangeText={(value) => setEmail(value)}
           value={email}
           style={styles.input}
-        />
-        <TextInput
+        /> */}
+        {/* <TextInput
           placeholder="Téléphone"
           onChangeText={(value) => setTelephone(value)}
           value={telephone}
@@ -98,7 +135,7 @@ export default function RegisterScreen({ navigation }) {
           onChangeText={(value) => setConfirmPassword(value)}
           value={confirmPassword}
           style={styles.input}
-        />
+        /> */}
         <Text
           style={styles.textHighlight}
           onPress={() => navigation.navigate('CGV')}
@@ -109,24 +146,20 @@ export default function RegisterScreen({ navigation }) {
         {/* <pdf source={source} /> a embarquer dans le texte et ajouter tickbox. tickbox renvoie dans bdd user accepté terms OK  */}
       </View>
       <View style={styles.subContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Home')} // mettre a terme sur la  Lading page de Kader
-          style={styles.buttongrey}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.textButton}>Skip</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('SyncApp')}
-          style={styles.buttonOrange}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.textButton}>Continuer</Text>
-        </TouchableOpacity>
+        <SrButton
+          label="Configurer plus tard"
+          type="secondary"
+          handlePressed={handleSkip}
+        />
+        <SrButton
+          label="Continuer mon inscription"
+          handlePressed={handleSubmit}
+        />
       </View>
     </KeyboardAvoidingView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -222,6 +255,6 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '50%',
-    justifyContent: 'flex-start',
+    justifyContent: 'center ',
   },
 });
