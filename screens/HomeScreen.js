@@ -1,14 +1,6 @@
 import { useState } from 'react';
-import {
-  Image,
-  View,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { Image, View, ImageBackground, StyleSheet, Text } from 'react-native';
 
-import { useDispatch } from 'react-redux';
 import SrButton from '../components/core/SrButton';
 
 export default function HomeScreen({ navigation }) {
@@ -73,5 +65,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontWeight: '500',
     color: '#ffffff',
+    marginBottom: 8,
   },
 });
