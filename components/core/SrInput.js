@@ -37,7 +37,7 @@ const makeStyles = (colors) =>
   StyleSheet.create({
     formControl: {
       width: '100%',
-      marginBottom: 16,
+      marginBottom: 8,
     },
     label: {
       color: colors.light,
