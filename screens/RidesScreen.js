@@ -11,11 +11,40 @@ import {
   View,
   Image,
 } from 'react-native';
+import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Card from '../components/RidesScreen/Card';
 
+function distance(lat1, lon1, lat2, lon2, unit) {
+  if (lat1 == lat2 && lon1 == lon2) {
+    return 0;
+  } else {
+    var radlat1 = (Math.PI * lat1) / 180;
+    var radlat2 = (Math.PI * lat2) / 180;
+    var theta = lon1 - lon2;
+    var radtheta = (Math.PI * theta) / 180;
+    var dist =
+      Math.sin(radlat1) * Math.sin(radlat2) +
+      Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    if (dist > 1) {
+      dist = 1;
+    }
+    dist = Math.acos(dist);
+    dist = (dist * 180) / Math.PI;
+    dist = dist * 60 * 1.1515;
+    if (unit == 'K') {
+      dist = dist * 1.609344;
+    }
+    if (unit == 'N') {
+      dist = dist * 0.8684;
+    }
+    return dist;
+  }
+}
+
 export default function RidesScreen() {
   // const dispatch = useDispatch();
+  const [location, setLocation] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const [tempCoordinates, setTempCoordinates] = useState(null);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
@@ -24,13 +53,24 @@ export default function RidesScreen() {
   const styles = makeStyles(colors);
 
   useEffect(() => {
+    // location du telephone
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+
     fetch(`https://backend-providers-wine.vercel.app/uber`)
       .then((res) => res.json())
       .then((data) => {
         data.result && setTempCoordinates(data.data);
       });
   }, []);
-
   // hook qui se lance au focus de la page
   useFocusEffect(
     React.useCallback(() => {
@@ -71,8 +111,26 @@ export default function RidesScreen() {
         return (
           <Card
             key={i}
-            timeToPickup="3"
-            distanceToPickup="200"
+            timeToPickup={(
+              (distance(
+                48.887758952992634,
+                2.3036635117535176,
+                data.pickupCoordinates.lat,
+                data.pickupCoordinates.lon,
+                'K'
+              ) *
+                1000) /
+              300
+            ).toFixed(0)}
+            distanceToPickup={(
+              distance(
+                48.887758952992634,
+                2.3036635117535176,
+                data.pickupCoordinates.lat,
+                data.pickupCoordinates.lon,
+                'K'
+              ) * 1000
+            ).toFixed(0)}
             clientNote={data.clientNote}
             markup={data.markup}
             price={data.price}
