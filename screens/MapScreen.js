@@ -1,16 +1,21 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import MapView from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 import { Marker } from 'react-native-maps';
 import { useSelector } from 'react-redux';
+import { useTheme } from '@react-navigation/native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import SrButton from '../components/core/SrButton';
 
+const GOOGLE_API_KEY = 'AIzaSyA-bKS86fQ7PK9wJ4gIG07PSA8k2meA4B4';
+
 export default function MapScreen({ navigation }) {
   const map = useSelector((state) => state.map.value);
   const handleSubmit = () => navigation.navigate('Rides');
+  const { colors } = useTheme();
 
   return (
     <>
@@ -18,12 +23,17 @@ export default function MapScreen({ navigation }) {
         minZoomLevel={13}
         mapType="standard"
         showsBuildings={false}
-        showsTraffic={true}
         initialRegion={{
           latitude: 48.866669,
           longitude: 2.33333,
           latitudeDelta: 0,
           longitudeDelta: 0,
+        }}
+        animateToRegion={{
+          latitude: map.pickupCoordinates.lat,
+          longitude: map.pickupCoordinates.lon,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
         }}
         region={
           map.pickupCoordinates && {
@@ -43,7 +53,15 @@ export default function MapScreen({ navigation }) {
               longitude: map.pickupCoordinates.lon,
             }}
           >
-            <Text style={{ backgroundColor: 'orange' }}>PICKUP</Text>
+            <Text
+              style={{
+                backgroundColor: colors.primary,
+                padding: 3,
+                borderRadius: 10,
+              }}
+            >
+              PICKUP
+            </Text>
             <Ionicons name="pin" size={40} style={{ paddingRight: 5 }} />
           </Marker>
         )}
@@ -55,13 +73,32 @@ export default function MapScreen({ navigation }) {
               longitude: map.arrivalCoordinates.lon,
             }}
           >
-            <Text style={{ backgroundColor: 'red' }}>ARRIVAL</Text>
-            <Ionicons
-              name="flag-outline"
-              size={40}
-              style={{ paddingRight: 5 }}
-            />
+            <Text
+              style={{
+                backgroundColor: colors.primary,
+                padding: 3,
+                borderRadius: 10,
+              }}
+            >
+              ARRIVAL
+            </Text>
+            <Ionicons name="flag" size={40} style={{ paddingRight: 5 }} />
           </Marker>
+        )}
+        {map && (
+          <MapViewDirections
+            origin={{
+              latitude: map.pickupCoordinates.lat,
+              longitude: map.pickupCoordinates.lon,
+            }}
+            destination={{
+              latitude: map.arrivalCoordinates.lat,
+              longitude: map.arrivalCoordinates.lon,
+            }}
+            apikey="AIzaSyA-bKS86fQ7PK9wJ4gIG07PSA8k2meA4B4"
+            strokeWidth={6}
+            strokeColor={colors.primary}
+          />
         )}
       </MapView>
       <View style={{ backgroundColor: 'black' }}>

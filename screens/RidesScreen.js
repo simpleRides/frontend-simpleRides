@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useTheme } from '@react-navigation/native';
+import { useTheme, useFocusEffect } from '@react-navigation/native';
 import {
   SafeAreaView,
   ScrollView,
@@ -23,19 +23,48 @@ export default function RidesScreen() {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
-  useEffect(() => {
-    fetch(`https://backend-providers-wine.vercel.app/uber`)
-      .then((res) => res.json())
-      .then((data) => {
-        data.result && setTempCoordinates(data.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`https://backend-providers-wine.vercel.app/uber`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       data.result && setTempCoordinates(data.data);
+  //     });
+  // }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetching = async () =>
+        await fetch(`https://backend-providers-wine.vercel.app/uber`)
+          .then((res) => res.json())
+          .then((data) => {
+            data.result && setTempCoordinates(data.data);
+          });
+
+      return () => fetching();
+    }, [])
+  );
 
   // providers simu à supprimmer ************************
   const testProviders = ['uber', 'heetch', 'bolt'];
+
   let cardsWithData;
   if (tempCoordinates) {
     cardsWithData = tempCoordinates
+      // isole les courses disponibles
+      .filter((a) => a.status === 'Pending')
+      // récupère les courses encore actives
+      .filter((a) => Date.parse(a.date) > new Date())
+      // les trie par date
+      .sort((a, b) => {
+        if (a.date > b.date) {
+          return 1;
+        }
+        if (a.date < b.date) {
+          return -1;
+        }
+        return 0;
+      })
+      // récupère les 10 premières
       .slice(0, 10)
       .map((data, i) => {
         return (
@@ -46,7 +75,7 @@ export default function RidesScreen() {
             clientNote={data.clientNote}
             markup={data.markup}
             price={data.price}
-            duration={data.travelTime}
+            duration={Math.round(data.travelTime)}
             pickupCoordinates={data.pickupCoordinates}
             pickupAddress={data.pickupAddress}
             arrivalCoordinates={data.coordinates}
@@ -54,17 +83,9 @@ export default function RidesScreen() {
             provider={
               testProviders[Math.floor(Math.random() * testProviders.length)]
             }
+            course_id={data.course_id}
           />
         );
-      })
-      .sort((a, b) => {
-        if (a.date > b.date) {
-          return 1;
-        }
-        if (a.date < b.date) {
-          return -1;
-        }
-        return 0;
       });
   }
 
