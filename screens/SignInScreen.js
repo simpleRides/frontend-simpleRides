@@ -14,6 +14,8 @@ import { useTheme } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserToken } from '../reducers/user';
 
+import constants from '../core/constants';
+
 const SignInScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
@@ -22,12 +24,11 @@ const SignInScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const handleSubmit = () => {
-    //navigation.navigate('TabNavigator');
     handleConnection();
   };
 
   const handleConnection = () => {
-    fetch('http://localhost:3000/users/signin', {
+    fetch(`${constants.BACKEND_URL}/users/signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email, password }),
@@ -41,7 +42,8 @@ const SignInScreen = ({ navigation }) => {
           setPassword('');
           navigation.navigate('TabNavigator');
         }
-      });
+      })
+      .catch((error) => console.log('<>>', error));
   };
 
   return (
