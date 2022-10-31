@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTheme } from '@react-navigation/native';
 import {
   View,
-  Text,
   SafeAreaView,
   StyleSheet,
-  TextInput,
-  TouchableOpacity,
   Image,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -15,35 +10,39 @@ import SrInput from '../components/core/SrInput';
 import SrButton from '../components/core/SrButton';
 import SrText from '../components/core/SrText';
 
+import { useTheme } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUserToken } from '../reducers/user';
+
 const SignInScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const dispatch = useDispatch();
-  // const user = useSelector((state) => state.user.value);
 
   const handleSubmit = () => {
-    console.log(email, password);
-    // here we call the API to login and navigate
-    navigation.navigate('TabNavigator');
-  }; // a degager et utiliser handleConnection ci-dessous
-  // const handleConnection = () => {
-  // 	fetch('http://localhost:3000/users/signin', {
-  // 		method: 'POST',
-  // 		headers: { 'Content-Type': 'application/json' },
-  // 		body: JSON.stringify({ username: signInUsername, password: signInPassword }),
-  // 	}).then(response => response.json())
-  // 		.then(data => {
+    //navigation.navigate('TabNavigator');
+    handleConnection();
+  };
 
-  // 			if (data.result) {
-  // 				console.log(data.token)
-  // 				dispatch(login(signInUsername, data.token));
-  // 				setSignInUsername('');
-  // 				setSignInPassword('');
-  // 			}
-  // 		});
-  // };
+  const handleConnection = () => {
+    fetch('http://localhost:3000/users/signin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          console.log('token', data.token);
+          dispatch(updateUserToken(data.token));
+          setEmail('');
+          setPassword('');
+          navigation.navigate('TabNavigator');
+        }
+      });
+  };
 
   return (
     <SafeAreaView style={styles.screen}>
