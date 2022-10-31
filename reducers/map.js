@@ -11,6 +11,8 @@ export const mapSlice = createSlice({
     addAddress: (state, action) => {
       state.value.pickupAddress = action.payload.pickupAddress;
       state.value.arrivalAddress = action.payload.arrivalAddress;
+      state.value.pickupCoordinates = action.payload.pickupCoordinates;
+      state.value.arrivalCoordinates = action.payload.arrivalCoordinates;
     },
   },
 });

@@ -33,8 +33,8 @@ const Card = (props) => {
         mapAddress({
           pickupAddress: props.pickupAddress,
           arrivalAddress: props.arrivalAddress,
-          pickupCoordinates: { lat: props.pickupLat, lon: props.pickupLon },
-          arrivalCoordinates: { lat: props.arrivalLat, lon: props.arrivalLon },
+          pickupCoordinates: props.pickupCoordinates,
+          arrivalCoordinates: props.arrivalCoordinates,
         });
       }}
     >
