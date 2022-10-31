@@ -29,15 +29,12 @@ const Card = (props) => {
       activeOpacity={0.8}
       style={styles.card}
       onPress={() => {
-        navigation.navigate('Map', {
-          pickupAddress: props.pickupAddress,
-          arrival: props.arrivalAddress,
-        });
+        navigation.navigate('Map');
         mapAddress({
           pickupAddress: props.pickupAddress,
           arrivalAddress: props.arrivalAddress,
-          pickupCoordinates: { lat: props.pickupLat, lon: props.pickupLon },
-          arrivalCoordinates: { lat: props.arrivalLat, lon: props.arrivalLon },
+          pickupCoordinates: props.pickupCoordinates,
+          arrivalCoordinates: props.arrivalCoordinates,
         });
       }}
     >

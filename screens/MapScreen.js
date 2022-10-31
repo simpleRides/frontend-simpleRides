@@ -2,8 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
-import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -12,32 +11,6 @@ import SrButton from '../components/core/SrButton';
 export default function MapScreen({ navigation }) {
   const map = useSelector((state) => state.map.value);
   const handleSubmit = () => navigation.navigate('Rides');
-  const [pickup, setPickup] = useState(null);
-  const [arrival, setArrival] = useState(null);
-
-  useEffect(() => {
-    fetch(
-      `http://dev.virtualearth.net/REST/v1/Locations/FR/${map.pickupAddress}?key=AgprqfJkez8616Fu5cuEJjH43Rz0mYOf8ipO_KRW3RU5TwulGlUmk8lUd05w45iX`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setPickup([
-          data.resourceSets[0].resources[0].geocodePoints[0].coordinates[0],
-          data.resourceSets[0].resources[0].geocodePoints[0].coordinates[1],
-        ]);
-      });
-
-    fetch(
-      `http://dev.virtualearth.net/REST/v1/Locations/FR/${map.arrivalAddress}?key=AgprqfJkez8616Fu5cuEJjH43Rz0mYOf8ipO_KRW3RU5TwulGlUmk8lUd05w45iX`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setArrival([
-          data.resourceSets[0].resources[0].geocodePoints[0].coordinates[0],
-          data.resourceSets[0].resources[0].geocodePoints[0].coordinates[1],
-        ]);
-      });
-  }, []);
 
   return (
     <>
@@ -53,33 +26,33 @@ export default function MapScreen({ navigation }) {
           longitudeDelta: 0,
         }}
         region={
-          pickup && {
-            latitude: pickup[0],
-            longitude: pickup[1],
+          map.pickupCoordinates && {
+            latitude: map.pickupCoordinates.lat,
+            longitude: map.pickupCoordinates.lon,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }
         }
         style={{ flex: 1 }}
       >
-        {pickup && (
+        {map.pickupCoordinates && (
           <Marker
             title="Pickup"
             coordinate={{
-              latitude: pickup[0],
-              longitude: pickup[1],
+              latitude: map.pickupCoordinates.lat,
+              longitude: map.pickupCoordinates.lon,
             }}
           >
             <Text style={{ backgroundColor: 'orange' }}>PICKUP</Text>
             <Ionicons name="pin" size={40} style={{ paddingRight: 5 }} />
           </Marker>
         )}
-        {arrival && (
+        {map.arrivalCoordinates && (
           <Marker
             title="Arrival"
             coordinate={{
-              latitude: arrival[0],
-              longitude: arrival[1],
+              latitude: map.arrivalCoordinates.lat,
+              longitude: map.arrivalCoordinates.lon,
             }}
           >
             <Text style={{ backgroundColor: 'red' }}>ARRIVAL</Text>

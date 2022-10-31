@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '@react-navigation/native';
 import {
   SafeAreaView,
@@ -17,10 +17,56 @@ import Card from '../components/RidesScreen/Card';
 export default function RidesScreen() {
   // const dispatch = useDispatch();
   const [isEnabled, setIsEnabled] = useState(false);
+  const [tempCoordinates, setTempCoordinates] = useState(null);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   // const user = useSelector((state) => state.user.value);
   const { colors } = useTheme();
   const styles = makeStyles(colors);
+
+  useEffect(() => {
+    fetch(`https://backend-providers-wine.vercel.app/uber`)
+      .then((res) => res.json())
+      .then((data) => {
+        data.result && setTempCoordinates(data.data);
+      });
+  }, []);
+
+  // providers simu à supprimmer ************************
+  const testProviders = ['uber', 'heetch', 'bolt'];
+  let cardsWithData;
+  if (tempCoordinates) {
+    cardsWithData = tempCoordinates
+      .slice(0, 10)
+      .map((data, i) => {
+        return (
+          <Card
+            key={i}
+            timeToPickup="3"
+            distanceToPickup="200"
+            clientNote={data.clientNote}
+            markup={data.markup}
+            price={data.price}
+            duration={data.travelTime}
+            pickupCoordinates={data.pickupCoordinates}
+            pickupAddress={data.pickupAddress}
+            arrivalCoordinates={data.coordinates}
+            arrivalAddress={data.address}
+            provider={
+              testProviders[Math.floor(Math.random() * testProviders.length)]
+            }
+          />
+        );
+      })
+      .sort((a, b) => {
+        if (a.date > b.date) {
+          return 1;
+        }
+        if (a.date < b.date) {
+          return -1;
+        }
+        return 0;
+      });
+  }
 
   // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress, provider
 
@@ -46,39 +92,7 @@ export default function RidesScreen() {
           </View>
         </View>
         <View style={styles.cardContainer}>
-          <Card
-            timeToPickup="5"
-            distanceToPickup="800"
-            clientNote="4.1"
-            markup="1.12"
-            price="2000"
-            duration="23"
-            provider="uber"
-            pickupAddress="56 Boulevard Pereire, 75017"
-            arrivalAddress="5 avenue de Tourville, Paris"
-          />
-          <Card
-            timeToPickup="5"
-            distanceToPickup="800"
-            clientNote="4.1"
-            markup="1.12"
-            price="2000"
-            duration="23"
-            provider="heetch"
-            pickupAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
-            arrivalAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
-          />
-          <Card
-            timeToPickup="5"
-            distanceToPickup="800"
-            clientNote="4.1"
-            markup="1.12"
-            price="2000"
-            duration="23"
-            provider="bolt"
-            pickupAddress="55 Rue du Faubourg Saint-Honoré, 75008 Paris"
-            arrivalAddress="Champ de Mars, 5 Av. Anatole France, 75007 Paris"
-          />
+          {tempCoordinates && cardsWithData}
         </View>
         <ScrollView contentContainerStyle={styles.scrollView}></ScrollView>
       </SafeAreaView>
