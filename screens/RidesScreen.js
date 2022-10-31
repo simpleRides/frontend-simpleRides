@@ -23,14 +23,15 @@ export default function RidesScreen() {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
-  // useEffect(() => {
-  //   fetch(`https://backend-providers-wine.vercel.app/uber`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       data.result && setTempCoordinates(data.data);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetch(`https://backend-providers-wine.vercel.app/uber`)
+      .then((res) => res.json())
+      .then((data) => {
+        data.result && setTempCoordinates(data.data);
+      });
+  }, []);
 
+  // hook qui se lance au focus de la page
   useFocusEffect(
     React.useCallback(() => {
       const fetching = async () =>
