@@ -14,6 +14,9 @@ import { useTheme } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserToken } from '../reducers/user';
 
+// Renseigner l'adresse Ip de l'ordinateur
+const BACK_END_URL = 'http://192.168.10.163:3000';
+
 const SignInScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
@@ -27,7 +30,7 @@ const SignInScreen = ({ navigation }) => {
   };
 
   const handleConnection = () => {
-    fetch('http://localhost:3000/users/signin', {
+    fetch(`${BACK_END_URL}/users/signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email, password }),
@@ -41,7 +44,8 @@ const SignInScreen = ({ navigation }) => {
           setPassword('');
           navigation.navigate('TabNavigator');
         }
-      });
+      })
+      .catch((error) => console.log('<>>', error));
   };
 
   return (
