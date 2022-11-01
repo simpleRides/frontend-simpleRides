@@ -19,7 +19,7 @@ export default function CgvScreen({ navigation }) {
           source={require('../assets/2022_11_SimpleRides_CGV_DRAFT.png')}
         />
         <SrButton
-          label="Retourner à la page s'enregistrer"
+          label="Continuer mon inscription"
           type="secondary"
           handlePressed={handleReturn}
         />
