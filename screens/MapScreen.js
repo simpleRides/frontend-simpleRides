@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { Marker } from 'react-native-maps';
@@ -101,11 +101,23 @@ export default function MapScreen({ navigation }) {
           />
         )}
       </MapView>
-      <View style={{ backgroundColor: 'black' }}>
-        <Text style={{ color: 'white' }}>{map.pickupAddress}</Text>
-        <Text style={{ color: 'white' }}>{map.arrivalAddress}</Text>
+      <View style={styles.footer}>
+        <Text style={{ color: 'white', marginTop: 8 }}>
+          {map.pickupAddress}
+        </Text>
+        <Text style={{ color: 'white', marginBottom: 8 }}>
+          {map.arrivalAddress}
+        </Text>
         <SrButton label="J'ai fini !" handlePressed={() => handleSubmit()} />
       </View>
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  footer: {
+    backgroundColor: 'black',
+    paddingBottom: Platform.OS === 'ios' ? 24 : 8,
+    paddingHorizontal: Platform.OS === 'ios' ? 8 : 4,
+  },
+});

@@ -1,0 +1,42 @@
+export const filtersDataForUi = [
+  {
+    id: 1,
+    label: 'Notation voyageur',
+    min: 0,
+    max: 5,
+    step: 1,
+    unit: '',
+  },
+  {
+    id: 2,
+    label: 'Distance de ramassage',
+    min: 0,
+    max: 100000,
+    step: 50,
+    unit: 'm',
+  },
+  {
+    id: 3,
+    label: 'Prix de la course',
+    min: 0,
+    max: 1000,
+    step: 5,
+    unit: '€',
+  },
+  {
+    id: 4,
+    label: 'Distance de la course',
+    min: 0,
+    max: 100000,
+    step: 50,
+    unit: 'm',
+  },
+  {
+    id: 5,
+    label: 'Majoration',
+    min: 0,
+    max: 100,
+    step: 5,
+    unit: '%',
+  },
+];

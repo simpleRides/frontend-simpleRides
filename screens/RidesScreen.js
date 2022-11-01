@@ -6,17 +6,22 @@ import {
   StyleSheet,
   Switch,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
   Modal,
   Platform,
+  Image,
 } from 'react-native';
+
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Card from '../components/RidesScreen/Card';
 import SrButton from '../components/core/SrButton';
 import SrText from '../components/core/SrText';
+import Checkbox from 'expo-checkbox';
+import Slider from '@react-native-community/slider';
+import ModalFilters from '../components/RidesScreen/ModalFilters';
+import SrSpinner from '../components/core/SrSpinner';
 
 function distance(lat1, lon1, lat2, lon2, unit) {
   if (lat1 == lat2 && lon1 == lon2) {
@@ -51,6 +56,8 @@ export default function RidesScreen() {
   const [location, setLocation] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const [tempCoordinates, setTempCoordinates] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const toggleSwitch = () => {
     setIsEnabled((previousState) => !previousState);
   };
@@ -75,6 +82,7 @@ export default function RidesScreen() {
       .then((res) => res.json())
       .then((data) => {
         data.result && setTempCoordinates(data.data);
+        setIsLoading(false);
       });
   }, []);
   // hook qui se lance au focus de la page
@@ -85,6 +93,7 @@ export default function RidesScreen() {
           .then((res) => res.json())
           .then((data) => {
             data.result && setTempCoordinates(data.data);
+            setIsLoading(false);
           });
 
       return () => fetching();
@@ -155,7 +164,6 @@ export default function RidesScreen() {
   }
 
   // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress, provider
-
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
@@ -181,30 +189,13 @@ export default function RidesScreen() {
           </View>
         </View>
         <View style={styles.cardContainer}>
-          {tempCoordinates && cardsWithData}
+          {isLoading ? <SrSpinner /> : tempCoordinates && cardsWithData}
         </View>
 
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(!modalVisible)}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <View>
-                <SrText
-                  title="Paramétres de vos courses"
-                  subtitle="Filtrez vos courses selon vos critères préférés.Attention si la demande est trop faible nous vous en informerons et proposerons des courses hors critères"
-                />
-              </View>
-              <SrButton
-                label="Valider"
-                handlePressed={() => setModalVisible(!modalVisible)}
-              />
-            </View>
-          </View>
-        </Modal>
+        <ModalFilters
+          isOpen={modalVisible}
+          toggle={() => setModalVisible(!modalVisible)}
+        />
       </SafeAreaView>
     </ScrollView>
   );
@@ -254,28 +245,5 @@ const makeStyles = (colors) =>
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'space-between',
-    },
-    centeredView: {
-      flex: 1,
-    },
-    modalView: {
-      flex: 1,
-      backgroundColor: colors.black,
-      paddingHorizontal: 16,
-      paddingTop: Platform.OS === 'ios' ? 72 : 40,
-      paddingBottom: Platform.OS === 'ios' ? 32 : 24,
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    textStyle: {
-      color: 'red',
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-    modalText: {
-      color: colors.light,
-      fontSize: 20,
-      marginBottom: 15,
-      textAlign: 'center',
     },
   });
