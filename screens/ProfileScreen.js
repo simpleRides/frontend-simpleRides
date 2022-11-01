@@ -85,6 +85,6 @@ const makeStyles = (colors) =>
     },
     subContainer: {
       width: '100%',
-      alignItems: 'end',
+      alignItems: 'flex-end',
     },
   });

@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Switch,
   Text,
-  TextInput,
+  Image,
   TouchableOpacity,
   View,
   Modal,
@@ -48,6 +48,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 export default function RidesScreen() {
   // const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const [tempCoordinates, setTempCoordinates] = useState(null);
@@ -80,14 +81,19 @@ export default function RidesScreen() {
   // hook qui se lance au focus de la page
   useFocusEffect(
     React.useCallback(() => {
+      setLoading(true);
+      const controller = new AbortController();
       const fetching = async () =>
         await fetch(`https://backend-providers-wine.vercel.app/uber`)
           .then((res) => res.json())
           .then((data) => {
+            setLoading(false);
             data.result && setTempCoordinates(data.data);
           });
 
-      return () => fetching();
+      fetching();
+
+      return () => controller.abort();
     }, [])
   );
 
@@ -155,7 +161,7 @@ export default function RidesScreen() {
   }
 
   // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress, provider
-
+  console.log(loading);
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
@@ -181,9 +187,12 @@ export default function RidesScreen() {
           </View>
         </View>
         <View style={styles.cardContainer}>
-          {tempCoordinates && cardsWithData}
+          {loading ? (
+            <Image source={require('../assets/gif_loading.webp')} />
+          ) : (
+            cardsWithData
+          )}
         </View>
-
         <Modal
           animationType="slide"
           transparent={false}
