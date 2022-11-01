@@ -9,11 +9,14 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Image,
+  Modal,
+  Platform,
 } from 'react-native';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Card from '../components/RidesScreen/Card';
+import SrButton from '../components/core/SrButton';
+import SrText from '../components/core/SrText';
 
 function distance(lat1, lon1, lat2, lon2, unit) {
   if (lat1 == lat2 && lon1 == lon2) {
@@ -44,10 +47,13 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 
 export default function RidesScreen() {
   // const dispatch = useDispatch();
+  const [modalVisible, setModalVisible] = useState(false);
   const [location, setLocation] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const [tempCoordinates, setTempCoordinates] = useState(null);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const toggleSwitch = () => {
+    setIsEnabled((previousState) => !previousState);
+  };
   // const user = useSelector((state) => state.user.value);
   const { colors } = useTheme();
   const styles = makeStyles(colors);
@@ -166,7 +172,10 @@ export default function RidesScreen() {
               />
               <Text style={styles.label}>Sélection automatique</Text>
             </View>
-            <TouchableOpacity activeOpacity={0.8}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
               <FontAwesome name="cog" color="#FFA62B" size={24} />
             </TouchableOpacity>
           </View>
@@ -174,7 +183,28 @@ export default function RidesScreen() {
         <View style={styles.cardContainer}>
           {tempCoordinates && cardsWithData}
         </View>
-        <ScrollView contentContainerStyle={styles.scrollView}></ScrollView>
+
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(!modalVisible)}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View>
+                <SrText
+                  title="Paramétres de vos courses"
+                  subtitle="Filtrez vos courses selon vos critères préférés.Attention si la demande est trop faible nous vous en informerons et proposerons des courses hors critères"
+                />
+              </View>
+              <SrButton
+                label="Valider"
+                handlePressed={() => setModalVisible(!modalVisible)}
+              />
+            </View>
+          </View>
+        </Modal>
       </SafeAreaView>
     </ScrollView>
   );
@@ -224,5 +254,28 @@ const makeStyles = (colors) =>
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'space-between',
+    },
+    centeredView: {
+      flex: 1,
+    },
+    modalView: {
+      flex: 1,
+      backgroundColor: colors.black,
+      paddingHorizontal: 16,
+      paddingTop: Platform.OS === 'ios' ? 72 : 40,
+      paddingBottom: Platform.OS === 'ios' ? 32 : 24,
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    textStyle: {
+      color: 'red',
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+    modalText: {
+      color: colors.light,
+      fontSize: 20,
+      marginBottom: 15,
+      textAlign: 'center',
     },
   });
