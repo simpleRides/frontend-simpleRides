@@ -6,57 +6,69 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
-import {
-  updateUsername,
-  updateEmail,
-  updateTelephone,
-  updateConfirmPassword,
-} from '../reducers/user';
 import SrText from '../components/core/SrText';
 import SrButton from '../components/core/SrButton';
 import SrInput from '../components/core/SrInput';
+
 import { useTheme } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { updateUserToken } from '../reducers/user';
+
+import constants from '../core/constants';
 
 export default function RegisterScreen({ navigation }) {
   const dispatch = useDispatch();
-
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setTelephone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
-  //routes a faire avec Backend
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const handleSkip = () => {
     navigation.navigate('DefaultPage');
   };
+
   const handleSubmit = () => {
     console.log('call backend');
   };
-  // a degager et utiliser handleRegister ci-dessous
+
   const handleRegister = () => {
+    const newUser = {
+      username,
+      email,
+      phone,
+      password,
+    };
+
+    console.log('New user', newUser);
+
     fetch(`${constants.BACKEND_URL}/users/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        username: signUpUsername,
-        password: signUpPassword,
-      }),
+      body: JSON.stringify(newUser),
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log('___', data);
         if (data.result) {
-          dispatch(login({ username: signUpUsername, token: data.token }));
-          setSignUpUsername('');
-          setSignUpEmail('');
-          setSignUpPhone('');
-          setSignUpPassword('');
-          setSignUpConfirmPassword('');
+          dispatch(updateUserToken(data.token));
+          resetFields();
+          navigation.navigate('SyncApp');
+        } else {
+          console.log('put an toast error message');
         }
       });
+  };
+
+  const resetFields = () => {
+    setUsername('');
+    setEmail('');
+    setPhone('');
+    setPassword('');
+    setConfirmPassword('');
   };
 
   return (
@@ -85,20 +97,20 @@ export default function RegisterScreen({ navigation }) {
           <SrInput
             placeholder="Entrez numéro de téléphone"
             label="Téléphone"
-            onChange={(e) => setTelephone(e)}
+            onChange={(e) => setPhone(e)}
           />
           <SrInput
             isPassword={true}
             label="Mot de passe"
             placeholder="Entrez votre mot de passe"
-            onChange={(e) => setConfirmPassword(e)}
+            onChange={(e) => setPassword(e)}
           />
 
           <SrInput
             isPassword={true}
             label="Confirmez votre mot de passe"
             placeholder="Confirmez votre mot de passe"
-            onChange={(e) => setPassword(e)}
+            onChange={(e) => setConfirmPassword(e)}
           />
           <Text
             style={styles.textHighlight}
@@ -110,14 +122,17 @@ export default function RegisterScreen({ navigation }) {
           {/* <pdf source={source} /> a embarquer dans le texte et ajouter tickbox. tickbox renvoie dans bdd user accepté terms OK  */}
         </View>
         <View style={{ width: '100%' }}>
-          <SrButton
-            label="Configurer plus tard"
-            type="secondary"
-            handlePressed={handleSkip}
-          />
+          {/* TODO: Gérer les différences entre Ios et Android */}
+          {Platform.OS === 'ios' && (
+            <SrButton
+              label="Configurer plus tard"
+              type="secondary"
+              handlePressed={handleSkip}
+            />
+          )}
           <SrButton
             label="Continuer mon inscription"
-            handlePressed={handleSubmit}
+            handlePressed={handleRegister}
           />
         </View>
       </View>
