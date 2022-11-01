@@ -77,13 +77,6 @@ export default function RidesScreen() {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
     })();
-
-    fetch(`https://backend-providers-wine.vercel.app/uber`)
-      .then((res) => res.json())
-      .then((data) => {
-        data.result && setTempCoordinates(data.data);
-        setIsLoading(false);
-      });
   }, []);
   // hook qui se lance au focus de la page
   useFocusEffect(
