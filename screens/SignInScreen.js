@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Image,
   KeyboardAvoidingView,
+  Text,
 } from 'react-native';
 import SrInput from '../components/core/SrInput';
 import SrButton from '../components/core/SrButton';
@@ -22,16 +23,13 @@ const SignInScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleSubmit = () => {
-    handleConnection();
-  };
+  const [isError, setIsError] = useState(false);
 
   const handleConnection = () => {
     fetch(`${constants.BACKEND_URL}/users/signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, password }),
+      body: JSON.stringify({ email, password }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -41,9 +39,12 @@ const SignInScreen = ({ navigation }) => {
           setEmail('');
           setPassword('');
           navigation.navigate('TabNavigator');
+        } else {
+          setIsError(true);
+          console.log('cant login');
         }
       })
-      .catch((error) => console.log('<>>', error));
+      .catch((error) => console.log('Err:', error));
   };
 
   return (
@@ -75,8 +76,13 @@ const SignInScreen = ({ navigation }) => {
               placeholder="Entrer votre mot de passe"
               onChange={(e) => setPassword(e)}
             />
+            {isError && (
+              <Text style={styles.errorMessage}>
+                Mot de passe ou adresse e-mail incorrect
+              </Text>
+            )}
           </View>
-          <SrButton label="Se connecter" handlePressed={handleSubmit} />
+          <SrButton label="Se connecter" handlePressed={handleConnection} />
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -122,5 +128,9 @@ const makeStyles = (colors) =>
       borderStyle: 'solid',
       borderWidth: 1,
       paddingHorizontal: 16,
+    },
+    errorMessage: {
+      color: colors.errors,
+      width: '100%',
     },
   });
