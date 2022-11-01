@@ -88,6 +88,8 @@ export default function RidesScreen() {
   // hook qui se lance au focus de la page
   useFocusEffect(
     React.useCallback(() => {
+      setIsLoading(true);
+      const controller = new AbortController();
       const fetching = async () =>
         await fetch(`https://backend-providers-wine.vercel.app/uber`)
           .then((res) => res.json())
@@ -95,8 +97,8 @@ export default function RidesScreen() {
             data.result && setTempCoordinates(data.data);
             setIsLoading(false);
           });
-
-      return () => fetching();
+      fetching();
+      return () => controller.abort();
     }, [])
   );
 
