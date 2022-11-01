@@ -23,7 +23,7 @@ export default function RegisterScreen({ navigation }) {
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [telephone, setTelephone] = useState('');
+  const [phone, setTelephone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const { colors } = useTheme();
@@ -35,24 +35,29 @@ export default function RegisterScreen({ navigation }) {
   };
   const handleSubmit = () => {
     console.log('call backend');
-  }; // a degager et utiliser handleRegister ci-dessous
-  // const handleRegister = () => {
-  // 	fetch('http://localhost:3000/users/signup', {
-  // 		method: 'POST',
-  // 		headers: { 'Content-Type': 'application/json' },
-  // 		body: JSON.stringify({ username: signUpUsername, password: signUpPassword }),
-  // 	}).then(response => response.json())
-  // 		.then(data => {
-  // 			if (data.result) {
-  // 				dispatch(login({username:signUpUsername, token: data.token}));
-  // 				   setSignUpUsername('');
-  //             setSignUpEmail('');
-  //             setSignseTelephone('');
-  //             setSignUpPassword('');
-  // 				     setSignUpConfirmPassword('');
-  // 			}
-  // 		});
-  // };
+  };
+  // a degager et utiliser handleRegister ci-dessous
+  const handleRegister = () => {
+    fetch(`${constants.BACKEND_URL}/users/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: signUpUsername,
+        password: signUpPassword,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(login({ username: signUpUsername, token: data.token }));
+          setSignUpUsername('');
+          setSignUpEmail('');
+          setSignUpPhone('');
+          setSignUpPassword('');
+          setSignUpConfirmPassword('');
+        }
+      });
+  };
 
   return (
     <KeyboardAvoidingView
