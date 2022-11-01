@@ -63,6 +63,7 @@ const SIMPLE_RIDE_THEME = {
     light: '#FFFFFF',
     lightGrey: '#545454',
     superLightGrey: '#C0C0C0',
+    errors: '#E15554',
   },
 };
 
