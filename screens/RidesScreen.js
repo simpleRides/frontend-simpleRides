@@ -6,17 +6,19 @@ import {
   StyleSheet,
   Switch,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
   Modal,
   Platform,
 } from 'react-native';
+
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Card from '../components/RidesScreen/Card';
 import SrButton from '../components/core/SrButton';
 import SrText from '../components/core/SrText';
+import Checkbox from 'expo-checkbox';
+import Slider from '@react-native-community/slider';
 
 function distance(lat1, lon1, lat2, lon2, unit) {
   if (lat1 == lat2 && lon1 == lon2) {
@@ -155,7 +157,7 @@ export default function RidesScreen() {
   }
 
   // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress, provider
-
+  const [isChecked, setChecked] = useState(false);
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
@@ -198,6 +200,26 @@ export default function RidesScreen() {
                   subtitle="Filtrez vos courses selon vos critères préférés.Attention si la demande est trop faible nous vous en informerons et proposerons des courses hors critères"
                 />
               </View>
+              <View style={styles.modalContent}>
+                <View style={styles.filterContainer}>
+                  <Checkbox
+                    style={styles.checkbox}
+                    value={isChecked}
+                    onValueChange={setChecked}
+                    color={isChecked ? colors.primary : undefined}
+                  />
+                  <View style={styles.sliderContainer}>
+                    <Text style={styles.sliderLabel}>Notation voyager</Text>
+                    <Slider
+                      style={{ width: 300, height: 40 }}
+                      minimumValue={0}
+                      maximumValue={10}
+                      minimumTrackTintColor="#FFFFFF"
+                      maximumTrackTintColor="#000000"
+                    />
+                  </View>
+                </View>
+              </View>
               <SrButton
                 label="Valider"
                 handlePressed={() => setModalVisible(!modalVisible)}
@@ -212,6 +234,25 @@ export default function RidesScreen() {
 
 const makeStyles = (colors) =>
   StyleSheet.create({
+    filterContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      width: '95%',
+      height: 80,
+      borderWidth: 1,
+      borderColor: colors.lightGrey,
+      paddingStart: 16,
+      borderRadius: 5,
+      backgroundColor: '#333',
+    },
+    sliderContainer: {
+      width: '100%',
+      paddingStart: 16,
+    },
+    sliderLabel: {
+      color: colors.light,
+    },
     container: {
       flex: 1,
       backgroundColor: '#28272A',
