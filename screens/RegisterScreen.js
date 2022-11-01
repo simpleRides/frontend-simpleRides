@@ -31,10 +31,6 @@ export default function RegisterScreen({ navigation }) {
     navigation.navigate('DefaultPage');
   };
 
-  const handleSubmit = () => {
-    console.log('call backend');
-  };
-
   const handleRegister = () => {
     const newUser = {
       username,
@@ -43,8 +39,6 @@ export default function RegisterScreen({ navigation }) {
       password,
     };
 
-    console.log('New user', newUser);
-
     fetch(`${constants.BACKEND_URL}/users/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -52,7 +46,6 @@ export default function RegisterScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('___', data);
         if (data.result) {
           dispatch(updateUserToken(data.token));
           resetFields();
