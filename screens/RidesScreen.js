@@ -10,6 +10,7 @@ import {
   View,
   Modal,
   Platform,
+  Image,
 } from 'react-native';
 
 import * as Location from 'expo-location';
@@ -20,6 +21,7 @@ import SrText from '../components/core/SrText';
 import Checkbox from 'expo-checkbox';
 import Slider from '@react-native-community/slider';
 import ModalFilters from '../components/RidesScreen/ModalFilters';
+import SrSpinner from '../components/core/SrSpinner';
 
 function distance(lat1, lon1, lat2, lon2, unit) {
   if (lat1 == lat2 && lon1 == lon2) {
@@ -54,6 +56,8 @@ export default function RidesScreen() {
   const [location, setLocation] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const [tempCoordinates, setTempCoordinates] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const toggleSwitch = () => {
     setIsEnabled((previousState) => !previousState);
   };
@@ -78,6 +82,7 @@ export default function RidesScreen() {
       .then((res) => res.json())
       .then((data) => {
         data.result && setTempCoordinates(data.data);
+        setIsLoading(false);
       });
   }, []);
   // hook qui se lance au focus de la page
@@ -88,6 +93,7 @@ export default function RidesScreen() {
           .then((res) => res.json())
           .then((data) => {
             data.result && setTempCoordinates(data.data);
+            setIsLoading(false);
           });
 
       return () => fetching();
@@ -183,7 +189,7 @@ export default function RidesScreen() {
           </View>
         </View>
         <View style={styles.cardContainer}>
-          {tempCoordinates && cardsWithData}
+          {isLoading ? <SrSpinner /> : tempCoordinates && cardsWithData}
         </View>
 
         <ModalFilters
