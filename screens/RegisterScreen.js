@@ -121,18 +121,22 @@ export default function RegisterScreen({ navigation }) {
             onPress={() => navigation.navigate('CGV')}
           >
             En cliquant sur continuer, vous acceptez les conditons générales
-            d’utilisation (consultez-les en cliquat sur ce lien )
+            d’utilisation (A consulter ici )
           </Text>
           {/* <pdf source={source} /> a embarquer dans le texte et ajouter tickbox. tickbox renvoie dans bdd user accepté terms OK  */}
         </View>
         <View style={{ width: '100%' }}>
           {/* TODO: Gérer les différences entre Ios et Android */}
-          {Platform.OS === 'ios' && (
+          {Platform.OS === 'ios' ? (
             <SrButton
               label="Configurer plus tard"
               type="secondary"
               handlePressed={handleSkip}
             />
+          ) : (
+            <Text style={styles.androidSkip} onPress={handleSkip}>
+              Configurer plus tard
+            </Text>
           )}
           <SrButton
             label="Continuer mon inscription"
@@ -173,10 +177,17 @@ const makeStyles = (colors) =>
       justifyContent: 'center',
       borderRadius: 10,
       backgroundColor: '#2B2D2E',
-      borderColor: '#585858',
-      borderStyle: 'solid',
+      borderColor: colors.lightGrey,
       borderWidth: 1,
-      color: '#545454',
-      padding: 16,
+      color: colors.lightGrey,
+      paddingHorizontal: 16,
+      paddingTop: 16,
+      paddingBottom: 8,
+    },
+    androidSkip: {
+      textAlign: 'center',
+      textAlignVertical: 'center',
+      color: colors.light,
+      height: 32,
     },
   });
