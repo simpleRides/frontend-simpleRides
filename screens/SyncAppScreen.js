@@ -57,10 +57,7 @@ const SyncAppScreen = ({ navigation }) => {
 
       <View style={styles.header}>
         <Text style={styles.title}>Connectez ici vos applications</Text>
-        <Text style={styles.label}>
-          Connectez vos applications pour que SimpleRides aggrège les courses
-          des différentes plateformes
-        </Text>
+        <Text style={styles.label}></Text>
       </View>
       {/* Carte UBER */}
       <View style={styles.providersContainer}>

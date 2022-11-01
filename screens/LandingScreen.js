@@ -54,7 +54,7 @@ export default function LandingScreen({ navigation }) {
       resizeMode="cover"
     >
       <View style={styles.overlay}>
-        <Text style={styles.title}>Loading...</Text>
+        <Text style={styles.title}>Chargement...</Text>
       </View>
     </ImageBackground>
   );

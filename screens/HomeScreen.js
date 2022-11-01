@@ -17,15 +17,15 @@ export default function HomeScreen({ navigation }) {
         <Image style={styles.image} source={require('../assets/logoblc.png')} />
         <View style={styles.subtitle}>
           <Text style={styles.subtitle}>
-            Naviguez entre vos applications VTC facilement grâce à SimpleRides
+            Naviguez entre vos applications VTC facilement grâce à SimpleRides!
           </Text>
           <View style={styles.subContainer}>
             <SrButton
-              label="Se connecter"
+              label="Me connecter"
               type="secondary"
               handlePressed={() => navigation.navigate('SignIn')}
             />
-            <SrButton label="S'inscrire" handlePressed={() => handleSubmit()} />
+            <SrButton label="M'inscrire" handlePressed={() => handleSubmit()} />
           </View>
         </View>
       </View>

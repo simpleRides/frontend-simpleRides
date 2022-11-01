@@ -68,7 +68,7 @@ export default function RegisterScreen({ navigation }) {
         <View>
           <SrText
             title="Créez votre compte"
-            subtitle="Créez votre compte SimpleRides pour utiliser l’application"
+            subtitle="Créez votre compte pour accéder à SimpleRides"
           />
         </View>
         <View style={styles.formContainer}>
@@ -83,7 +83,7 @@ export default function RegisterScreen({ navigation }) {
             onChange={(e) => setEmail(e)}
           />
           <SrInput
-            placeholder="Entrez numéro de téléphone"
+            placeholder="Entrez votre numéro de téléphone"
             label="Téléphone"
             onChange={(e) => setTelephone(e)}
           />
@@ -96,7 +96,7 @@ export default function RegisterScreen({ navigation }) {
 
           <SrInput
             isPassword={true}
-            label="Confirmez votre mot de passe"
+            label="Confirmer le mot de passe"
             placeholder="Confirmez votre mot de passe"
             onChange={(e) => setPassword(e)}
           />
@@ -105,9 +105,8 @@ export default function RegisterScreen({ navigation }) {
             onPress={() => navigation.navigate('CGV')}
           >
             En cliquant sur continuer, vous acceptez les conditons générales
-            d’utilisation (consultez-les en cliquat sur ce lien )
+            d’utilisation (consultez-les en cliquant sur ce lien )
           </Text>
-          {/* <pdf source={source} /> a embarquer dans le texte et ajouter tickbox. tickbox renvoie dans bdd user accepté terms OK  */}
         </View>
         <View style={{ width: '100%' }}>
           <SrButton
