@@ -9,6 +9,7 @@ import {
 import SrText from '../components/core/SrText';
 import SrButton from '../components/core/SrButton';
 import SrInput from '../components/core/SrInput';
+import Toast from 'react-native-toast-message';
 
 import { useTheme } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
@@ -31,6 +32,22 @@ export default function RegisterScreen({ navigation }) {
     navigation.navigate('DefaultPage');
   };
 
+  const showToast = (errorMessage) => {
+    Toast.show({
+      type: 'error',
+      text1: 'Error',
+      text2: errorMessage,
+    });
+  };
+
+  const showSuccessToast = (successMessage) => {
+    Toast.show({
+      type: 'success',
+      text1: 'Success',
+      text2: successMessage,
+    });
+  };
+
   const handleRegister = () => {
     const newUser = {
       username,
@@ -39,21 +56,30 @@ export default function RegisterScreen({ navigation }) {
       password,
     };
 
-    fetch(`${constants.BACKEND_URL}/users/signup`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newUser),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          dispatch(updateUserToken(data.token));
-          resetFields();
-          navigation.navigate('SyncApp');
-        } else {
-          console.log('put an toast error message');
-        }
-      });
+    if (password === confirmPassword) {
+      fetch(`${constants.BACKEND_URL}/users/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newUser),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data.result) {
+            dispatch(updateUserToken(data.token));
+            resetFields();
+            showSuccessToast('Inscription réussie');
+            setTimeout(() => {
+              navigation.navigate('SyncApp');
+            }, 1000);
+          } else {
+            showToast(data.error);
+            resetFields();
+          }
+        });
+    } else {
+      showToast('Les mots de passes ne sont pas identiques');
+    }
   };
 
   const resetFields = () => {
@@ -129,6 +155,7 @@ export default function RegisterScreen({ navigation }) {
           />
         </View>
       </View>
+      <Toast />
     </KeyboardAvoidingView>
   );
 }
