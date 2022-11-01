@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 import { Modal, StyleSheet, View } from 'react-native';
-import SrText from '../core/SrText';
 import SrButton from '../core/SrButton';
 
 import { useTheme } from '@react-navigation/native';
 import SliderFilter from './SliderFilter';
 import { filtersDataForUi } from './FiltersData';
+import ModalHeader from './ModalHeader';
 
 const ModalFilters = ({ isOpen, toggle }) => {
   const { colors } = useTheme();
@@ -21,12 +21,8 @@ const ModalFilters = ({ isOpen, toggle }) => {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <View>
-            <SrText
-              title="Paramétres de vos courses"
-              subtitle="Filtrez vos courses selon vos critères préférés.Attention si la demande est trop faible nous vous en informerons et proposerons des courses hors critères"
-            />
-          </View>
+          <ModalHeader />
+
           <View style={styles.modalContent}>
             {filtersDataForUi.map((el) => (
               <SliderFilter
