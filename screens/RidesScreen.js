@@ -19,6 +19,7 @@ import SrButton from '../components/core/SrButton';
 import SrText from '../components/core/SrText';
 import Checkbox from 'expo-checkbox';
 import Slider from '@react-native-community/slider';
+import ModalFilters from '../components/RidesScreen/ModalFilters';
 
 function distance(lat1, lon1, lat2, lon2, unit) {
   if (lat1 == lat2 && lon1 == lon2) {
@@ -157,7 +158,7 @@ export default function RidesScreen() {
   }
 
   // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress, provider
-  const [isChecked, setChecked] = useState(false);
+  // const [isChecked, setChecked] = useState(false);
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
@@ -186,7 +187,12 @@ export default function RidesScreen() {
           {tempCoordinates && cardsWithData}
         </View>
 
-        <Modal
+        <ModalFilters
+          isOpen={modalVisible}
+          toggle={() => setModalVisible(!modalVisible)}
+        />
+
+        {/* <Modal
           animationType="slide"
           transparent={false}
           visible={modalVisible}
@@ -226,7 +232,7 @@ export default function RidesScreen() {
               />
             </View>
           </View>
-        </Modal>
+        </Modal> */}
       </SafeAreaView>
     </ScrollView>
   );
@@ -234,25 +240,25 @@ export default function RidesScreen() {
 
 const makeStyles = (colors) =>
   StyleSheet.create({
-    filterContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      width: '95%',
-      height: 80,
-      borderWidth: 1,
-      borderColor: colors.lightGrey,
-      paddingStart: 16,
-      borderRadius: 5,
-      backgroundColor: '#333',
-    },
-    sliderContainer: {
-      width: '100%',
-      paddingStart: 16,
-    },
-    sliderLabel: {
-      color: colors.light,
-    },
+    // filterContainer: {
+    //   flexDirection: 'row',
+    //   alignItems: 'center',
+    //   justifyContent: 'space-between',
+    //   width: '95%',
+    //   height: 80,
+    //   borderWidth: 1,
+    //   borderColor: colors.lightGrey,
+    //   paddingStart: 16,
+    //   borderRadius: 5,
+    //   backgroundColor: '#333',
+    // },
+    // sliderContainer: {
+    //   width: '100%',
+    //   paddingStart: 16,
+    // },
+    // sliderLabel: {
+    //   color: colors.light,
+    // },
     container: {
       flex: 1,
       backgroundColor: '#28272A',
@@ -296,27 +302,27 @@ const makeStyles = (colors) =>
       alignItems: 'center',
       justifyContent: 'space-between',
     },
-    centeredView: {
-      flex: 1,
-    },
-    modalView: {
-      flex: 1,
-      backgroundColor: colors.black,
-      paddingHorizontal: 16,
-      paddingTop: Platform.OS === 'ios' ? 72 : 40,
-      paddingBottom: Platform.OS === 'ios' ? 32 : 24,
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    textStyle: {
-      color: 'red',
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-    modalText: {
-      color: colors.light,
-      fontSize: 20,
-      marginBottom: 15,
-      textAlign: 'center',
-    },
+    // centeredView: {
+    //   flex: 1,
+    // },
+    // modalView: {
+    //   flex: 1,
+    //   backgroundColor: colors.black,
+    //   paddingHorizontal: 16,
+    //   paddingTop: Platform.OS === 'ios' ? 72 : 40,
+    //   paddingBottom: Platform.OS === 'ios' ? 32 : 24,
+    //   alignItems: 'center',
+    //   justifyContent: 'space-between',
+    // },
+    // textStyle: {
+    //   color: 'red',
+    //   fontWeight: 'bold',
+    //   textAlign: 'center',
+    // },
+    // modalText: {
+    //   color: colors.light,
+    //   fontSize: 20,
+    //   marginBottom: 15,
+    //   textAlign: 'center',
+    // },
   });
