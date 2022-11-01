@@ -6,57 +6,73 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
-import {
-  updateUsername,
-  updateEmail,
-  updateTelephone,
-  updateConfirmPassword,
-} from '../reducers/user';
 import SrText from '../components/core/SrText';
 import SrButton from '../components/core/SrButton';
 import SrInput from '../components/core/SrInput';
+import Toast from 'react-native-toast-message';
+
 import { useTheme } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { updateUserToken } from '../reducers/user';
+
+import constants from '../core/constants';
+import { showSuccessToast, showToast } from '../core/toats';
 
 export default function RegisterScreen({ navigation }) {
   const dispatch = useDispatch();
-
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setTelephone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
-  //routes a faire avec Backend
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const handleSkip = () => {
     navigation.navigate('DefaultPage');
   };
-  const handleSubmit = () => {
-    console.log('call backend');
-  };
-  // a degager et utiliser handleRegister ci-dessous
+
   const handleRegister = () => {
-    fetch(`${constants.BACKEND_URL}/users/signup`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        username: signUpUsername,
-        password: signUpPassword,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          dispatch(login({ username: signUpUsername, token: data.token }));
-          setSignUpUsername('');
-          setSignUpEmail('');
-          setSignUpPhone('');
-          setSignUpPassword('');
-          setSignUpConfirmPassword('');
-        }
-      });
+    const newUser = {
+      username,
+      email,
+      phone,
+      password,
+    };
+
+    if (password === confirmPassword) {
+      fetch(`${constants.BACKEND_URL}/users/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newUser),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data.result) {
+            dispatch(updateUserToken(data.token));
+            resetFields();
+            showSuccessToast('Inscription réussie');
+            setTimeout(() => {
+              navigation.navigate('SyncApp');
+            }, 1000);
+          } else {
+            showToast(data.error);
+            resetFields();
+          }
+        });
+    } else {
+      showToast('Les mots de passes ne sont pas identiques');
+    }
+  };
+
+  const resetFields = () => {
+    setUsername('');
+    setEmail('');
+    setPhone('');
+    setPassword('');
+    setConfirmPassword('');
   };
 
   return (
@@ -85,42 +101,50 @@ export default function RegisterScreen({ navigation }) {
           <SrInput
             placeholder="Entrez numéro de téléphone"
             label="Téléphone"
-            onChange={(e) => setTelephone(e)}
+            onChange={(e) => setPhone(e)}
           />
           <SrInput
             isPassword={true}
             label="Mot de passe"
             placeholder="Entrez votre mot de passe"
-            onChange={(e) => setConfirmPassword(e)}
+            onChange={(e) => setPassword(e)}
           />
 
           <SrInput
             isPassword={true}
             label="Confirmez votre mot de passe"
             placeholder="Confirmez votre mot de passe"
-            onChange={(e) => setPassword(e)}
+            onChange={(e) => setConfirmPassword(e)}
           />
           <Text
             style={styles.textHighlight}
             onPress={() => navigation.navigate('CGV')}
           >
             En cliquant sur continuer, vous acceptez les conditons générales
-            d’utilisation (consultez-les en cliquat sur ce lien )
+            d’utilisation (A consulter ici )
           </Text>
           {/* <pdf source={source} /> a embarquer dans le texte et ajouter tickbox. tickbox renvoie dans bdd user accepté terms OK  */}
         </View>
         <View style={{ width: '100%' }}>
-          <SrButton
-            label="Configurer plus tard"
-            type="secondary"
-            handlePressed={handleSkip}
-          />
+          {/* TODO: Gérer les différences entre Ios et Android */}
+          {Platform.OS === 'ios' ? (
+            <SrButton
+              label="Configurer plus tard"
+              type="secondary"
+              handlePressed={handleSkip}
+            />
+          ) : (
+            <Text style={styles.androidSkip} onPress={handleSkip}>
+              Configurer plus tard
+            </Text>
+          )}
           <SrButton
             label="Continuer mon inscription"
-            handlePressed={handleSubmit}
+            handlePressed={handleRegister}
           />
         </View>
       </View>
+      <Toast />
     </KeyboardAvoidingView>
   );
 }
@@ -153,10 +177,17 @@ const makeStyles = (colors) =>
       justifyContent: 'center',
       borderRadius: 10,
       backgroundColor: '#2B2D2E',
-      borderColor: '#585858',
-      borderStyle: 'solid',
+      borderColor: colors.lightGrey,
       borderWidth: 1,
-      color: '#545454',
-      padding: 16,
+      color: colors.lightGrey,
+      paddingHorizontal: 16,
+      paddingTop: 16,
+      paddingBottom: 8,
+    },
+    androidSkip: {
+      textAlign: 'center',
+      textAlignVertical: 'center',
+      color: colors.light,
+      height: 32,
     },
   });
