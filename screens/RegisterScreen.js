@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux';
 import { updateUserToken } from '../reducers/user';
 
 import constants from '../core/constants';
+import { showSuccessToast, showToast } from '../core/toats';
 
 export default function RegisterScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -30,22 +31,6 @@ export default function RegisterScreen({ navigation }) {
 
   const handleSkip = () => {
     navigation.navigate('DefaultPage');
-  };
-
-  const showToast = (errorMessage) => {
-    Toast.show({
-      type: 'error',
-      text1: 'Error',
-      text2: errorMessage,
-    });
-  };
-
-  const showSuccessToast = (successMessage) => {
-    Toast.show({
-      type: 'success',
-      text1: 'Success',
-      text2: successMessage,
-    });
   };
 
   const handleRegister = () => {
