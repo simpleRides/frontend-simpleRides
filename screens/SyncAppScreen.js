@@ -8,15 +8,21 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import * as Location from 'expo-location';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import SrInput from '../components/core/SrInput';
 import SrButton from '../components/core/SrButton';
 import SrText from '../components/core/SrText';
 
+import constants from '../core/constants';
+
 const SyncAppScreen = ({ navigation }) => {
   const [idProvider, setIdProvider] = useState('');
   const [pwdProvider, setPwdProvider] = useState('');
+  const [isError, setIsError] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [isProviderConnected, setIsProviderConnected] = useState(false);
 
   const { colors } = useTheme();
   const styles = makeStyles(colors);
@@ -26,18 +32,54 @@ const SyncAppScreen = ({ navigation }) => {
   };
 
   const handleNewProvider = () => {
-    setModalVisible(false);
+    console.log('* ' + idProvider + ' * ' + pwdProvider + ' *');
+    fetch(`${constants.BACKEND_URL}/users/connectprovider`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token: 'N0-UNLEg5FsPMuUjYHn-Qb743MZG738a',
+        nameProvider: 'uber',
+        idProvider: idProvider,
+        pwdProvider: pwdProvider,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          console.log('token', data.token);
+          // dispatch(updateUserToken(data.token));
+          setIdProvider('');
+          setPwdProvider('');
+          setIsProviderConnected(true);
+          setModalVisible(false);
+        } else {
+          setIsError(true);
+          console.log('cant login');
+        }
+      })
+      .catch((error) => console.log('Err:', error));
   };
+
+  console.log('test render');
 
   const handleClose = () => {
     setModalVisible(false);
   };
+
+  const handleEmpty = () => {};
 
   return (
     <SafeAreaView style={styles.container}>
       <Modal visible={modalVisible} animationType="fade" transparent>
         <View style={styles.centeredView}>
           <View style={styles.formContainer}>
+            <TouchableOpacity
+              onPress={() => handleClose()}
+              style={styles.closeBtnModal}
+              activeOpacity={0.8}
+            >
+              <FontAwesome name="close" color="#FFA62B" size={24} />
+            </TouchableOpacity>
             <SrInput
               placeholder="Entrez votre identifiant Uber"
               label="identifiant Uber"
@@ -49,7 +91,6 @@ const SyncAppScreen = ({ navigation }) => {
               placeholder="Entrez votre mot de passe Uber"
               onChange={(e) => setPwdProvider(e)}
             />
-
             <SrButton label="test" handlePressed={handleNewProvider} />
           </View>
         </View>
@@ -68,7 +109,11 @@ const SyncAppScreen = ({ navigation }) => {
           <SrText title="Uber" />
         </View>
         <View style={styles.buttonConnectProvider}>
-          <SrButton label="Connecter" handlePressed={handleSubmit} />
+          {isProviderConnected ? (
+            <FontAwesome name="check-square" color="#FFA62B" size={48} />
+          ) : (
+            <SrButton label="Connecter" handlePressed={handleSubmit} />
+          )}
         </View>
       </View>
       {/* Carte BOLT */}
@@ -77,7 +122,7 @@ const SyncAppScreen = ({ navigation }) => {
           <SrText title="Bolt" />
         </View>
         <View style={styles.buttonConnectProvider}>
-          <SrButton label="Connecter" />
+          <SrButton label="Connecter" handlePressed={handleEmpty} />
         </View>
       </View>
       {/* Carte HEETCH */}
@@ -86,7 +131,7 @@ const SyncAppScreen = ({ navigation }) => {
           <SrText title="Heetch" />
         </View>
         <View style={styles.buttonConnectProvider}>
-          <SrButton label="Connecter" />
+          <SrButton label="Connecter" handlePressed={handleEmpty} />
         </View>
       </View>
       {/* Carte Marcel */}
@@ -95,7 +140,7 @@ const SyncAppScreen = ({ navigation }) => {
           <SrText title="Marcel" />
         </View>
         <View style={styles.buttonConnectProvider}>
-          <SrButton label="Connecter" />
+          <SrButton label="Connecter" handlePressed={handleEmpty} />
         </View>
       </View>
 
@@ -147,7 +192,7 @@ const makeStyles = (colors) =>
 
     formContainer: {
       width: '100%',
-      height: '50%',
+      height: 300,
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: 10,
@@ -204,5 +249,9 @@ const makeStyles = (colors) =>
       height: 24,
       fontWeight: '600',
       fontSize: 15,
+    },
+    closeBtnModal: {
+      alignSelf: 'flex-end',
+      paddingHorizontal: 8,
     },
   });
