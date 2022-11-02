@@ -72,7 +72,7 @@ export default function RidesScreen() {
                   distanceMax: data.data.distanceMax,
                 })
               );
-            fetch(`https://backend-providers-wine.vercel.app/uber/settings`, {
+            fetch(`https://providers-sooty.vercel.app/uber/settings`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ export default function RidesScreen() {
       fetching();
 
       return () => controller.abort();
-    }, [])
+    }, [modalVisible])
   );
   // providers simu à supprimmer ************************
   const testProviders = ['uber', 'heetch', 'bolt'];
