@@ -56,15 +56,16 @@ export default function RidesScreen() {
     })
       .then((res) => res.json())
       .then((data) => {
-        dispatch(
-          addSettingsToStore({
-            clientNoteMin: data.data.clientNoteMin,
-            priceMin: data.data.priceMin,
-            markupMin: data.data.markupMin,
-            pickupDistanceMax: data.data.pickupDistanceMax,
-            distanceMax: data.data.distanceMax,
-          })
-        );
+        data.result &&
+          dispatch(
+            addSettingsToStore({
+              clientNoteMin: data.data.clientNoteMin,
+              priceMin: data.data.priceMin,
+              markupMin: data.data.markupMin,
+              pickupDistanceMax: data.data.pickupDistanceMax,
+              distanceMax: data.data.distanceMax,
+            })
+          );
       });
   }, [modalVisible]);
 
