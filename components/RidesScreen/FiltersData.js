@@ -2,6 +2,7 @@ export const filtersDataForUi = [
   {
     id: 1,
     label: 'Notation voyageur',
+    name: 'clientNoteMin',
     min: 0,
     max: 5,
     step: 1,
@@ -10,6 +11,7 @@ export const filtersDataForUi = [
   {
     id: 2,
     label: 'Distance de ramassage',
+    name: 'pickupDistanceMax',
     min: 0,
     max: 100000,
     step: 50,
@@ -18,6 +20,7 @@ export const filtersDataForUi = [
   {
     id: 3,
     label: 'Prix de la course',
+    name: 'priceMin',
     min: 0,
     max: 1000,
     step: 5,
@@ -26,6 +29,7 @@ export const filtersDataForUi = [
   {
     id: 4,
     label: 'Distance de la course',
+    name: 'distanceMax',
     min: 0,
     max: 100000,
     step: 50,
@@ -34,6 +38,7 @@ export const filtersDataForUi = [
   {
     id: 5,
     label: 'Majoration',
+    name: 'markupMin',
     min: 0,
     max: 100,
     step: 5,

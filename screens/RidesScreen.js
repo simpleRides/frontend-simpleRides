@@ -12,8 +12,11 @@ import {
   Platform,
   Image,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import constants from '../core/constants';
 
 import * as Location from 'expo-location';
+import { distance } from '../modules/distance';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Card from '../components/RidesScreen/Card';
 import SrButton from '../components/core/SrButton';
@@ -22,78 +25,79 @@ import Checkbox from 'expo-checkbox';
 import Slider from '@react-native-community/slider';
 import ModalFilters from '../components/RidesScreen/ModalFilters';
 import SrSpinner from '../components/core/SrSpinner';
-
-function distance(lat1, lon1, lat2, lon2, unit) {
-  if (lat1 == lat2 && lon1 == lon2) {
-    return 0;
-  } else {
-    var radlat1 = (Math.PI * lat1) / 180;
-    var radlat2 = (Math.PI * lat2) / 180;
-    var theta = lon1 - lon2;
-    var radtheta = (Math.PI * theta) / 180;
-    var dist =
-      Math.sin(radlat1) * Math.sin(radlat2) +
-      Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-    if (dist > 1) {
-      dist = 1;
-    }
-    dist = Math.acos(dist);
-    dist = (dist * 180) / Math.PI;
-    dist = dist * 60 * 1.1515;
-    if (unit == 'K') {
-      dist = dist * 1.609344;
-    }
-    if (unit == 'N') {
-      dist = dist * 0.8684;
-    }
-    return dist;
-  }
-}
+import { addSettingsToStore } from '../reducers/settings';
 
 export default function RidesScreen() {
-  // const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const [location, setLocation] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const [tempCoordinates, setTempCoordinates] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const dispatch = useDispatch();
+  const settings = useSelector((state) => state.settings.value);
+  const user = useSelector((state) => state.user.value);
+  const { colors } = useTheme();
+  const styles = makeStyles(colors);
+
   const toggleSwitch = () => {
     setIsEnabled((previousState) => !previousState);
   };
-  // const user = useSelector((state) => state.user.value);
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
 
   // hook qui se lance au focus de la page
   useFocusEffect(
     React.useCallback(() => {
       setIsLoading(true);
       const controller = new AbortController();
-      const fetching = async () =>
-        await fetch(`https://backend-providers-wine.vercel.app/uber/settings`, {
+
+      const fetching = async () => {
+        await fetch(`${constants.BACKEND_URL}/users/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            clientNoteMin: 4,
-            priceMin: 30,
-            markupMin: 1.5,
-            distanceMax: 3000,
-            travelTimeMax: 15,
+            token: user.token,
           }),
         })
           .then((res) => res.json())
           .then((data) => {
-            data.result && setTempCoordinates(data.data);
-            setIsLoading(false);
+            data.result &&
+              dispatch(
+                addSettingsToStore({
+                  clientNoteMin: data.data.clientNoteMin,
+                  priceMin: data.data.priceMin,
+                  markupMin: data.data.markupMin,
+                  pickupDistanceMax: data.data.pickupDistanceMax,
+                  distanceMax: data.data.distanceMax,
+                })
+              );
+            fetch(`https://backend-providers-wine.vercel.app/uber/settings`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                clientNoteMin: data.data.clientNoteMin,
+                priceMin: data.data.priceMin,
+                markupMin: data.data.markupMin,
+                distanceMax: data.data.distanceMax,
+                pickupDistanceMax: data.data.pickupDistanceMax,
+              }),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                data.result && setTempCoordinates(data.data);
+                setIsLoading(false);
+              });
           });
+      };
+
       fetching();
+
       return () => controller.abort();
     }, [])
   );
-
   // providers simu à supprimmer ************************
   const testProviders = ['uber', 'heetch', 'bolt'];
 
