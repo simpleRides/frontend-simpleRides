@@ -4,11 +4,16 @@ import { useTheme } from '@react-navigation/native';
 import SrButton from '../components/core/SrButton';
 import SrText from '../components/core/SrText';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { logout } from '../reducers/user';
+import { useDispatch } from 'react-redux';
 
 //checker le padding du text, je n'arrive pas a centrer par rapport aux bordures du coup j'ai triché avec un padding, mais c'est pas clean
 //subcontainer le align items est KO et je ne sais pas pourquoi
 
-//créer constante logout
+const dispatch = useDispatch();
+const handleLogout = () => {
+  dispatch(logout());
+};
 
 const ProfileScreen = ({ navigation }) => {
   const { colors } = useTheme();
@@ -21,8 +26,14 @@ const ProfileScreen = ({ navigation }) => {
         subtitle="Configurez votre espace et accédez à vos données"
       />
       <View style={styles.textContainer}>
-        <Text style={styles.text}> Paramètres du compte </Text>
-        <Ionicons style={styles.chevron} iconName="chevron-forward-outline" />
+        <Text
+          onPress={() => navigation.navigate('SyncApp')}
+          style={styles.text}
+        >
+          {' '}
+          Paramètres de mes courses{' '}
+        </Text>
+        {/* <Ionicons style={styles.chevron} iconName="chevron-forward-outline" /> */}
       </View>
       <View style={styles.textContainer}>
         <Text
@@ -45,10 +56,11 @@ const ProfileScreen = ({ navigation }) => {
           type="secondary"
           handlePressed={() => navigation.navigate('Ride')}
         />
-        {/* <SrButton
+        <SrButton
           label="Me déconnecter"
-          handlePressed={() => navigation.navigate('Home')}
-        /> */}
+          handlePressed={handleLogout}
+          //a faire suivre par :  handlePressed={() => navigation.navigate('SignIn')}
+        />
       </View>
     </View>
   );
