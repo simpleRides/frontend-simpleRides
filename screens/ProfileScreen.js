@@ -5,19 +5,26 @@ import SrButton from '../components/core/SrButton';
 import SrText from '../components/core/SrText';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { logout } from '../reducers/user';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import ModalFilters from '../components/RidesScreen/ModalFilters';
 
 //checker le padding du text, je n'arrive pas a centrer par rapport aux bordures du coup j'ai triché avec un padding, mais c'est pas clean
 //subcontainer le align items est KO et je ne sais pas pourquoi
-
-const dispatch = useDispatch();
-const handleLogout = () => {
-  dispatch(logout());
-};
+//première ligne décalée est-ce que c'est à cause de l'icone du chevron ?
 
 const ProfileScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigation.navigate('Home');
+  };
+
+  console.log('___', user);
 
   return (
     <View style={styles.container}>
@@ -25,27 +32,21 @@ const ProfileScreen = ({ navigation }) => {
         title="Mon espace SimpleRides"
         subtitle="Configurez votre espace et accédez à vos données"
       />
-      <View style={styles.textContainer}>
-        <Text
-          onPress={() => navigation.navigate('SyncApp')}
-          style={styles.text}
-        >
-          {' '}
-          Paramètres de mes courses{' '}
-        </Text>
-        {/* <Ionicons style={styles.chevron} iconName="chevron-forward-outline" /> */}
-      </View>
+
       <View style={styles.textContainer}>
         <Text
           style={styles.text}
           onPress={() => navigation.navigate('SyncApp')}
         >
-          Intégrations avec mes apps
+          Intégrations avec mes applications
         </Text>
       </View>
-      <Text style={styles.text}>Contacter le support</Text>
+      <Text style={styles.text}>Paramétrer mon compte</Text>
       <View style={styles.textContainer}>
         <Text style={styles.text}>Mode de paiement</Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.text}>Contacter le support</Text>
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.text}>Supprimer mon compte</Text>
@@ -56,11 +57,7 @@ const ProfileScreen = ({ navigation }) => {
           type="secondary"
           handlePressed={() => navigation.navigate('Ride')}
         />
-        <SrButton
-          label="Me déconnecter"
-          handlePressed={handleLogout}
-          //a faire suivre par :  handlePressed={() => navigation.navigate('SignIn')}
-        />
+        <SrButton label="Me déconnecter" handlePressed={handleLogout} />
       </View>
     </View>
   );
