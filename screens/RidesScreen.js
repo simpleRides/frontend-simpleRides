@@ -65,19 +65,6 @@ export default function RidesScreen() {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
-  useEffect(() => {
-    // location du telephone
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
   // hook qui se lance au focus de la page
   useFocusEffect(
     React.useCallback(() => {
