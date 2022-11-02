@@ -47,52 +47,56 @@ export default function RidesScreen() {
   // hook qui se lance au focus de la page
   useFocusEffect(
     React.useCallback(() => {
-      fetch(`${constants.BACKEND_URL}/users/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          token: user.token,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          data.result &&
-            dispatch(
-              addSettingsToStore({
-                clientNoteMin: data.data.clientNoteMin,
-                priceMin: data.data.priceMin,
-                markupMin: data.data.markupMin,
-                pickupDistanceMax: data.data.pickupDistanceMax,
-                distanceMax: data.data.distanceMax,
-              })
-            );
-        });
       setIsLoading(true);
       const controller = new AbortController();
-      const fetching = async () =>
-        await fetch(`https://backend-providers-wine.vercel.app/uber/settings`, {
+
+      const fetching = async () => {
+        await fetch(`${constants.BACKEND_URL}/users/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            clientNoteMin: settings.clientNoteMin,
-            priceMin: settings.priceMin,
-            markupMin: settings.markupMin,
-            distanceMax: settings.distanceMax,
-            pickupDistanceMax: settings.pickupDistanceMax,
+            token: user.token,
           }),
         })
           .then((res) => res.json())
           .then((data) => {
-            data.result && setTempCoordinates(data.data);
-            setIsLoading(false);
+            data.result &&
+              dispatch(
+                addSettingsToStore({
+                  clientNoteMin: data.data.clientNoteMin,
+                  priceMin: data.data.priceMin,
+                  markupMin: data.data.markupMin,
+                  pickupDistanceMax: data.data.pickupDistanceMax,
+                  distanceMax: data.data.distanceMax,
+                })
+              );
+            fetch(`https://backend-providers-wine.vercel.app/uber/settings`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                clientNoteMin: data.data.clientNoteMin,
+                priceMin: data.data.priceMin,
+                markupMin: data.data.markupMin,
+                distanceMax: data.data.distanceMax,
+                pickupDistanceMax: data.data.pickupDistanceMax,
+              }),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                data.result && setTempCoordinates(data.data);
+                setIsLoading(false);
+              });
           });
+      };
+
       fetching();
+
       return () => controller.abort();
-    }, [modalVisible])
+    }, [])
   );
   // providers simu à supprimmer ************************
   const testProviders = ['uber', 'heetch', 'bolt'];
