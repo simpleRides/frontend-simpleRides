@@ -85,6 +85,7 @@ export default function App() {
           <Stack.Screen name="SyncApp" component={SyncAppScreen} />
           <Stack.Screen name="Map" component={MapScreen} />
           <Stack.Screen name="DefaultPage" component={DefaultPageScreen} />
+          <Stack.Screen name="Ride" component={RidesScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

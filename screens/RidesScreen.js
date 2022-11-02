@@ -6,14 +6,22 @@ import {
   StyleSheet,
   Switch,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
+  Modal,
+  Platform,
   Image,
 } from 'react-native';
+
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Card from '../components/RidesScreen/Card';
+import SrButton from '../components/core/SrButton';
+import SrText from '../components/core/SrText';
+import Checkbox from 'expo-checkbox';
+import Slider from '@react-native-community/slider';
+import ModalFilters from '../components/RidesScreen/ModalFilters';
+import SrSpinner from '../components/core/SrSpinner';
 
 function distance(lat1, lon1, lat2, lon2, unit) {
   if (lat1 == lat2 && lon1 == lon2) {
@@ -44,44 +52,45 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 
 export default function RidesScreen() {
   // const dispatch = useDispatch();
+  const [modalVisible, setModalVisible] = useState(false);
   const [location, setLocation] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const [tempCoordinates, setTempCoordinates] = useState(null);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const toggleSwitch = () => {
+    setIsEnabled((previousState) => !previousState);
+  };
   // const user = useSelector((state) => state.user.value);
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
-  useEffect(() => {
-    // location du telephone
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-
-    fetch(`https://backend-providers-wine.vercel.app/uber`)
-      .then((res) => res.json())
-      .then((data) => {
-        data.result && setTempCoordinates(data.data);
-      });
-  }, []);
   // hook qui se lance au focus de la page
   useFocusEffect(
     React.useCallback(() => {
+      setIsLoading(true);
+      const controller = new AbortController();
       const fetching = async () =>
-        await fetch(`https://backend-providers-wine.vercel.app/uber`)
+        await fetch(`https://backend-providers-wine.vercel.app/uber/settings`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            clientNoteMin: 4,
+            priceMin: 30,
+            markupMin: 1.5,
+            distanceMax: 3000,
+            travelTimeMax: 15,
+          }),
+        })
           .then((res) => res.json())
           .then((data) => {
             data.result && setTempCoordinates(data.data);
+            setIsLoading(false);
           });
-
-      return () => fetching();
+      fetching();
+      return () => controller.abort();
     }, [])
   );
 
@@ -136,9 +145,9 @@ export default function RidesScreen() {
             price={data.price}
             duration={Math.round(data.travelTime)}
             pickupCoordinates={data.pickupCoordinates}
-            pickupAddress={data.pickupAddress}
+            pickupAddress={data.pickupAddress.replace(', France', '')}
             arrivalCoordinates={data.coordinates}
-            arrivalAddress={data.address}
+            arrivalAddress={data.address.replace(', France', '')}
             provider={
               testProviders[Math.floor(Math.random() * testProviders.length)]
             }
@@ -149,7 +158,6 @@ export default function RidesScreen() {
   }
 
   // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress, provider
-
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
@@ -166,15 +174,22 @@ export default function RidesScreen() {
               />
               <Text style={styles.label}>Sélection automatique</Text>
             </View>
-            <TouchableOpacity activeOpacity={0.8}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
               <FontAwesome name="cog" color="#FFA62B" size={24} />
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.cardContainer}>
-          {tempCoordinates && cardsWithData}
+          {isLoading ? <SrSpinner /> : cardsWithData}
         </View>
-        <ScrollView contentContainerStyle={styles.scrollView}></ScrollView>
+
+        <ModalFilters
+          isOpen={modalVisible}
+          toggle={() => setModalVisible(!modalVisible)}
+        />
       </SafeAreaView>
     </ScrollView>
   );

@@ -43,6 +43,12 @@ export default function LandingScreen({ navigation }) {
     }, 1200);
   }, []);
 
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //    console.log('here....');
+  //   }, [])
+  // );
+
   // case 1: There is no user token -> go to Login
   // case 2: The user logged, but he closed the app -> rides screen after checking the token
   // case 2: The user is logged but he did not complete the registration -> Sync App page

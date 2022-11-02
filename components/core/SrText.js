@@ -6,8 +6,8 @@ import { View } from 'react-native';
 /**
  * Text component include a title & a subtitle
  *
- * @param {string} title - The first text
- * @param {enum} subtitle - The second text
+ * @param {string} title - The first text as title
+ * @param {string} subtitle - The second text as subtitle
  * @returns JSX.Element
  */
 const SrText = ({ title, subtitle }) => {
