@@ -25,7 +25,12 @@ const ProfileScreen = ({ navigation }) => {
         <Ionicons style={styles.chevron} iconName="chevron-forward-outline" />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.text}>Intégrations avec mes apps</Text>
+        <Text
+          style={styles.text}
+          onPress={() => navigation.navigate('SyncApp')}
+        >
+          Intégrations avec mes apps
+        </Text>
       </View>
       <Text style={styles.text}>Contacter le support</Text>
       <View style={styles.textContainer}>
@@ -40,10 +45,10 @@ const ProfileScreen = ({ navigation }) => {
           type="secondary"
           handlePressed={() => navigation.navigate('Ride')}
         />
-        <SrButton
+        {/* <SrButton
           label="Me déconnecter"
           handlePressed={() => navigation.navigate('Home')}
-        />
+        /> */}
       </View>
     </View>
   );
