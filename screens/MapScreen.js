@@ -60,7 +60,7 @@ export default function MapScreen({ navigation }) {
                 borderRadius: 10,
               }}
             >
-              PICKUP
+              Prise en charge
             </Text>
             <Ionicons name="pin" size={40} style={{ paddingRight: 5 }} />
           </Marker>
@@ -80,7 +80,7 @@ export default function MapScreen({ navigation }) {
                 borderRadius: 10,
               }}
             >
-              ARRIVAL
+              Arrivée
             </Text>
             <Ionicons name="flag" size={40} style={{ paddingRight: 5 }} />
           </Marker>
