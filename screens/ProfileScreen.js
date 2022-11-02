@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
 import { useTheme } from '@react-navigation/native';
 import SrButton from '../components/core/SrButton';
 import SrText from '../components/core/SrText';
@@ -13,6 +14,8 @@ import ModalFilters from '../components/RidesScreen/ModalFilters';
 //première ligne décalée est-ce que c'est à cause de l'icone du chevron ?
 
 const ProfileScreen = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
@@ -21,7 +24,7 @@ const ProfileScreen = ({ navigation }) => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigation.navigate('Home');
+    return navigation.navigate('Home');
   };
 
   console.log('___', user);
@@ -33,32 +36,39 @@ const ProfileScreen = ({ navigation }) => {
         subtitle="Configurez votre espace et accédez à vos données"
       />
 
-      <View style={styles.textContainer}>
-        <Text
-          style={styles.text}
-          onPress={() => navigation.navigate('SyncApp')}
-        >
-          Intégrations avec mes applications
-        </Text>
-      </View>
-      <Text style={styles.text}>Paramétrer mon compte</Text>
-      <View style={styles.textContainer}>
+      <TouchableOpacity
+        style={styles.textContainer}
+        onPress={() => navigation.navigate('SyncApp')}
+      >
+        <Text style={styles.text}>Intégrations avec mes applications</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.textContainer}
+        onPress={() => setModalVisible(!modalVisible)}
+      >
+        <Text style={styles.text}>Paramétrer mon compte</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.textContainer}>
         <Text style={styles.text}>Mode de paiement</Text>
-      </View>
-      <View style={styles.textContainer}>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.textContainer}>
         <Text style={styles.text}>Contacter le support</Text>
-      </View>
-      <View style={styles.textContainer}>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.textContainer}>
         <Text style={styles.text}>Supprimer mon compte</Text>
-      </View>
-      <View style={styles.subContainer}>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.subContainer}>
         <SrButton
           label="Retourner sur la page courses"
           type="secondary"
-          handlePressed={() => navigation.navigate('Ride')}
+          handlePressed={() => navigation.navigate('Rides')}
         />
         <SrButton label="Me déconnecter" handlePressed={handleLogout} />
-      </View>
+      </TouchableOpacity>
+      <ModalFilters
+        isOpen={modalVisible}
+        toggle={() => setModalVisible(!modalVisible)}
+      />
     </View>
   );
 };

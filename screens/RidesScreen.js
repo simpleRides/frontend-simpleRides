@@ -13,7 +13,6 @@ import {
   Platform,
   Image,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import constants from '../core/constants';
 
 import * as Location from 'expo-location';
