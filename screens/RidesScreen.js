@@ -44,34 +44,31 @@ export default function RidesScreen() {
     setIsEnabled((previousState) => !previousState);
   };
 
-  useEffect(() => {
-    fetch(`${constants.BACKEND_URL}/users/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        token: user.token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        data.result &&
-          dispatch(
-            addSettingsToStore({
-              clientNoteMin: data.data.clientNoteMin,
-              priceMin: data.data.priceMin,
-              markupMin: data.data.markupMin,
-              pickupDistanceMax: data.data.pickupDistanceMax,
-              distanceMax: data.data.distanceMax,
-            })
-          );
-      });
-  }, [modalVisible]);
-
   // hook qui se lance au focus de la page
   useFocusEffect(
     React.useCallback(() => {
+      fetch(`${constants.BACKEND_URL}/users/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: user.token,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          data.result &&
+            dispatch(
+              addSettingsToStore({
+                clientNoteMin: data.data.clientNoteMin,
+                priceMin: data.data.priceMin,
+                markupMin: data.data.markupMin,
+                pickupDistanceMax: data.data.pickupDistanceMax,
+                distanceMax: data.data.distanceMax,
+              })
+            );
+        });
       setIsLoading(true);
       const controller = new AbortController();
       const fetching = async () =>
@@ -95,9 +92,8 @@ export default function RidesScreen() {
           });
       fetching();
       return () => controller.abort();
-    }, [])
+    }, [modalVisible])
   );
-
   // providers simu à supprimmer ************************
   const testProviders = ['uber', 'heetch', 'bolt'];
 
