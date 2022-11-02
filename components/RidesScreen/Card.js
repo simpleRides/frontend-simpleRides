@@ -99,8 +99,8 @@ const makeStyles = (colors) =>
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'space-around',
-      width: '90%',
-      height: 180,
+      width: '95%',
+      height: 200,
       backgroundColor: '#2B2D2E',
       borderColor: colors.lightGrey,
       borderStyle: 'solid',
@@ -108,13 +108,15 @@ const makeStyles = (colors) =>
       padding: 10,
       borderRadius: 10,
       marginBottom: 10,
+      paddingTop: 24,
     },
     firstRow: {
       width: '100%',
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      paddingTop: 10,
+      // paddingTop: 10,
+      // borderWidth: 5
     },
     secondRow: {
       flexDirection: 'row',
@@ -135,9 +137,9 @@ const makeStyles = (colors) =>
       fontWeight: '900',
     },
     textRight: {
-      flexDirection: 'column',
-      justifyContent: 'space-between',
       color: colors.light,
+      paddingTop: 4,
+      fontSize: 13,
     },
     textFirstRow: {
       fontSize: 16,
