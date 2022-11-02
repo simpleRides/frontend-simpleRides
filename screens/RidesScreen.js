@@ -84,7 +84,19 @@ export default function RidesScreen() {
       setIsLoading(true);
       const controller = new AbortController();
       const fetching = async () =>
-        await fetch(`https://backend-providers-wine.vercel.app/uber`)
+        await fetch(`https://backend-providers-wine.vercel.app/uber/settings`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            clientNoteMin: 4,
+            priceMin: 30,
+            markupMin: 1.5,
+            distanceMax: 3000,
+            travelTimeMax: 15,
+          }),
+        })
           .then((res) => res.json())
           .then((data) => {
             data.result && setTempCoordinates(data.data);
@@ -146,9 +158,9 @@ export default function RidesScreen() {
             price={data.price}
             duration={Math.round(data.travelTime)}
             pickupCoordinates={data.pickupCoordinates}
-            pickupAddress={data.pickupAddress}
+            pickupAddress={data.pickupAddress.replace(', France', '')}
             arrivalCoordinates={data.coordinates}
-            arrivalAddress={data.address}
+            arrivalAddress={data.address.replace(', France', '')}
             provider={
               testProviders[Math.floor(Math.random() * testProviders.length)]
             }
@@ -184,7 +196,7 @@ export default function RidesScreen() {
           </View>
         </View>
         <View style={styles.cardContainer}>
-          {isLoading ? <SrSpinner /> : tempCoordinates && cardsWithData}
+          {isLoading ? <SrSpinner /> : cardsWithData}
         </View>
 
         <ModalFilters
