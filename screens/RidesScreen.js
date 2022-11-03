@@ -84,17 +84,17 @@ export default function RidesScreen() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        clientNoteMin: data.data.clientNoteMin,
-        priceMin: data.data.priceMin,
-        markupMin: data.data.markupMin,
-        distanceMax: data.data.distanceMax,
-        pickupDistanceMax: data.data.pickupDistanceMax,
+        clientNoteMin: data.clientNoteMin,
+        priceMin: data.priceMin,
+        markupMin: data.markupMin,
+        distanceMax: data.distanceMax,
+        pickupDistanceMax: data.pickupDistanceMax,
       }),
     }).then((res) => res.json());
   };
 
   const saveSettingsToStore = (data) => {
-    return dispatch(
+    dispatch(
       addSettingsToStore({
         clientNoteMin: data.clientNoteMin,
         priceMin: data.priceMin,
@@ -110,7 +110,7 @@ export default function RidesScreen() {
   };
 
   useEffect(() => {
-    saveSettingsToStore(defaultValue);
+    // saveSettingsToStore(defaultValue);
   }, []);
 
   // hook qui se lance au focus de la page
@@ -124,15 +124,18 @@ export default function RidesScreen() {
 
       const fetching = () => {
         fetchSettings().then((data) => {
+          console.log('data du settings', data);
           const dataSettings = data.data ? data.data : defaultValue;
+          // console.log('__', dataSettings);
           data.result && saveSettingsToStore(dataSettings);
+
           fetchRides(data)
             .then((data) => {
               data.result && setTempCoordinates(data.data);
               setIsLoading(false);
             })
             .then(() => {
-              console.log('apres then', settings);
+              // console.log('apres then', settings);
               updateUserSettings();
             });
         });
@@ -142,6 +145,9 @@ export default function RidesScreen() {
       return () => controller.abort();
     }, [modalVisible])
   );
+
+  console.log('store', settings);
+
   // providers simu à supprimmer ************************
   const testProviders = ['uber', 'heetch', 'bolt'];
 
