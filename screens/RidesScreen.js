@@ -121,7 +121,7 @@ export default function RidesScreen() {
           const dataSettings = data.data ? data.data : defaultValue;
           data.result && saveSettingsToStore(dataSettings);
 
-          fetchRides(data)
+          fetchRides(dataSettings)
             .then((data) => {
               data.result && setTempCoordinates(data.data);
               setIsLoading(false);
@@ -136,7 +136,6 @@ export default function RidesScreen() {
       return () => controller.abort();
     }, [modalVisible])
   );
-
   let cardsWithData;
   if (tempCoordinates) {
     cardsWithData = tempCoordinates.map((data, i) => {
