@@ -19,6 +19,7 @@ export const userSlice = createSlice({
     },
     updateUberToken: (state, action) => {
       state.value.tokenUber = action.payload;
+    },
     logout: (state) => {
       state.value.token = null;
     },
