@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import {
   SafeAreaView,
@@ -8,153 +9,168 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Modal,
-  Platform,
-  Image,
 } from 'react-native';
+import constants from '../core/constants';
 
-import * as Location from 'expo-location';
+import { distance } from '../modules/distance';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Card from '../components/RidesScreen/Card';
-import SrButton from '../components/core/SrButton';
-import SrText from '../components/core/SrText';
-import Checkbox from 'expo-checkbox';
-import Slider from '@react-native-community/slider';
 import ModalFilters from '../components/RidesScreen/ModalFilters';
 import SrSpinner from '../components/core/SrSpinner';
-
-function distance(lat1, lon1, lat2, lon2, unit) {
-  if (lat1 == lat2 && lon1 == lon2) {
-    return 0;
-  } else {
-    var radlat1 = (Math.PI * lat1) / 180;
-    var radlat2 = (Math.PI * lat2) / 180;
-    var theta = lon1 - lon2;
-    var radtheta = (Math.PI * theta) / 180;
-    var dist =
-      Math.sin(radlat1) * Math.sin(radlat2) +
-      Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-    if (dist > 1) {
-      dist = 1;
-    }
-    dist = Math.acos(dist);
-    dist = (dist * 180) / Math.PI;
-    dist = dist * 60 * 1.1515;
-    if (unit == 'K') {
-      dist = dist * 1.609344;
-    }
-    if (unit == 'N') {
-      dist = dist * 0.8684;
-    }
-    return dist;
-  }
-}
+import { addSettingsToStore } from '../reducers/settings';
 
 export default function RidesScreen() {
-  // const dispatch = useDispatch();
+  const { colors } = useTheme();
+  const styles = makeStyles(colors);
+  const dispatch = useDispatch();
+
   const [modalVisible, setModalVisible] = useState(false);
-  const [location, setLocation] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const [tempCoordinates, setTempCoordinates] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const settings = useSelector((state) => state.settings.value);
+  const user = useSelector((state) => state.user.value);
+
+  const defaultValue = {
+    clientNoteMin: 0,
+    pickupDistanceMax: 10000,
+    priceMin: 0,
+    distanceMax: 10000,
+    markupMin: 1,
+  };
+
+  const updateUserSettings = () => {
+    return fetch(`${constants.BACKEND_URL}/users/addsettings`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: user.token,
+        clientNoteMin: settings.clientNoteMin,
+        priceMin: settings.priceMin,
+        markupMin: settings.markupMin,
+        distanceMax: settings.distanceMax,
+        pickupDistanceMax: settings.pickupDistanceMax,
+      }),
+    }).then((res) => res.json());
+  };
+
+  const fetchSettings = () => {
+    return fetch(`${constants.BACKEND_URL}/users/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: user.token,
+      }),
+    }).then((res) => res.json());
+  };
+
+  const fetchRides = (data) => {
+    return fetch(`${constants.BACKEND_URL}/providers`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        clientNoteMin: data.clientNoteMin,
+        priceMin: data.priceMin,
+        markupMin: data.markupMin,
+        distanceMax: data.distanceMax,
+        pickupDistanceMax: data.pickupDistanceMax,
+      }),
+    }).then((res) => res.json());
+  };
+
+  const saveSettingsToStore = (data) => {
+    dispatch(
+      addSettingsToStore({
+        clientNoteMin: data.clientNoteMin,
+        priceMin: data.priceMin,
+        markupMin: data.markupMin,
+        pickupDistanceMax: data.pickupDistanceMax,
+        distanceMax: data.distanceMax,
+      })
+    );
+  };
+
   const toggleSwitch = () => {
     setIsEnabled((previousState) => !previousState);
   };
-  // const user = useSelector((state) => state.user.value);
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
 
   // hook qui se lance au focus de la page
   useFocusEffect(
     React.useCallback(() => {
       setIsLoading(true);
-      const controller = new AbortController();
-      const fetching = async () =>
-        await fetch(`https://backend-providers-wine.vercel.app/uber/settings`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            clientNoteMin: 4,
-            priceMin: 30,
-            markupMin: 1.5,
-            distanceMax: 3000,
-            travelTimeMax: 15,
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            data.result && setTempCoordinates(data.data);
-            setIsLoading(false);
-          });
-      fetching();
-      return () => controller.abort();
-    }, [])
-  );
 
-  // providers simu à supprimmer ************************
-  const testProviders = ['uber', 'heetch', 'bolt'];
+      const controller = new AbortController();
+
+      const fetching = () => {
+        fetchSettings().then((data) => {
+          const dataSettings = data.data ? data.data : defaultValue;
+          data.result && saveSettingsToStore(dataSettings);
+
+          fetchRides(dataSettings)
+            .then((data) => {
+              data.result && setTempCoordinates(data.data);
+              setIsLoading(false);
+            })
+            .then(() => {
+              updateUserSettings();
+            });
+        });
+      };
+      fetching();
+
+      return () => controller.abort();
+    }, [modalVisible])
+  );
 
   let cardsWithData;
   if (tempCoordinates) {
-    cardsWithData = tempCoordinates
-      // isole les courses disponibles
-      .filter((a) => a.status === 'Pending')
-      // récupère les courses encore actives
-      .filter((a) => Date.parse(a.date) > new Date())
-      // les trie par date
-      .sort((a, b) => {
-        if (a.date > b.date) {
-          return 1;
-        }
-        if (a.date < b.date) {
-          return -1;
-        }
-        return 0;
-      })
-      // récupère les 10 premières
-      .slice(0, 10)
-      .map((data, i) => {
-        return (
-          <Card
-            key={i}
-            timeToPickup={(
-              (distance(
-                48.887758952992634,
-                2.3036635117535176,
-                data.pickupCoordinates.lat,
-                data.pickupCoordinates.lon,
-                'K'
-              ) *
-                1000) /
-              300
-            ).toFixed(0)}
-            distanceToPickup={(
-              distance(
-                48.887758952992634,
-                2.3036635117535176,
-                data.pickupCoordinates.lat,
-                data.pickupCoordinates.lon,
-                'K'
-              ) * 1000
-            ).toFixed(0)}
-            clientNote={data.clientNote}
-            markup={data.markup}
-            price={data.price}
-            duration={Math.round(data.travelTime)}
-            pickupCoordinates={data.pickupCoordinates}
-            pickupAddress={data.pickupAddress.replace(', France', '')}
-            arrivalCoordinates={data.coordinates}
-            arrivalAddress={data.address.replace(', France', '')}
-            provider={
-              testProviders[Math.floor(Math.random() * testProviders.length)]
-            }
-            course_id={data.course_id}
-          />
-        );
-      });
+    const coordsToRides = isEnabled
+      ? tempCoordinates.sort(() => Math.random() - 0.5).slice(0, 1)
+      : tempCoordinates;
+    cardsWithData = coordsToRides.map((data, i) => {
+      return (
+        <Card
+          key={i}
+          timeToPickup={(
+            (distance(
+              48.887758952992634,
+              2.3036635117535176,
+              data.pickupCoordinates.lat,
+              data.pickupCoordinates.lon,
+              'K'
+            ) *
+              1000) /
+            300
+          ).toFixed(0)}
+          distanceToPickup={(
+            distance(
+              48.887758952992634,
+              2.3036635117535176,
+              data.pickupCoordinates.lat,
+              data.pickupCoordinates.lon,
+              'K'
+            ) * 1000
+          ).toFixed(0)}
+          clientNote={data.clientNote}
+          markup={data.markup}
+          price={data.price}
+          duration={Math.round(data.travelTime)}
+          pickupCoordinates={data.pickupCoordinates}
+          pickupAddress={data.pickupAddress.replace(', France', '')}
+          arrivalCoordinates={data.coordinates}
+          arrivalAddress={data.address.replace(', France', '')}
+          provider={data.providerName}
+          course_id={data.course_id}
+        />
+      );
+    });
   }
 
   // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress, provider

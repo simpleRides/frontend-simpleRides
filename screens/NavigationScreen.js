@@ -107,14 +107,14 @@ export default function MapScreen() {
               style={styles.button}
               activeOpacity={0.8}
             >
-              <Text style={styles.textButton}>Add</Text>
+              <Text style={styles.textButton}>Ajouter</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => handleClose()}
               style={styles.button}
               activeOpacity={0.8}
             >
-              <Text style={styles.textButton}>Close</Text>
+              <Text style={styles.textButton}>Fermer</Text>
             </TouchableOpacity>
           </View>
         </View>

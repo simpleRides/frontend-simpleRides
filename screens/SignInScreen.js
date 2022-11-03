@@ -62,18 +62,18 @@ const SignInScreen = ({ navigation }) => {
           </View>
           <SrText
             title="Connexion"
-            subtitle="Connectez vous avec votre compte simpleRide afin d'utiliser l'application"
+            subtitle="Connectez-vous à votre compte pour accéder à SimpleRides"
           />
           <View style={styles.formContainer}>
             <SrInput
-              placeholder="Entrer votre email"
+              placeholder="Entrez votre email"
               label="Email"
               onChange={(e) => setEmail(e)}
             />
             <SrInput
               isPassword={true}
               label="Mot de passe"
-              placeholder="Entrer votre mot de passe"
+              placeholder="Entrez votre mot de passe"
               onChange={(e) => setPassword(e)}
             />
             {isError && (
@@ -82,7 +82,7 @@ const SignInScreen = ({ navigation }) => {
               </Text>
             )}
           </View>
-          <SrButton label="Se connecter" handlePressed={handleConnection} />
+          <SrButton label="Me connecter" handlePressed={handleConnection} />
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>

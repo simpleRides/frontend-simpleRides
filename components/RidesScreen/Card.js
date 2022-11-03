@@ -32,14 +32,17 @@ const Card = (props) => {
       activeOpacity={0.8}
       style={styles.card}
       onPress={() => {
-        fetch(`https://backend-providers-wine.vercel.app/uber/ridesTaken`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            course_id: props.course_id,
-            driver_id: driver_id,
-          }),
-        });
+        fetch(
+          `https://providers-sooty.vercel.app/${props.provider}/ridesTaken`,
+          {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              course_id: props.course_id,
+              driver_id: driver_id,
+            }),
+          }
+        );
         navigation.navigate('Map');
         mapAddress({
           pickupAddress: props.pickupAddress,
