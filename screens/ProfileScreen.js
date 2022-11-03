@@ -85,7 +85,7 @@ const makeStyles = (colors) =>
       alignItems: 'center',
       paddingHorizontal: 16,
       paddingTop: Platform.OS === 'ios' ? 72 : 40,
-      paddingBottom: Platform.OS === 'ios' ? 32 : 24,
+      paddingBottom: Platform.OS === 'ios' ? 16 : 24,
     },
     chevron: {
       width: 10,
