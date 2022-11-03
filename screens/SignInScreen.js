@@ -14,12 +14,19 @@ import SrText from '../components/core/SrText';
 import { useTheme } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserToken } from '../reducers/user';
+import {
+  updateUberToken,
+  updateBoltToken,
+  updateHeetchToken,
+  updateMarcelToken,
+} from '../reducers/user';
 
 import constants from '../core/constants';
 
 const SignInScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
+
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,7 +42,35 @@ const SignInScreen = ({ navigation }) => {
       .then((data) => {
         if (data.result) {
           console.log('token', data.token);
+          console.log('providers', data.providers);
+          // ecriture dans le store du token user :
           dispatch(updateUserToken(data.token));
+          console.log('providers', data.providers);
+          // ecriture dans le store des token providers connectes :
+          const uberConnection = data.providers.find(
+            (e) => e.providername === 'uber'
+          );
+          if (uberConnection) {
+            dispatch(updateUberToken(uberConnection.providerToken));
+          }
+          const boltConnection = data.providers.find(
+            (e) => e.providername === 'bolt'
+          );
+          if (boltConnection) {
+            dispatch(updateBoltToken(boltConnection.providerToken));
+          }
+          const heetchConnection = data.providers.find(
+            (e) => e.providername === 'heetch'
+          );
+          if (heetchConnection) {
+            dispatch(updateHeetchToken(heetchConnection.providerToken));
+          }
+          const marcelConnection = data.providers.find(
+            (e) => e.providername === 'marcel'
+          );
+          if (marcelConnection) {
+            dispatch(updateMarcelToken(marcelConnection.providerToken));
+          }
           setEmail('');
           setPassword('');
           navigation.navigate('TabNavigator');
