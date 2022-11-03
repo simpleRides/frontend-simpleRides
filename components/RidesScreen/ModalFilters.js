@@ -7,10 +7,12 @@ import { useTheme } from '@react-navigation/native';
 import SliderFilter from './SliderFilter';
 import { filtersDataForUi } from './FiltersData';
 import ModalHeader from './ModalHeader';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ModalFilters = ({ isOpen, toggle }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
+  const settings = useSelector((state) => state.settings.value);
 
   return (
     <Modal
@@ -25,10 +27,41 @@ const ModalFilters = ({ isOpen, toggle }) => {
 
           <View style={styles.modalContent}>
             {filtersDataForUi.map((el) => {
-              console.log(el);
+              switch (el.name) {
+                case 'clientNoteMin':
+                  el.value = settings.clientNoteMin;
+                  settings.clientNoteMin !== 0
+                    ? (el.isFilterChecked = true)
+                    : (el.isFilterChecked = false);
+                  break;
+                case 'pickupDistanceMax':
+                  el.value = settings.pickupDistanceMax;
+                  settings.pickupDistanceMax !== 10000
+                    ? (el.isFilterChecked = true)
+                    : (el.isFilterChecked = false);
+                  break;
+                case 'priceMin':
+                  el.value = settings.priceMin;
+                  settings.priceMin !== 0
+                    ? (el.isFilterChecked = true)
+                    : (el.isFilterChecked = false);
+                  break;
+                case 'distanceMax':
+                  el.value = settings.distanceMax;
+                  settings.distanceMax !== 10000
+                    ? (el.isFilterChecked = true)
+                    : (el.isFilterChecked = false);
+                  break;
+                case 'markupMin':
+                  el.value = settings.markupMin;
+                  settings.markupMin !== 0
+                    ? (el.isFilterChecked = true)
+                    : (el.isFilterChecked = false);
+              }
               return (
                 <SliderFilter
                   key={el.id}
+                  name={el.name}
                   label={el.label}
                   min={el.min}
                   max={el.max}
