@@ -51,15 +51,31 @@ export default function RidesScreen() {
       const controller = new AbortController();
 
       const fetching = async () => {
-        await fetch(`${constants.BACKEND_URL}/users/`, {
-          method: 'POST',
+        await fetch(`${constants.BACKEND_URL}/users/addsettings`, {
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             token: user.token,
+            clientNoteMin: settings.clientNoteMin,
+            priceMin: settings.priceMin,
+            markupMin: settings.markupMin,
+            distanceMax: settings.distanceMax,
+            pickupDistanceMax: settings.pickupDistanceMax,
           }),
         })
+          .then(() =>
+            fetch(`${constants.BACKEND_URL}/users/`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                token: user.token,
+              }),
+            })
+          )
           .then((res) => res.json())
           .then((data) => {
             data.result &&
@@ -160,7 +176,6 @@ export default function RidesScreen() {
         );
       });
   }
-
   // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress, provider
   return (
     <ScrollView>

@@ -27,8 +27,6 @@ const ProfileScreen = ({ navigation }) => {
     return navigation.navigate('Home');
   };
 
-  console.log('___', user);
-
   return (
     <View style={styles.container}>
       <SrText
@@ -63,7 +61,7 @@ const ProfileScreen = ({ navigation }) => {
           type="secondary"
           handlePressed={() => navigation.navigate('Rides')}
         />
-        <SrButton label="Me déconnecter" handlePressed={handleLogout} />
+        <SrButton label="Me déconnecter" handlePressed={() => handleLogout()} />
       </TouchableOpacity>
       <ModalFilters
         isOpen={modalVisible}
