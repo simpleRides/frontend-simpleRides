@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUberToken } from '../reducers/user';
 import { useTheme } from '@react-navigation/native';
 import {
   Modal,
@@ -17,6 +19,7 @@ import SrText from '../components/core/SrText';
 import constants from '../core/constants';
 
 const SyncAppScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [idProvider, setIdProvider] = useState('');
   const [pwdProvider, setPwdProvider] = useState('');
   const [isError, setIsError] = useState(false);
@@ -26,6 +29,9 @@ const SyncAppScreen = ({ navigation }) => {
 
   const { colors } = useTheme();
   const styles = makeStyles(colors);
+
+  const user = useSelector((state) => state.user.value);
+  console.log(user);
 
   const handleSubmit = () => {
     setModalVisible(true);
@@ -37,7 +43,8 @@ const SyncAppScreen = ({ navigation }) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        token: 'N0-UNLEg5FsPMuUjYHn-Qb743MZG738a',
+        // token: 'N0-UNLEg5FsPMuUjYHn-Qb743MZG738a',
+        token: user.token,
         nameProvider: 'uber',
         idProvider: idProvider,
         pwdProvider: pwdProvider,
@@ -46,8 +53,8 @@ const SyncAppScreen = ({ navigation }) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          console.log('token', data.token);
-          // dispatch(updateUserToken(data.token));
+          console.log(data);
+          dispatch(updateUberToken(data.tokenProvider));
           setIdProvider('');
           setPwdProvider('');
           setIsProviderConnected(true);
@@ -70,6 +77,7 @@ const SyncAppScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Fenêtre Modale */}
       <Modal visible={modalVisible} animationType="fade" transparent>
         <View style={styles.centeredView}>
           <View style={styles.formContainer}>
@@ -96,12 +104,17 @@ const SyncAppScreen = ({ navigation }) => {
         </View>
       </Modal>
 
+      {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Connectez ici vos applications</Text>
+        {/*<Text style={styles.title}>Connectez ici vos applications</Text>
         <Text style={styles.label}>
           Connectez vos applications pour que SimpleRides aggrège les courses
           des différentes plateformes
-        </Text>
+        </Text>*/}
+        <SrText
+          title="Connectez ici vos applications"
+          subtitle="Connectez vos applications pour que SimpleRides aggrège les courses des différentes plateformes"
+        />
       </View>
       {/* Carte UBER */}
       <View style={styles.providersContainer}>
@@ -143,13 +156,19 @@ const SyncAppScreen = ({ navigation }) => {
           <SrButton label="Connecter" handlePressed={handleEmpty} />
         </View>
       </View>
-
+      {/* Boutons bas-de-page */}
       <View style={styles.btnsContainer}>
-        <SrButton
-          label="Skip"
-          type="secondary"
-          handlePressed={() => navigation.navigate('DefaultPage')}
-        />
+        {!user.tokenUber &&
+        !user.tokenBolt &&
+        !user.tokenHeetch &&
+        !user.tokenMarcel ? (
+          <SrButton
+            label="Configurer plus tard"
+            type="secondary"
+            handlePressed={() => navigation.navigate('DefaultPage')}
+          />
+        ) : null}
+
         <SrButton
           label="Continuer"
           handlePressed={() => navigation.navigate('TabNavigator')}
@@ -168,7 +187,7 @@ const makeStyles = (colors) =>
       width: '100%',
       alignItems: 'center',
       justifyContent: 'space-between',
-      backgroundColor: 'rgba(0, 0, 0, 0.4)',
+      // backgroundColor: 'rgba(0, 0, 0, 0.4)',
       paddingBottom: 40,
       paddingHorizontal: 16,
     },
