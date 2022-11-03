@@ -9,36 +9,28 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Modal,
-  Platform,
-  Image,
 } from 'react-native';
 import constants from '../core/constants';
 
-import * as Location from 'expo-location';
 import { distance } from '../modules/distance';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Card from '../components/RidesScreen/Card';
-import SrButton from '../components/core/SrButton';
-import SrText from '../components/core/SrText';
-import Checkbox from 'expo-checkbox';
-import Slider from '@react-native-community/slider';
 import ModalFilters from '../components/RidesScreen/ModalFilters';
 import SrSpinner from '../components/core/SrSpinner';
 import { addSettingsToStore } from '../reducers/settings';
 
 export default function RidesScreen() {
+  const { colors } = useTheme();
+  const styles = makeStyles(colors);
+  const dispatch = useDispatch();
+
   const [modalVisible, setModalVisible] = useState(false);
-  const [location, setLocation] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const [tempCoordinates, setTempCoordinates] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const dispatch = useDispatch();
   const settings = useSelector((state) => state.settings.value);
   const user = useSelector((state) => state.user.value);
-  const { colors } = useTheme();
-  const styles = makeStyles(colors);
 
   const defaultValue = {
     clientNoteMin: 0,
@@ -136,9 +128,13 @@ export default function RidesScreen() {
       return () => controller.abort();
     }, [modalVisible])
   );
+
   let cardsWithData;
   if (tempCoordinates) {
-    cardsWithData = tempCoordinates.map((data, i) => {
+    const coordsToRides = isEnabled
+      ? tempCoordinates.sort(() => Math.random() - 0.5).slice(0, 1)
+      : tempCoordinates;
+    cardsWithData = coordsToRides.map((data, i) => {
       return (
         <Card
           key={i}
@@ -176,6 +172,7 @@ export default function RidesScreen() {
       );
     });
   }
+
   // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress, provider
   return (
     <ScrollView>
