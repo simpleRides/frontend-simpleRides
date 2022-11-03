@@ -32,6 +32,8 @@ const ModalFilters = ({ isOpen, toggle }) => {
                 max={el.max}
                 step={el.step}
                 unit={el.unit}
+                defaultValue={el.value}
+                isFilterChecked={el.isFilterChecked}
               />
             ))}
           </View>

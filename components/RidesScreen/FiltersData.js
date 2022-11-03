@@ -6,7 +6,9 @@ export const filtersDataForUi = [
     min: 0,
     max: 5,
     step: 1,
-    unit: '*',
+    unit: '⭐️',
+    value: 0,
+    isFilterChecked: false,
   },
   {
     id: 2,
@@ -16,6 +18,8 @@ export const filtersDataForUi = [
     max: 2000,
     step: 100,
     unit: 'm',
+    value: 800,
+    isFilterChecked: true,
   },
   {
     id: 3,
@@ -25,15 +29,19 @@ export const filtersDataForUi = [
     max: 200,
     step: 1,
     unit: '€',
+    value: 0,
+    isFilterChecked: false,
   },
   {
     id: 4,
     label: 'Distance maximale de la course',
     name: 'distanceMax',
     min: 0,
-    max: 500,
+    max: 100,
     step: 5,
     unit: 'km',
+    value: 60,
+    isFilterChecked: true,
   },
   {
     id: 5,
@@ -43,5 +51,7 @@ export const filtersDataForUi = [
     max: 100,
     step: 2,
     unit: '%',
+    value: 0,
+    isFilterChecked: false,
   },
 ];

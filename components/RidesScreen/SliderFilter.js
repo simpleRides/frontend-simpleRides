@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 
 import { StyleSheet, Text, View } from 'react-native';
@@ -11,11 +11,23 @@ import { useTheme } from '@react-navigation/native';
   /* https://www.npmjs.com/package/@react-native-community/slider */
 }
 
-const SliderFilter = ({ label, min = 0, max, step, unit }) => {
+const SliderFilter = ({
+  label,
+  min = 0,
+  max,
+  step,
+  unit,
+  defaultValue,
+  isFilterChecked,
+}) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
   const [isChecked, setChecked] = useState(false);
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(defaultValue);
+
+  useEffect(() => {
+    setChecked(isFilterChecked);
+  }, []);
 
   return (
     <View style={styles.filterContainer}>
