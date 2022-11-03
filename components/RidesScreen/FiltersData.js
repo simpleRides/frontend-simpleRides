@@ -1,7 +1,7 @@
 export const filtersDataForUi = [
   {
     id: 1,
-    label: 'Notation voyageur',
+    label: 'Note client ',
     name: 'clientNoteMin',
     min: 0,
     max: 5,
@@ -13,8 +13,8 @@ export const filtersDataForUi = [
     label: 'Distance de ramassage',
     name: 'pickupDistanceMax',
     min: 0,
-    max: 100000,
-    step: 50,
+    max: 2000,
+    step: 100,
     unit: 'm',
   },
   {
@@ -22,8 +22,8 @@ export const filtersDataForUi = [
     label: 'Prix de la course',
     name: 'priceMin',
     min: 0,
-    max: 1000,
-    step: 5,
+    max: 800,
+    step: 2,
     unit: '€',
   },
   {
@@ -40,8 +40,8 @@ export const filtersDataForUi = [
     label: 'Majoration',
     name: 'markupMin',
     min: 0,
-    max: 100,
-    step: 5,
+    max: 5,
+    step: 0.2,
     unit: '%',
   },
 ];

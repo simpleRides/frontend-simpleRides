@@ -33,7 +33,6 @@ const ProfileScreen = ({ navigation }) => {
         title="Mon espace SimpleRides"
         subtitle="Configurez votre espace et accédez à vos données"
       />
-
       <TouchableOpacity
         style={styles.textContainer}
         onPress={() => navigation.navigate('SyncApp')}
