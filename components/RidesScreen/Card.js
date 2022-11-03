@@ -32,7 +32,8 @@ const Card = (props) => {
       activeOpacity={0.8}
       style={styles.card}
       onPress={() => {
-        fetch(`https://backend-providers-wine.vercel.app/uber/ridesTaken`, {
+        // rendre dynamique mle provider name
+        fetch(`https://providers-sooty.vercel.app/heetch/ridesTaken`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
