@@ -109,20 +109,19 @@ export default function RidesScreen() {
       const controller = new AbortController();
 
       const fetching = () => {
-        fetchSettings().then((data) => {
-          const dataSettings = data.data ? data.data : defaultValue;
-          data.result && saveSettingsToStore(dataSettings);
+        updateUserSettings().then(() => {
+          fetchSettings().then((data) => {
+            const dataSettings = data.data ? data.data : defaultValue;
+            data.result && saveSettingsToStore(dataSettings);
 
-          fetchRides(dataSettings)
-            .then((data) => {
+            fetchRides(dataSettings).then((data) => {
               data.result && setTempCoordinates(data.data);
               setIsLoading(false);
-            })
-            .then(() => {
-              updateUserSettings();
             });
+          });
         });
       };
+
       fetching();
 
       return () => controller.abort();
