@@ -19,12 +19,29 @@ export const userSlice = createSlice({
     },
     updateUberToken: (state, action) => {
       state.value.tokenUber = action.payload;
+    },
+    updateBoltToken: (state, action) => {
+      state.value.tokenBolt = action.payload;
+    },
+    updateHeetchToken: (state, action) => {
+      state.value.tokenHeetch = action.payload;
+    },
+    updateMarcelToken: (state, action) => {
+      state.value.tokenMarcel = action.payload;
+    },
     logout: (state) => {
       state.value.token = null;
     },
   },
 });
 
-export const { updateUserToken, updateUberToken, logout } = userSlice.actions;
+export const {
+  updateUserToken,
+  updateUberToken,
+  updateBoltToken,
+  updateHeetchToken,
+  updateMarcelToken,
+  logout,
+} = userSlice.actions;
 
 export default userSlice.reducer;

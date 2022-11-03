@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUberToken } from '../reducers/user';
+import {
+  updateUberToken,
+  updateBoltToken,
+  updateHeetchToken,
+  updateMarcelToken,
+} from '../reducers/user';
 import { useTheme } from '@react-navigation/native';
 import {
   Modal,
@@ -22,6 +27,8 @@ const SyncAppScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [idProvider, setIdProvider] = useState('');
   const [pwdProvider, setPwdProvider] = useState('');
+  const [nameProvider, setNameProvider] = useState('');
+
   const [isError, setIsError] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,19 +40,37 @@ const SyncAppScreen = ({ navigation }) => {
   const user = useSelector((state) => state.user.value);
   console.log(user);
 
-  const handleSubmit = () => {
+  const handleSubmitUber = () => {
+    setNameProvider('uber');
+    setModalVisible(true);
+  };
+
+  const handleSubmitBolt = () => {
+    setNameProvider('bolt');
+    setModalVisible(true);
+  };
+
+  const handleSubmitHeetch = () => {
+    setNameProvider('heetch');
+    setModalVisible(true);
+  };
+
+  const handleSubmitMarcel = () => {
+    setNameProvider('marcel');
     setModalVisible(true);
   };
 
   const handleNewProvider = () => {
-    console.log('* ' + idProvider + ' * ' + pwdProvider + ' *');
+    console.log(
+      '* ' + nameProvider + ' * ' + idProvider + ' * ' + pwdProvider + ' *'
+    );
     fetch(`${constants.BACKEND_URL}/users/connectprovider`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         // token: 'N0-UNLEg5FsPMuUjYHn-Qb743MZG738a',
         token: user.token,
-        nameProvider: 'uber',
+        nameProvider: nameProvider,
         idProvider: idProvider,
         pwdProvider: pwdProvider,
       }),
@@ -54,9 +79,23 @@ const SyncAppScreen = ({ navigation }) => {
       .then((data) => {
         if (data.result) {
           console.log(data);
-          dispatch(updateUberToken(data.tokenProvider));
+          switch (nameProvider) {
+            case 'uber':
+              dispatch(updateUberToken(data.tokenProvider));
+              break;
+            case 'bolt':
+              dispatch(updateBoltToken(data.tokenProvider));
+              break;
+            case 'heetch':
+              dispatch(updateHeetchToken(data.tokenProvider));
+              break;
+            case 'marcel':
+              dispatch(updateMarcelToken(data.tokenProvider));
+              break;
+          }
           setIdProvider('');
           setPwdProvider('');
+          setNameProvider('');
           setIsProviderConnected(true);
           setModalVisible(false);
         } else {
@@ -89,14 +128,30 @@ const SyncAppScreen = ({ navigation }) => {
               <FontAwesome name="close" color="#FFA62B" size={24} />
             </TouchableOpacity>
             <SrInput
-              placeholder="Entrez votre identifiant Uber"
-              label="Identifiant Uber"
+              label={
+                'Identifiant ' +
+                nameProvider.substring(0, 1).toUpperCase() +
+                nameProvider.substring(1, nameProvider.length)
+              }
+              placeholder={
+                'Entrez votre identifiant ' +
+                nameProvider.substring(0, 1).toUpperCase() +
+                nameProvider.substring(1, nameProvider.length)
+              }
               onChange={(e) => setIdProvider(e)}
             />
             <SrInput
               isPassword={true}
-              label="Mot de passe Uber"
-              placeholder="Entrez votre mot de passe Uber"
+              label={
+                'Mot de passe ' +
+                nameProvider.substring(0, 1).toUpperCase() +
+                nameProvider.substring(1, nameProvider.length)
+              }
+              placeholder={
+                'Entrez votre mot de passe ' +
+                nameProvider.substring(0, 1).toUpperCase() +
+                nameProvider.substring(1, nameProvider.length)
+              }
               onChange={(e) => setPwdProvider(e)}
             />
             <SrButton label="Valider" handlePressed={handleNewProvider} />
@@ -111,10 +166,20 @@ const SyncAppScreen = ({ navigation }) => {
           Connectez vos applications pour que SimpleRides aggrège les courses
           des différentes plateformes
         </Text>*/}
-        <SrText
-          title="Connectez ici vos applications"
-          subtitle="Connectez vos applications pour que SimpleRides aggrège les courses des différentes plateformes"
-        />
+        {!user.tokenUber &&
+        !user.tokenBolt &&
+        !user.tokenHeetch &&
+        !user.tokenMarcel ? (
+          <SrText
+            title="Connectez ici vos applications"
+            subtitle="Connectez vos applications pour que SimpleRides aggrège les courses des différentes plateformes"
+          />
+        ) : (
+          <SrText
+            title="Félicitations !"
+            subtitle="Voici les applications connectées à votre compte SimpleRides."
+          />
+        )}
       </View>
       {/* Carte UBER */}
       <View style={styles.providersContainer}>
@@ -122,10 +187,10 @@ const SyncAppScreen = ({ navigation }) => {
           <SrText title="Uber" />
         </View>
         <View style={styles.buttonConnectProvider}>
-          {isProviderConnected ? (
+          {user.tokenUber ? (
             <FontAwesome name="check-square" color="#FFA62B" size={48} />
           ) : (
-            <SrButton label="Connecter" handlePressed={handleSubmit} />
+            <SrButton label="Connecter" handlePressed={handleSubmitUber} />
           )}
         </View>
       </View>
@@ -135,7 +200,11 @@ const SyncAppScreen = ({ navigation }) => {
           <SrText title="Bolt" />
         </View>
         <View style={styles.buttonConnectProvider}>
-          <SrButton label="Connecter" handlePressed={handleEmpty} />
+          {user.tokenBolt ? (
+            <FontAwesome name="check-square" color="#FFA62B" size={48} />
+          ) : (
+            <SrButton label="Connecter" handlePressed={handleSubmitBolt} />
+          )}
         </View>
       </View>
       {/* Carte HEETCH */}
@@ -144,7 +213,11 @@ const SyncAppScreen = ({ navigation }) => {
           <SrText title="Heetch" />
         </View>
         <View style={styles.buttonConnectProvider}>
-          <SrButton label="Connecter" handlePressed={handleEmpty} />
+          {user.tokenHeetch ? (
+            <FontAwesome name="check-square" color="#FFA62B" size={48} />
+          ) : (
+            <SrButton label="Connecter" handlePressed={handleSubmitHeetch} />
+          )}
         </View>
       </View>
       {/* Carte Marcel */}
@@ -153,7 +226,11 @@ const SyncAppScreen = ({ navigation }) => {
           <SrText title="Marcel" />
         </View>
         <View style={styles.buttonConnectProvider}>
-          <SrButton label="Connecter" handlePressed={handleEmpty} />
+          {user.tokenMarcel ? (
+            <FontAwesome name="check-square" color="#FFA62B" size={48} />
+          ) : (
+            <SrButton label="Connecter" handlePressed={handleSubmitMarcel} />
+          )}
         </View>
       </View>
       {/* Boutons bas-de-page */}
@@ -167,7 +244,9 @@ const SyncAppScreen = ({ navigation }) => {
             type="secondary"
             handlePressed={() => navigation.navigate('DefaultPage')}
           />
-        ) : null}
+        ) : (
+          <SrText title="" />
+        )}
         <SrButton
           label="Continuer"
           handlePressed={() => navigation.navigate('TabNavigator')}
