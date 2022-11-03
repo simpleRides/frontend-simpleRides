@@ -143,7 +143,7 @@ const SyncAppScreen = ({ navigation }) => {
 
       <View style={styles.btnsContainer}>
         <SrButton
-          label="Skip"
+          label="Configurer plus tard"
           type="secondary"
           handlePressed={() => navigation.navigate('DefaultPage')}
         />

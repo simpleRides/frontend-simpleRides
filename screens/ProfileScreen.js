@@ -21,11 +21,11 @@ const ProfileScreen = ({ navigation }) => {
         subtitle="Configurez votre espace et accédez à vos données"
       />
       <View style={styles.textContainer}>
-        <Text style={styles.text}> Paramètres du compte </Text>
+        <Text style={styles.text}> Paramètres de mon compte </Text>
         <Ionicons style={styles.chevron} iconName="chevron-forward-outline" />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.text}>Intégrations avec mes apps</Text>
+        <Text style={styles.text}>Intégrations avec mes applications</Text>
       </View>
       <Text style={styles.text}>Contacter le support</Text>
       <View style={styles.textContainer}>
