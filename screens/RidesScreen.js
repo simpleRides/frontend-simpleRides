@@ -109,10 +109,6 @@ export default function RidesScreen() {
     setIsEnabled((previousState) => !previousState);
   };
 
-  useEffect(() => {
-    // saveSettingsToStore(defaultValue);
-  }, []);
-
   // hook qui se lance au focus de la page
   useFocusEffect(
     React.useCallback(() => {
@@ -120,13 +116,9 @@ export default function RidesScreen() {
 
       const controller = new AbortController();
 
-      // test première clé si objet existe ou non, applique les datas par defaut si existe pas
-
       const fetching = () => {
         fetchSettings().then((data) => {
-          console.log('data du settings', data);
           const dataSettings = data.data ? data.data : defaultValue;
-          // console.log('__', dataSettings);
           data.result && saveSettingsToStore(dataSettings);
 
           fetchRides(data)
@@ -135,7 +127,6 @@ export default function RidesScreen() {
               setIsLoading(false);
             })
             .then(() => {
-              // console.log('apres then', settings);
               updateUserSettings();
             });
         });
@@ -146,67 +137,45 @@ export default function RidesScreen() {
     }, [modalVisible])
   );
 
-  console.log('store', settings);
-
-  // providers simu à supprimmer ************************
-  const testProviders = ['uber', 'heetch', 'bolt'];
-
   let cardsWithData;
   if (tempCoordinates) {
-    cardsWithData = tempCoordinates
-      // // isole les courses disponibles
-      // .filter((a) => a.status === 'Pending')
-      // // récupère les courses encore actives
-      // .filter((a) => Date.parse(a.date) > new Date())
-      // // les trie par date
-      // .sort((a, b) => {
-      //   if (a.date > b.date) {
-      //     return 1;
-      //   }
-      //   if (a.date < b.date) {
-      //     return -1;
-      //   }
-      //   return 0;
-      // })
-      // récupère les 10 premières
-      // .slice(0, 10)
-      .map((data, i) => {
-        return (
-          <Card
-            key={i}
-            timeToPickup={(
-              (distance(
-                48.887758952992634,
-                2.3036635117535176,
-                data.pickupCoordinates.lat,
-                data.pickupCoordinates.lon,
-                'K'
-              ) *
-                1000) /
-              300
-            ).toFixed(0)}
-            distanceToPickup={(
-              distance(
-                48.887758952992634,
-                2.3036635117535176,
-                data.pickupCoordinates.lat,
-                data.pickupCoordinates.lon,
-                'K'
-              ) * 1000
-            ).toFixed(0)}
-            clientNote={data.clientNote}
-            markup={data.markup}
-            price={data.price}
-            duration={Math.round(data.travelTime)}
-            pickupCoordinates={data.pickupCoordinates}
-            pickupAddress={data.pickupAddress.replace(', France', '')}
-            arrivalCoordinates={data.coordinates}
-            arrivalAddress={data.address.replace(', France', '')}
-            provider={data.providerName}
-            course_id={data.course_id}
-          />
-        );
-      });
+    cardsWithData = tempCoordinates.map((data, i) => {
+      return (
+        <Card
+          key={i}
+          timeToPickup={(
+            (distance(
+              48.887758952992634,
+              2.3036635117535176,
+              data.pickupCoordinates.lat,
+              data.pickupCoordinates.lon,
+              'K'
+            ) *
+              1000) /
+            300
+          ).toFixed(0)}
+          distanceToPickup={(
+            distance(
+              48.887758952992634,
+              2.3036635117535176,
+              data.pickupCoordinates.lat,
+              data.pickupCoordinates.lon,
+              'K'
+            ) * 1000
+          ).toFixed(0)}
+          clientNote={data.clientNote}
+          markup={data.markup}
+          price={data.price}
+          duration={Math.round(data.travelTime)}
+          pickupCoordinates={data.pickupCoordinates}
+          pickupAddress={data.pickupAddress.replace(', France', '')}
+          arrivalCoordinates={data.coordinates}
+          arrivalAddress={data.address.replace(', France', '')}
+          provider={data.providerName}
+          course_id={data.course_id}
+        />
+      );
+    });
   }
   // CARDS PROPS : timeToPickup, distanceTopickup, clientNote, markup, price, duration, pickupAddress, arrivalAddress, provider
   return (
