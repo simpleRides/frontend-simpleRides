@@ -82,16 +82,16 @@ const SyncAppScreen = ({ navigation }) => {
             </TouchableOpacity>
             <SrInput
               placeholder="Entrez votre identifiant Uber"
-              label="identifiant Uber"
+              label="Identifiant Uber"
               onChange={(e) => setIdProvider(e)}
             />
             <SrInput
               isPassword={true}
-              label="mot de passe Uber"
+              label="Mot de passe Uber"
               placeholder="Entrez votre mot de passe Uber"
               onChange={(e) => setPwdProvider(e)}
             />
-            <SrButton label="test" handlePressed={handleNewProvider} />
+            <SrButton label="Valider" handlePressed={handleNewProvider} />
           </View>
         </View>
       </Modal>
@@ -143,7 +143,7 @@ const SyncAppScreen = ({ navigation }) => {
 
       <View style={styles.btnsContainer}>
         <SrButton
-          label="Skip"
+          label="Configurer plus tard"
           type="secondary"
           handlePressed={() => navigation.navigate('DefaultPage')}
         />
