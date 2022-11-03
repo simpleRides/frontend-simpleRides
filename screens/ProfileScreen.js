@@ -29,42 +29,44 @@ const ProfileScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <SrText
-        title="Mon espace SimpleRides"
-        subtitle="Configurez votre espace et accédez à vos données"
-      />
-      <TouchableOpacity
-        style={styles.textContainer}
-        onPress={() => navigation.navigate('SyncApp')}
-      >
-        <Text style={styles.text}>Intégrations avec mes applications</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.textContainer}
-        onPress={() => setModalVisible(!modalVisible)}
-      >
-        <Text style={styles.text}>Paramétrer mes courses</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.textContainer}>
-        <Text style={styles.text}>Paramètres de mon compte</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.textContainer}>
-        <Text style={styles.text}>Mode de paiement</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.textContainer}>
-        <Text style={styles.text}>Contacter le support</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.textContainer}>
-        <Text style={styles.text}>Supprimer mon compte</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.subContainer}>
+      <View>
+        <SrText
+          title="Mon espace SimpleRides"
+          subtitle="Configurez votre espace et accédez à vos données"
+        />
+        <TouchableOpacity
+          style={styles.textContainer}
+          onPress={() => navigation.navigate('SyncApp')}
+        >
+          <Text style={styles.text}>Intégrations avec mes applications</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.textContainer}
+          onPress={() => setModalVisible(!modalVisible)}
+        >
+          <Text style={styles.text}>Paramétrer mes courses</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.textContainer}>
+          <Text style={styles.text}>Paramètres de mon compte</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.textContainer}>
+          <Text style={styles.text}>Mode de paiement</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.textContainer}>
+          <Text style={styles.text}>Contacter le support</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.textContainer}>
+          <Text style={styles.text}>Supprimer mon compte</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.subContainer}>
         <SrButton
           label="Retourner sur la page courses"
           type="secondary"
           handlePressed={() => navigation.navigate('Rides')}
         />
         <SrButton label="Me déconnecter" handlePressed={() => handleLogout()} />
-      </TouchableOpacity>
+      </View>
       <ModalFilters
         isOpen={modalVisible}
         toggle={() => setModalVisible(!modalVisible)}
@@ -79,9 +81,11 @@ const makeStyles = (colors) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'center',
+      justifyContent: 'space-between',
       alignItems: 'center',
       paddingHorizontal: 16,
+      paddingTop: Platform.OS === 'ios' ? 72 : 40,
+      paddingBottom: Platform.OS === 'ios' ? 32 : 24,
     },
     chevron: {
       width: 10,
