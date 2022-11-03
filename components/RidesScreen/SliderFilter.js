@@ -17,13 +17,14 @@ const SliderFilter = ({
   max,
   step,
   unit,
+  value,
   defaultValue,
   isFilterChecked,
 }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
   const [isChecked, setChecked] = useState(false);
-  const [value, setValue] = useState(defaultValue);
+  const [barValue, setBarValue] = useState(null);
 
   useEffect(() => {
     setChecked(isFilterChecked);
@@ -37,9 +38,9 @@ const SliderFilter = ({
         onValueChange={setChecked}
         color={isChecked ? colors.primary : undefined}
       />
-      <View style={styles.sliderContainer}>
+      <View onLayout={() => setBarValue(value)} style={styles.sliderContainer}>
         <Text style={styles.sliderLabel}>
-          {label} ({value} {unit})
+          {label} ({barValue === 0 ? '0' : barValue || value} {unit})
         </Text>
 
         <Slider
@@ -48,9 +49,9 @@ const SliderFilter = ({
           maximumValue={max}
           minimumTrackTintColor={colors.primary}
           maximumTrackTintColor={colors.secondary}
-          value={value}
+          value={barValue}
           step={step}
-          onValueChange={(e) => setValue(e)}
+          onValueChange={(e) => setBarValue(e)}
         />
       </View>
     </View>

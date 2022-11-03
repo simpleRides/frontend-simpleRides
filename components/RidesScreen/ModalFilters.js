@@ -24,18 +24,21 @@ const ModalFilters = ({ isOpen, toggle }) => {
           <ModalHeader />
 
           <View style={styles.modalContent}>
-            {filtersDataForUi.map((el) => (
-              <SliderFilter
-                key={el.id}
-                label={el.label}
-                min={el.min}
-                max={el.max}
-                step={el.step}
-                unit={el.unit}
-                defaultValue={el.value}
-                isFilterChecked={el.isFilterChecked}
-              />
-            ))}
+            {filtersDataForUi.map((el) => {
+              console.log(el);
+              return (
+                <SliderFilter
+                  key={el.id}
+                  label={el.label}
+                  min={el.min}
+                  max={el.max}
+                  step={el.step}
+                  unit={el.unit}
+                  value={el.value}
+                  isFilterChecked={el.isFilterChecked}
+                />
+              );
+            })}
           </View>
 
           <SrButton label="Valider" handlePressed={() => toggle()} />
