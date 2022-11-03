@@ -121,22 +121,22 @@ export default function RidesScreen() {
   let cardsWithData;
   if (tempCoordinates) {
     cardsWithData = tempCoordinates
-      // isole les courses disponibles
-      .filter((a) => a.status === 'Pending')
-      // récupère les courses encore actives
-      .filter((a) => Date.parse(a.date) > new Date())
-      // les trie par date
-      .sort((a, b) => {
-        if (a.date > b.date) {
-          return 1;
-        }
-        if (a.date < b.date) {
-          return -1;
-        }
-        return 0;
-      })
+      // // isole les courses disponibles
+      // .filter((a) => a.status === 'Pending')
+      // // récupère les courses encore actives
+      // .filter((a) => Date.parse(a.date) > new Date())
+      // // les trie par date
+      // .sort((a, b) => {
+      //   if (a.date > b.date) {
+      //     return 1;
+      //   }
+      //   if (a.date < b.date) {
+      //     return -1;
+      //   }
+      //   return 0;
+      // })
       // récupère les 10 premières
-      .slice(0, 10)
+      // .slice(0, 10)
       .map((data, i) => {
         return (
           <Card
