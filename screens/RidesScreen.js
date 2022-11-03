@@ -96,11 +96,11 @@ export default function RidesScreen() {
   const saveSettingsToStore = (data) => {
     return dispatch(
       addSettingsToStore({
-        clientNoteMin: data.data.clientNoteMin,
-        priceMin: data.data.priceMin,
-        markupMin: data.data.markupMin,
-        pickupDistanceMax: data.data.pickupDistanceMax,
-        distanceMax: data.data.distanceMax,
+        clientNoteMin: data.clientNoteMin,
+        priceMin: data.priceMin,
+        markupMin: data.markupMin,
+        pickupDistanceMax: data.pickupDistanceMax,
+        distanceMax: data.distanceMax,
       })
     );
   };
@@ -109,23 +109,35 @@ export default function RidesScreen() {
     setIsEnabled((previousState) => !previousState);
   };
 
+  useEffect(() => {
+    saveSettingsToStore(defaultValue);
+  }, []);
+
   // hook qui se lance au focus de la page
   useFocusEffect(
     React.useCallback(() => {
       setIsLoading(true);
+
       const controller = new AbortController();
+
+      // test première clé si objet existe ou non, applique les datas par defaut si existe pas
 
       const fetching = () => {
         fetchSettings().then((data) => {
-          data.result && saveSettingsToStore(data);
-          fetchRides(data).then((data) => {
-            data.result && setTempCoordinates(data.data);
-            setIsLoading(false);
-          });
+          const dataSettings = data.data ? data.data : defaultValue;
+          data.result && saveSettingsToStore(dataSettings);
+          fetchRides(data)
+            .then((data) => {
+              data.result && setTempCoordinates(data.data);
+              setIsLoading(false);
+            })
+            .then(() => {
+              console.log('apres then', settings);
+              updateUserSettings();
+            });
         });
       };
-
-      updateUserSettings().then(fetching());
+      fetching();
 
       return () => controller.abort();
     }, [modalVisible])
