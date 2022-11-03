@@ -88,7 +88,8 @@ export default function RidesScreen() {
                   distanceMax: data.data.distanceMax,
                 })
               );
-            fetch(`https://providers-sooty.vercel.app/uber/settings`, {
+            // fetch(`https://providers-sooty.vercel.app/uber/settings`, {
+            fetch(`${constants.BACKEND_URL}/providers`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -168,9 +169,7 @@ export default function RidesScreen() {
             pickupAddress={data.pickupAddress.replace(', France', '')}
             arrivalCoordinates={data.coordinates}
             arrivalAddress={data.address.replace(', France', '')}
-            provider={
-              testProviders[Math.floor(Math.random() * testProviders.length)]
-            }
+            provider={data.providerName}
             course_id={data.course_id}
           />
         );
