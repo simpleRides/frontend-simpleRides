@@ -37,13 +37,16 @@ const ProfileScreen = ({ navigation }) => {
         style={styles.textContainer}
         onPress={() => navigation.navigate('SyncApp')}
       >
-        <Text style={styles.text}>Intégrations avec mes applications</Text>
+        <Text style={styles.text}>Paramètres de mon compte</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.textContainer}
         onPress={() => setModalVisible(!modalVisible)}
       >
-        <Text style={styles.text}>Paramétrer mon compte</Text>
+        <Text style={styles.text}>Intégrations avec mes applications</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.textContainer}>
+        <Text style={styles.text}>Paramétrer mes courses</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.textContainer}>
         <Text style={styles.text}>Mode de paiement</Text>
