@@ -1,13 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  value: {
-    clientNoteMin: 0,
-    pickupDistanceMax: 10000,
-    priceMin: 0,
-    distanceMax: 10000,
-    markupMin: 1,
-  },
+  value: {},
 };
 
 export const settingsSlice = createSlice({

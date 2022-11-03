@@ -40,6 +40,71 @@ export default function RidesScreen() {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
+  const defaultValue = {
+    clientNoteMin: 0,
+    pickupDistanceMax: 10000,
+    priceMin: 0,
+    distanceMax: 10000,
+    markupMin: 1,
+  };
+
+  const updateUserSettings = () => {
+    return fetch(`${constants.BACKEND_URL}/users/addsettings`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: user.token,
+        clientNoteMin: settings.clientNoteMin,
+        priceMin: settings.priceMin,
+        markupMin: settings.markupMin,
+        distanceMax: settings.distanceMax,
+        pickupDistanceMax: settings.pickupDistanceMax,
+      }),
+    }).then((res) => res.json());
+  };
+
+  const fetchSettings = () => {
+    return fetch(`${constants.BACKEND_URL}/users/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: user.token,
+      }),
+    }).then((res) => res.json());
+  };
+
+  const fetchRides = (data) => {
+    return fetch(`${constants.BACKEND_URL}/providers`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        clientNoteMin: data.data.clientNoteMin,
+        priceMin: data.data.priceMin,
+        markupMin: data.data.markupMin,
+        distanceMax: data.data.distanceMax,
+        pickupDistanceMax: data.data.pickupDistanceMax,
+      }),
+    }).then((res) => res.json());
+  };
+
+  const saveSettingsToStore = (data) => {
+    return dispatch(
+      addSettingsToStore({
+        clientNoteMin: data.data.clientNoteMin,
+        priceMin: data.data.priceMin,
+        markupMin: data.data.markupMin,
+        pickupDistanceMax: data.data.pickupDistanceMax,
+        distanceMax: data.data.distanceMax,
+      })
+    );
+  };
+
   const toggleSwitch = () => {
     setIsEnabled((previousState) => !previousState);
   };
@@ -50,67 +115,17 @@ export default function RidesScreen() {
       setIsLoading(true);
       const controller = new AbortController();
 
-      const fetching = async () => {
-        await fetch(`${constants.BACKEND_URL}/users/addsettings`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            token: user.token,
-            clientNoteMin: settings.clientNoteMin,
-            priceMin: settings.priceMin,
-            markupMin: settings.markupMin,
-            distanceMax: settings.distanceMax,
-            pickupDistanceMax: settings.pickupDistanceMax,
-          }),
-        })
-          .then(() =>
-            fetch(`${constants.BACKEND_URL}/users/`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                token: user.token,
-              }),
-            })
-          )
-          .then((res) => res.json())
-          .then((data) => {
-            data.result &&
-              dispatch(
-                addSettingsToStore({
-                  clientNoteMin: data.data.clientNoteMin,
-                  priceMin: data.data.priceMin,
-                  markupMin: data.data.markupMin,
-                  pickupDistanceMax: data.data.pickupDistanceMax,
-                  distanceMax: data.data.distanceMax,
-                })
-              );
-            // fetch(`https://providers-sooty.vercel.app/uber/settings`, {
-            fetch(`${constants.BACKEND_URL}/providers`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                clientNoteMin: data.data.clientNoteMin,
-                priceMin: data.data.priceMin,
-                markupMin: data.data.markupMin,
-                distanceMax: data.data.distanceMax,
-                pickupDistanceMax: data.data.pickupDistanceMax,
-              }),
-            })
-              .then((res) => res.json())
-              .then((data) => {
-                data.result && setTempCoordinates(data.data);
-                setIsLoading(false);
-              });
+      const fetching = () => {
+        fetchSettings().then((data) => {
+          data.result && saveSettingsToStore(data);
+          fetchRides(data).then((data) => {
+            data.result && setTempCoordinates(data.data);
+            setIsLoading(false);
           });
+        });
       };
 
-      fetching();
+      updateUserSettings().then(fetching());
 
       return () => controller.abort();
     }, [modalVisible])
