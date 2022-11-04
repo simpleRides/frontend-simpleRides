@@ -11,7 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import SrButton from '../components/core/SrButton';
 
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
+const GOOGLE_API_KEY = 'AIzaSyA-bKS86fQ7PK9wJ4gIG07PSA8k2meA4B4';
 
 export default function MapScreen({ navigation }) {
   const map = useSelector((state) => state.map.value);
