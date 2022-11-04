@@ -7,7 +7,14 @@ import Slider from '@react-native-community/slider';
 
 import { useTheme } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSettingsToStore } from '../../reducers/settings';
+import {
+  addSettingsToStore,
+  updateClientNoteMin,
+  updateDistanceMax,
+  updateMarkupMin,
+  updatePickupDistanceMax,
+  updatePriceMin,
+} from '../../reducers/settings';
 
 {
   /* https://www.npmjs.com/package/@react-native-community/slider */
@@ -32,33 +39,23 @@ const SliderFilter = ({
   const toStore = (name) => {
     switch (name) {
       case 'clientNoteMin': {
-        const newSettings = JSON.parse(JSON.stringify(settings));
-        newSettings.clientNoteMin = barValue;
-        dispatch(addSettingsToStore(newSettings));
+        dispatch(updateClientNoteMin(barValue));
         break;
       }
       case 'priceMin': {
-        const newSettings = JSON.parse(JSON.stringify(settings));
-        newSettings.priceMin = barValue;
-        dispatch(addSettingsToStore(newSettings));
+        dispatch(updatePriceMin(barValue));
         break;
       }
       case 'markupMin': {
-        const newSettings = JSON.parse(JSON.stringify(settings));
-        newSettings.markupMin = barValue;
-        dispatch(addSettingsToStore(newSettings));
+        dispatch(updateMarkupMin(barValue));
         break;
       }
       case 'pickupDistanceMax': {
-        const newSettings = JSON.parse(JSON.stringify(settings));
-        newSettings.pickupDistanceMax = barValue;
-        dispatch(addSettingsToStore(newSettings));
+        dispatch(updatePickupDistanceMax(barValue));
         break;
       }
       case 'distanceMax': {
-        const newSettings = JSON.parse(JSON.stringify(settings));
-        newSettings.distanceMax = barValue;
-        dispatch(addSettingsToStore(newSettings));
+        dispatch(updateDistanceMax(barValue));
         break;
       }
     }
@@ -93,11 +90,11 @@ const SliderFilter = ({
           maximumValue={max}
           minimumTrackTintColor={colors.primary}
           maximumTrackTintColor={colors.secondary}
-          value={barValue}
+          value={settings[name] || 0}
           step={step}
           onValueChange={(e) => {
-            toStore(name);
             setBarValue(e);
+            toStore(name);
           }}
         />
       </View>
