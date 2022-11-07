@@ -10,12 +10,10 @@ import { useTheme } from '@react-navigation/native';
 import {
   Modal,
   View,
-  Text,
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import SrInput from '../components/core/SrInput';
 import SrButton from '../components/core/SrButton';
@@ -28,17 +26,12 @@ const SyncAppScreen = ({ navigation }) => {
   const [idProvider, setIdProvider] = useState('');
   const [pwdProvider, setPwdProvider] = useState('');
   const [nameProvider, setNameProvider] = useState('');
-
-  const [isError, setIsError] = useState(false);
-
   const [modalVisible, setModalVisible] = useState(false);
-  const [isProviderConnected, setIsProviderConnected] = useState(false);
 
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
   const user = useSelector((state) => state.user.value);
-  console.log(user);
 
   const handleSubmitUber = () => {
     setNameProvider('uber');
@@ -61,14 +54,10 @@ const SyncAppScreen = ({ navigation }) => {
   };
 
   const handleNewProvider = () => {
-    console.log(
-      '* ' + nameProvider + ' * ' + idProvider + ' * ' + pwdProvider + ' *'
-    );
     fetch(`${constants.BACKEND_URL}/users/connectprovider`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        // token: 'N0-UNLEg5FsPMuUjYHn-Qb743MZG738a',
         token: user.token,
         nameProvider: nameProvider,
         idProvider: idProvider,
@@ -78,7 +67,6 @@ const SyncAppScreen = ({ navigation }) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          console.log(data);
           switch (nameProvider) {
             case 'uber':
               dispatch(updateUberToken(data.tokenProvider));
@@ -96,23 +84,15 @@ const SyncAppScreen = ({ navigation }) => {
           setIdProvider('');
           setPwdProvider('');
           setNameProvider('');
-          setIsProviderConnected(true);
           setModalVisible(false);
-        } else {
-          setIsError(true);
-          console.log('cant login');
         }
       })
       .catch((error) => console.log('Err:', error));
   };
 
-  console.log('test render');
-
   const handleClose = () => {
     setModalVisible(false);
   };
-
-  const handleEmpty = () => {};
 
   return (
     <SafeAreaView style={styles.container}>

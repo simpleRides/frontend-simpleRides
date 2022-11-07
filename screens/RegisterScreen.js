@@ -49,7 +49,6 @@ export default function RegisterScreen({ navigation }) {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           if (data.result) {
             dispatch(updateUserToken(data.token));
             resetFields();

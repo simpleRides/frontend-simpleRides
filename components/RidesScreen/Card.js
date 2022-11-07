@@ -10,14 +10,14 @@ const Card = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  // fake driver ID pour l'instant
+  // fake driver ID pour l'instant à la place de l'id dynamique de l'user connecté
   const driver_id = 'Joe le taxi';
 
   const mapAddress = (address) => {
     dispatch(addAddress(address));
   };
 
-  let provider = '';
+  // affiche le bon logo
   if (props.provider === 'uber') {
     provider = require('../../assets/uber.png');
   } else if (props.provider === 'bolt') {
@@ -25,8 +25,10 @@ const Card = (props) => {
   } else if (props.provider === 'heetch') {
     provider = require('../../assets/heetch.png');
   }
+
   const { colors } = useTheme();
   const styles = makeStyles(colors);
+
   return (
     <TouchableOpacity
       activeOpacity={0.8}

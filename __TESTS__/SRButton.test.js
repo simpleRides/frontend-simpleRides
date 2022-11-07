@@ -4,15 +4,15 @@ import SrButton from '../components/core/SrButton';
 // Silence the warning: Animated: `useNativeDriver` is not supported...
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
-const label = 'Connexion';
+const label = 'Connection';
 
-it('Should contains a label', async () => {
+it('Should contain a connection label', async () => {
   render(<SrButton label={label} />);
 
   expect(screen.queryByText(label)).toBeTruthy();
 });
 
-it('Should fired a function on pressed', async () => {
+it('Should fire a function on pressed', async () => {
   const handlePressed = jest.fn();
   render(<SrButton label={label} handlePressed={handlePressed} />);
   const button = screen.queryByText(label);

@@ -41,11 +41,8 @@ const SignInScreen = ({ navigation }) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          console.log('token', data.token);
-          console.log('providers', data.providers);
           // ecriture dans le store du token user :
           dispatch(updateUserToken(data.token));
-          console.log('providers', data.providers);
           // ecriture dans le store des token providers connectes :
           const uberConnection = data.providers.find(
             (e) => e.providername === 'uber'
@@ -76,7 +73,6 @@ const SignInScreen = ({ navigation }) => {
           navigation.navigate('TabNavigator');
         } else {
           setIsError(true);
-          console.log('cant login');
         }
       })
       .catch((error) => console.log('Err:', error));

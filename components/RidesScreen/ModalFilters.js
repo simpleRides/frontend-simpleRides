@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { Modal, StyleSheet, View } from 'react-native';
 import SrButton from '../core/SrButton';
@@ -7,7 +7,7 @@ import { useTheme } from '@react-navigation/native';
 import SliderFilter from './SliderFilter';
 import { filtersDataForUi } from './FiltersData';
 import ModalHeader from './ModalHeader';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const ModalFilters = ({ isOpen, toggle }) => {
   const { colors } = useTheme();
@@ -30,33 +30,22 @@ const ModalFilters = ({ isOpen, toggle }) => {
               switch (el.name) {
                 case 'clientNoteMin':
                   el.value = settings.clientNoteMin;
-                  settings.clientNoteMin !== 0
-                    ? (el.isFilterChecked = true)
-                    : (el.isFilterChecked = false);
+
                   break;
                 case 'pickupDistanceMax':
                   el.value = settings.pickupDistanceMax;
-                  settings.pickupDistanceMax !== 10000
-                    ? (el.isFilterChecked = true)
-                    : (el.isFilterChecked = false);
+
                   break;
                 case 'priceMin':
                   el.value = settings.priceMin;
-                  settings.priceMin !== 0
-                    ? (el.isFilterChecked = true)
-                    : (el.isFilterChecked = false);
+
                   break;
                 case 'distanceMax':
                   el.value = settings.distanceMax;
-                  settings.distanceMax !== 10000
-                    ? (el.isFilterChecked = true)
-                    : (el.isFilterChecked = false);
+
                   break;
                 case 'markupMin':
                   el.value = settings.markupMin;
-                  settings.markupMin !== 0
-                    ? (el.isFilterChecked = true)
-                    : (el.isFilterChecked = false);
               }
               return (
                 <SliderFilter
@@ -92,7 +81,7 @@ const makeStyles = (colors) =>
       flex: 1,
       backgroundColor: colors.black,
       paddingHorizontal: 16,
-      paddingTop: Platform.OS === 'ios' ? 72 : 40,
+      paddingTop: Platform.OS === 'ios' ? 72 : 48,
       paddingBottom: Platform.OS === 'ios' ? 32 : 24,
       alignItems: 'center',
       justifyContent: 'space-between',

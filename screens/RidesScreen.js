@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import {
@@ -40,6 +40,7 @@ export default function RidesScreen() {
     markupMin: 1,
   };
 
+  // met à jour les settings dans la bdd user
   const updateUserSettings = () => {
     return fetch(`${constants.BACKEND_URL}/users/addsettings`, {
       method: 'PUT',
@@ -57,6 +58,7 @@ export default function RidesScreen() {
     }).then((res) => res.json());
   };
 
+  // récupere les settings dans la bdd user
   const fetchSettings = () => {
     return fetch(`${constants.BACKEND_URL}/users/`, {
       method: 'POST',
@@ -69,6 +71,7 @@ export default function RidesScreen() {
     }).then((res) => res.json());
   };
 
+  // requête vers le backend simplerides pour récupérer les courses
   const fetchRides = (data) => {
     return fetch(`${constants.BACKEND_URL}/providers`, {
       method: 'POST',
@@ -85,6 +88,7 @@ export default function RidesScreen() {
     }).then((res) => res.json());
   };
 
+  // sauvegarde les settings dans le store
   const saveSettingsToStore = (data) => {
     dispatch(
       addSettingsToStore({
@@ -97,6 +101,7 @@ export default function RidesScreen() {
     );
   };
 
+  // switch automatique / manuel
   const toggleSwitch = () => {
     setIsEnabled((previousState) => !previousState);
   };
@@ -106,6 +111,7 @@ export default function RidesScreen() {
     React.useCallback(() => {
       setIsLoading(true);
 
+      // pour cleanup le useEffect, coupe les requêtes fetchs
       const controller = new AbortController();
 
       const fetching = () => {
@@ -131,8 +137,9 @@ export default function RidesScreen() {
   let cardsWithData;
   if (tempCoordinates) {
     const coordsToRides = isEnabled
-      ? tempCoordinates.sort(() => Math.random() - 0.5).slice(0, 1)
+      ? tempCoordinates.sort(() => Math.random() - 0.5).slice(0, 1) // mélange des 3 courses et en selectionne une seule
       : tempCoordinates;
+
     cardsWithData = coordsToRides.map((data, i) => {
       return (
         <Card

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
+// JSDOC explique la fonction et permet de retrouver les explications partout dans VScode https://jsdoc.app/about-getting-started.html
 /**
  * How to use:
  * Default color: <SrButton label="Text of the button" handlePressed={() => handleSubmit()} />
@@ -12,6 +13,7 @@ import { useTheme } from '@react-navigation/native';
  * @param handlePressed - The click event that is launched in the parent component
  * @returns JSX.Element
  */
+
 const SrButton = ({ label, type = 'primary', handlePressed }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);

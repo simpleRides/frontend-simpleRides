@@ -33,6 +33,7 @@ export default function LandingScreen({ navigation }) {
 
   const image = getRandomBackground(images);
 
+  // si ya un token dans le score, on va vers tabNavigator, sinon go to home
   useEffect(() => {
     setTimeout(() => {
       if (user.token) {
@@ -42,16 +43,6 @@ export default function LandingScreen({ navigation }) {
       }
     }, 1200);
   }, []);
-
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //    console.log('here....');
-  //   }, [])
-  // );
-
-  // case 1: There is no user token -> go to Login
-  // case 2: The user logged, but he closed the app -> rides screen after checking the token
-  // case 2: The user is logged but he did not complete the registration -> Sync App page
 
   return (
     <ImageBackground

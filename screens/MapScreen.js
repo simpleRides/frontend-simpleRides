@@ -32,7 +32,7 @@ export default function MapScreen({ navigation }) {
     });
   }, []);
 
-  const edgePaddingValue = 70;
+  const edgePaddingValue = 20;
 
   const edgePadding = {
     top: edgePaddingValue,
@@ -41,6 +41,7 @@ export default function MapScreen({ navigation }) {
     left: edgePaddingValue,
   };
 
+  //  zoom la carte entre le point de départ et d'arrivée
   const moveTo = () =>
     mapRef.current.fitToCoordinates([origin, destination], {
       edgePadding,
@@ -52,7 +53,7 @@ export default function MapScreen({ navigation }) {
       <MapView
         ref={mapRef}
         minZoomLevel={10}
-        onLayout={() => moveTo()}
+        onLayout={() => moveTo()} // appelle la fonction moveTo au moment du chargement de la view
         mapType="standard"
         style={{ flex: 1 }}
       >
@@ -85,7 +86,7 @@ export default function MapScreen({ navigation }) {
           </Marker>
         )}
         {map && (
-          <MapViewDirections
+          <MapViewDirections // tracé du chemin entre départ et arrivée
             origin={origin}
             destination={destination}
             apikey={GOOGLE_API_KEY}

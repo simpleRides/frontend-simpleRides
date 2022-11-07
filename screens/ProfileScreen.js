@@ -9,10 +9,6 @@ import { logout } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
 import ModalFilters from '../components/RidesScreen/ModalFilters';
 
-//checker le padding du text, je n'arrive pas a centrer par rapport aux bordures du coup j'ai triché avec un padding, mais c'est pas clean
-//subcontainer le align items est KO et je ne sais pas pourquoi
-//première ligne décalée est-ce que c'est à cause de l'icone du chevron ?
-
 const ProfileScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -20,7 +16,6 @@ const ProfileScreen = ({ navigation }) => {
   const styles = makeStyles(colors);
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.value);
 
   const handleLogout = () => {
     dispatch(logout());

@@ -19,16 +19,7 @@ import {
 {
   /* https://www.npmjs.com/package/@react-native-community/slider */
 }
-const SliderFilter = ({
-  label,
-  min = 0,
-  name,
-  max,
-  step,
-  unit,
-  value,
-  isFilterChecked,
-}) => {
+const SliderFilter = ({ label, min = 0, name, max, step, unit, value }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
   const [isChecked, setChecked] = useState(false);
@@ -61,11 +52,6 @@ const SliderFilter = ({
     }
   };
 
-  useEffect(() => {
-    setChecked(isFilterChecked);
-    return () => toStore(name);
-  }, [barValue]);
-
   return (
     <View style={styles.filterContainer}>
       <Checkbox
@@ -74,14 +60,9 @@ const SliderFilter = ({
         onValueChange={setChecked}
         color={isChecked ? colors.primary : undefined}
       />
-      <View
-        onLayout={() => {
-          setBarValue(value);
-        }}
-        style={styles.sliderContainer}
-      >
+      <View style={styles.sliderContainer}>
         <Text style={styles.sliderLabel}>
-          {label} ({barValue === 0 ? '0' : barValue || value} {unit})
+          {label} ({value} {unit})
         </Text>
 
         <Slider
@@ -90,7 +71,7 @@ const SliderFilter = ({
           maximumValue={max}
           minimumTrackTintColor={colors.primary}
           maximumTrackTintColor={colors.secondary}
-          value={settings[name] || 0}
+          value={settings[name]}
           step={step}
           onValueChange={(e) => {
             setBarValue(e);

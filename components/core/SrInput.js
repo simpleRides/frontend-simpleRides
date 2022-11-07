@@ -12,6 +12,7 @@ const SrInput = ({ placeholder, label, isPassword = false, onChange }) => {
     <View style={styles.formControl}>
       <Text style={styles.label}>{label}</Text>
 
+      {/* focus pour gérer liseré orange */}
       <TextInput
         autoCapitalize="none"
         placeholder={String(placeholder)}
